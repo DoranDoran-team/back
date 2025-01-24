@@ -40,4 +40,8 @@ public class SignUpRequestDto {
 
     @NotBlank
     private String birth;
+
+    private Boolean role;
+
+    private String nickName;
 }

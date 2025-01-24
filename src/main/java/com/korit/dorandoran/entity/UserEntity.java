@@ -1,5 +1,6 @@
 package com.korit.dorandoran.entity;
 
+import com.korit.dorandoran.dto.request.auth.ChangePwRequestDto;
 import com.korit.dorandoran.dto.request.auth.SignUpRequestDto;
 
 import jakarta.persistence.Entity;
@@ -9,7 +10,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
@@ -17,7 +17,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @Entity(name="user")
 @Table(name="user")
-@ToString
 public class UserEntity {
 
     @Id
@@ -43,5 +42,12 @@ public class UserEntity {
         this.joinPath = dto.getJoinPath();
         this.snsId = dto.getSnsId();
 		this.birth = dto.getBirth();
+		this.nickName = dto.getNickName();
     }
+
+	public UserEntity(ChangePwRequestDto dto) {
+		this.userId = dto.getUserId();
+		this.telNumber = dto.getTelNumber();
+		this.password = dto.getPassword();
+	}
 }
