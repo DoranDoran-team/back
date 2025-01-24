@@ -21,4 +21,12 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
 
     // 아이디 찾기 - 이름 & 전화번호
     boolean existsByNameAndTelNumber(String name, String telNumber);
+
+    // 아이디 찾기 - 전화번호를 통해 아이디 반환
+    UserEntity findByTelNumber(String telNumber);
+
+    // 비밀번호 찾기 - 아이디 & 전화번호
+    boolean existsByUserIdAndTelNumber(String userId, String telNumber);
+
+    UserEntity findByUserIdAndTelNumber(String userId, String telNumber);
 }
