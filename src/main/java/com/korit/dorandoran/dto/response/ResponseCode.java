@@ -15,6 +15,9 @@ public interface ResponseCode {
     String SIGN_IN_FAIL = "SF";
     String AUTHENTICATION_FAIL = "AF";
 
+    // 토론방 관련 response code
+    String DUPLICATED_ROOM_TITLE = "DRT";
+
     String NO_PERMISSION = "MT";
 
     String DATABASE_ERROR = "DBE";
