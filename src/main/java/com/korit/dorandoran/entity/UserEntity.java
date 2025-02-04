@@ -16,11 +16,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "user")
-@Table(name = "user")
+@Entity(name="user")
+@Table(name="user")
 public class UserEntity {
 
-	@Id
+    @Id
 	private String userId;
 
 	private String password;
@@ -33,15 +33,15 @@ public class UserEntity {
 	private String nickName;
 	private Boolean role;
 	private String mileage;
-	private String statusMessage;
+    private String statusMessage;
 
 	public UserEntity(SignUpRequestDto dto) {
-		this.userId = dto.getUserId();
-		this.password = dto.getPassword();
-		this.name = dto.getName();
-		this.telNumber = dto.getTelNumber();
-		this.joinPath = dto.getJoinPath();
-		this.snsId = dto.getSnsId();
+        this.userId = dto.getUserId();
+        this.password = dto.getPassword();
+        this.name = dto.getName();
+        this.telNumber = dto.getTelNumber();
+        this.joinPath = dto.getJoinPath();
+        this.snsId = dto.getSnsId();
 		this.birth = dto.getBirth();
 		this.nickName = dto.getNickName();
 		this.role = dto.getRole();

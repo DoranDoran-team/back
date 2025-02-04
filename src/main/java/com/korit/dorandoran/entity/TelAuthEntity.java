@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name="telAuth")
-@Table(name="telAuth")
+@Table(name="tel_auth")
 public class TelAuthEntity {
     @Id
 	private String telNumber;
