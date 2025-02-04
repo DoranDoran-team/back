@@ -42,6 +42,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsdBody);
     }
 
+    public static ResponseEntity<ResponseDto> noPermission() {
+		ResponseDto responsBody = new ResponseDto(ResponseCode.NO_PERMISSION, ResponseMessage.NO_PERMISSION);
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responsBody);
+	}
+
     public static ResponseEntity<ResponseDto> telAuthFail() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.TEL_AUTH_FAIL, ResponseMessage.TEL_AUTH_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsdBody);
