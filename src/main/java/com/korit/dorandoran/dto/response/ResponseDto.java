@@ -37,6 +37,21 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
+    public static ResponseEntity<ResponseDto> duplicatedRoomTitle() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,ResponseMessage.DUPLICATED_ROOM_TITLE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+    
+    public static ResponseEntity<ResponseDto> roomCreatedFail() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,ResponseMessage.DUPLICATED_ROOM_TITLE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistRoom() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ROOM,ResponseMessage.NO_EXIST_ROOM);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> signInFail() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.SIGN_IN_FAIL, ResponseMessage.SIGN_IN_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsdBody);
@@ -46,6 +61,8 @@ public class ResponseDto {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.TEL_AUTH_FAIL, ResponseMessage.TEL_AUTH_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsdBody);
     }
+
+    
 
     public static ResponseEntity<ResponseDto> databaseError() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR);

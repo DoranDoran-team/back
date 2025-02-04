@@ -15,6 +15,11 @@ public interface ResponseMessage {
     String AUTHENTICATION_FAIL = "Authentication Fail";
     String TOOL_INSUFFICIENT = "This tool is insufficient in number.";
 
+    // 토론방 관련 response message
+    String DUPLICATED_ROOM_TITLE = "Duplicated room title";
+    String ROOM_CREATED_FAIL = "Room created fail";
+    String NO_EXIST_ROOM = "No Exist Room";
+
     String NO_PERMISSION = "No Permission";
 
     String MESSAGE_SEND_FAIL = "Auth Number Send Failed";

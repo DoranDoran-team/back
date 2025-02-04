@@ -21,8 +21,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.korit.dorandoran.dto.response.ResponseCode;
 import com.korit.dorandoran.dto.response.ResponseMessage;
 import com.korit.dorandoran.filter.JwtAuthenticationFilter;
-import com.korit.dorandoran.handler.OAuth2SuccessHandler;
-import com.korit.dorandoran.service.implement.OAuth2UserServiceImplement;
+
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,8 +37,8 @@ import lombok.RequiredArgsConstructor;
 public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    private final OAuth2UserServiceImplement oAuth2UserServiceImplement;
-    private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    // private final OAuth2UserServiceImplement oAuth2UserService;
+    // private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity security) throws  Exception{
@@ -56,20 +55,20 @@ public class WebSecurityConfig {
             .cors(cors -> cors.configurationSource(configurationSource()))
             // URL 패턴 및 http 메서드에 따라 인증 및 인가 여부 지정
             .authorizeHttpRequests(request -> request
-                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/kakao", "/file/*", "/**").permitAll()
+                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*", "/file/*", "/").permitAll()
                 .anyRequest().authenticated()
             )
             // 인증 및 인가 작업 중 발생하는 예외 처리
             .exceptionHandling(exception -> exception
                 .authenticationEntryPoint(new AuthenticationFailEntryPoint())
             )
-            //oAuth2 login 적용
-            .oauth2Login(oauth2 -> oauth2
-                .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
-                .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/sns-sign-in"))
-                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserServiceImplement))
-                .successHandler(oAuth2SuccessHandler)
-            )
+            // oAuth2 login 적용
+            // .oauth2Login(oauth2 -> oauth2
+            //     .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
+            //     .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/sns-sign-in"))
+            //     .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+            //     .successHandler(oAuth2SuccessHandler)
+            // )
 
             // 필터 등록
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -105,4 +104,5 @@ class AuthenticationFailEntryPoint implements AuthenticationEntryPoint{
             "{ \"code\": \"" + ResponseCode.AUTHENTICATION_FAIL + "\", \"message\": \"" + ResponseMessage.AUTHENTICATION_FAIL + "\" }"
         );
     }
+
 }
