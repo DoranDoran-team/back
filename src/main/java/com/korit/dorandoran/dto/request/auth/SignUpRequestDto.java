@@ -44,4 +44,6 @@ public class SignUpRequestDto {
     private Boolean role;
 
     private String nickName;
+
+    private String profileImage;
 }

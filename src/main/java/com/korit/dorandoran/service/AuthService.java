@@ -12,6 +12,7 @@ import com.korit.dorandoran.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
+import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
 
 public interface AuthService {
@@ -37,4 +38,6 @@ public interface AuthService {
 
     // 아이디 & 전화번호 인증을 통한 비밀번호 변경
     ResponseEntity<ResponseDto> changePw(ChangePwRequestDto dto);
+
+    ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId);
 }

@@ -2,6 +2,7 @@ package com.korit.dorandoran.entity;
 
 import com.korit.dorandoran.dto.request.auth.ChangePwRequestDto;
 import com.korit.dorandoran.dto.request.auth.SignUpRequestDto;
+import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -43,6 +44,7 @@ public class UserEntity {
         this.snsId = dto.getSnsId();
 		this.birth = dto.getBirth();
 		this.nickName = dto.getNickName();
+		this.role = dto.getRole();
     }
 
 	public UserEntity(ChangePwRequestDto dto) {
@@ -50,4 +52,15 @@ public class UserEntity {
 		this.telNumber = dto.getTelNumber();
 		this.password = dto.getPassword();
 	}
+
+	public UserEntity(GetSignInResponseDto dto) {
+        this.userId = dto.getUserId();
+		this.profileImage = dto.getProfileImage();
+        this.name = dto.getName();
+        this.telNumber = dto.getTelNumber();
+		this.nickName = dto.getNickName();
+		this.role = dto.getRole();
+		this.mileage = dto.getMileage();
+		this.statusMessage = dto.getStatusMessage();
+    }
 }
