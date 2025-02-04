@@ -17,6 +17,8 @@ public interface ResponseCode {
 
     // 토론방 관련 response code
     String DUPLICATED_ROOM_TITLE = "DRT";
+    String ROOM_CREATED_FAIL = "RF";
+    String NO_EXIST_ROOM = "NR";
 
     String NO_PERMISSION = "MT";
 

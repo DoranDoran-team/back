@@ -1,5 +1,9 @@
 package com.korit.dorandoran.entity;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+
+import com.korit.dorandoran.common.util.TodayCreator;
 import com.korit.dorandoran.dto.request.postDiscussion.PostDiscussionWriteRequestDto;
 
 import jakarta.persistence.Entity;
@@ -22,18 +26,26 @@ import lombok.Setter;
 public class DiscussionRoomEntity {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer roomId; 
+    private Integer roomId;
+
     private String userId;
     private String createdRoom;
-    private String roomTitle;
     private String discussionType;
+    private String roomTitle;
     private String roomDescription;
+    private String discussionImage;
+
+
 
     public DiscussionRoomEntity (PostDiscussionWriteRequestDto dto){
+        String createdRoom = TodayCreator.todayCreator();
+
         this.userId = dto.getUserId();
-        this.createdRoom = dto.getCreatedRoom();
+        this.createdRoom = createdRoom;
         this.roomTitle = dto.getRoomTitle();
         this.discussionType = dto.getDiscussionType();
         this.roomDescription = dto.getRoomDescription();
+        this.discussionImage = dto.getDiscussionImage();
     }
 }
+

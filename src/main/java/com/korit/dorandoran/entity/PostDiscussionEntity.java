@@ -18,15 +18,17 @@ import lombok.Setter;
 @AllArgsConstructor
 @Entity(name="postDiscussion")
 @Table(name="post_discussion")
+
 public class PostDiscussionEntity {
+
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Integer roomId;
     private String discussionEnd;
     private String oppositeOpinion;
     private String agreeOpinion;
 
-    public PostDiscussionEntity (PostDiscussionWriteRequestDto dto){
+    public PostDiscussionEntity (PostDiscussionWriteRequestDto dto, Integer roomId){
+        this.roomId = roomId;
         this.discussionEnd = dto.getDiscussionEnd();
         this.oppositeOpinion = dto.getOppositeOpinion();
         this.agreeOpinion = dto.getAgreeOpinion();

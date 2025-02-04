@@ -1,7 +1,6 @@
 package com.korit.dorandoran.dto.response;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
 import lombok.AllArgsConstructor;
@@ -40,6 +39,16 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> duplicatedRoomTitle() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,ResponseMessage.DUPLICATED_ROOM_TITLE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+    
+    public static ResponseEntity<ResponseDto> roomCreatedFail() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,ResponseMessage.DUPLICATED_ROOM_TITLE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistRoom() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ROOM,ResponseMessage.NO_EXIST_ROOM);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 

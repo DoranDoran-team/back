@@ -9,11 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostDiscussionWriteRequestDto {
-    
     @NotBlank
     private String userId;
-    private String createdRoom;
-
+    
     @NotBlank
     private String discussionType;
     @NotBlank
@@ -28,4 +26,5 @@ public class PostDiscussionWriteRequestDto {
     String oppositeOpinion;
     @NotBlank
     private String discussionEnd;
+
 }

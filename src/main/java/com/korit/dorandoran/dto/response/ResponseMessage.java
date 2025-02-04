@@ -17,6 +17,8 @@ public interface ResponseMessage {
 
     // 토론방 관련 response message
     String DUPLICATED_ROOM_TITLE = "Duplicated room title";
+    String ROOM_CREATED_FAIL = "Room created fail";
+    String NO_EXIST_ROOM = "No Exist Room";
 
     String NO_PERMISSION = "No Permission";
 
