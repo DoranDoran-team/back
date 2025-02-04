@@ -1,18 +1,22 @@
 package com.korit.dorandoran.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.korit.dorandoran.dto.request.auth.ChangePwRequestDto;
 import com.korit.dorandoran.dto.request.auth.FindIdRequestDto;
+import com.korit.dorandoran.dto.request.auth.FindPwRequestDto;
 import com.korit.dorandoran.dto.request.auth.IdCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.SignInRequestDto;
 import com.korit.dorandoran.dto.request.auth.SignUpRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
 import com.korit.dorandoran.service.AuthService;
 
@@ -74,10 +78,26 @@ public class AuthController {
     }
 
     @PostMapping("/find-id-check")
-    public ResponseEntity<ResponseDto> findIdCheck(
+    public ResponseEntity<? super FindIdResultResponseDto> findIdCheck(
         @RequestBody @Valid TelAuthCheckRequestDto responseBody
     ) {
-        ResponseEntity<ResponseDto> response = authService.telAuthCheck(responseBody);
+        ResponseEntity<? super FindIdResultResponseDto> response = authService.findIdResult(responseBody);
+        return response;
+    }
+
+    @PostMapping("/find-pw")
+    public ResponseEntity<ResponseDto> findPw(
+        @RequestBody @Valid FindPwRequestDto responseBody
+    ) {
+        ResponseEntity<ResponseDto> response = authService.findPw(responseBody);
+        return response;
+    }
+
+    @PatchMapping("/change-pw")
+    public ResponseEntity<ResponseDto> changePw(
+        @RequestBody @Valid ChangePwRequestDto responseBody
+    ) {
+        ResponseEntity<ResponseDto> response = authService.changePw(responseBody);
         return response;
     }
 }
