@@ -13,7 +13,6 @@ import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 
 import lombok.Getter;
 
-
 @Getter
 public class GetDiscussionListResponseDto extends ResponseDto {
 
@@ -26,10 +25,9 @@ public class GetDiscussionListResponseDto extends ResponseDto {
     }
 
     public static ResponseEntity<GetDiscussionListResponseDto> success(
-        List<GetDiscussionResultSet> resultSet
-    ){
+            List<GetDiscussionResultSet> resultSet) {
         GetDiscussionListResponseDto responseBody = new GetDiscussionListResponseDto(resultSet);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
-    
+
 }

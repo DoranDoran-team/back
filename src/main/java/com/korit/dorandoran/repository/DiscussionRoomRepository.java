@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.korit.dorandoran.entity.DiscussionRoomEntity;
+import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 
 @Repository
@@ -64,7 +65,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "LEFT JOIN dorandoran.like L ON D.room_id = L.room_id " +
                         "WHERE D.room_id = :roomId " +
                         "GROUP BY D.room_id ", nativeQuery = true)
-        GetDiscussionResultSet getDiscussion(@Param("roomId") Integer roomId);
+        GetDetailDiscussionResultSet getDiscussion(@Param("roomId") Integer roomId);
 
         @Query(value = "SELECT " +
                         "d.user_id " +
