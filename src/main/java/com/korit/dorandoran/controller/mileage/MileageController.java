@@ -26,8 +26,7 @@ public class MileageController {
     @PostMapping("/request")
     public ResponseEntity<ResponseDto> requestRefund(
             @RequestBody @Valid PostMileageRequestDto requestBody,
-            @AuthenticationPrincipal String userId
-    ) {
+            @AuthenticationPrincipal String userId) {
         ResponseEntity<ResponseDto> response = mileageService.requestRefund(requestBody, userId);
         return response;
     }
