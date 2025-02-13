@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.korit.dorandoran.entity.DiscussionRoomEntity;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
+import com.korit.dorandoran.repository.resultset.GetMainGenDiscListResultSet;
 
 @Repository
 public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEntity, Integer> {
@@ -73,4 +74,16 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "WHERE d.room_id = :roomId", nativeQuery = true)
         String findUserIdByRoomId(@Param("roomId") Integer roomId);
 
+    @Query(value = 
+        "SELECT t1.* " +
+        "FROM dorandoran.discussion_room t1 " +
+        "JOIN ( " +
+        "SELECT discussion_type, MAX(created_room) AS latest_created " +
+        "FROM dorandoran.discussion_room " +
+        "GROUP BY discussion_type " +
+        ") t2 " +
+        "ON t1.discussion_type = t2.discussion_type AND t1.created_room = t2.latest_created; ",
+        nativeQuery = true
+    )
+    List<GetMainGenDiscListResultSet> getMainGenDiscList();
 }

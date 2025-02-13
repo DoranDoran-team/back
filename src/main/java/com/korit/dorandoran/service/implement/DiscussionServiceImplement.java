@@ -13,6 +13,7 @@ import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionListResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetSignInUserResponseDto;
+import com.korit.dorandoran.dto.response.main.GetGenDiscListResponseDto;
 import com.korit.dorandoran.entity.DiscussionRoomEntity;
 import com.korit.dorandoran.entity.PostDiscussionEntity;
 import com.korit.dorandoran.entity.UserEntity;
@@ -24,6 +25,7 @@ import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.repository.resultset.GetCommentResultSet;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
+import com.korit.dorandoran.repository.resultset.GetMainGenDiscListResultSet;
 import com.korit.dorandoran.repository.resultset.GetReplyResultSet;
 import com.korit.dorandoran.service.DiscussionService;
 
@@ -68,7 +70,6 @@ public class DiscussionServiceImplement implements DiscussionService {
         List<GetDiscussionResultSet> resultSet = new ArrayList<>();
 
         try {
-
             resultSet = discussionRoomRepository.getList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -123,4 +124,15 @@ public class DiscussionServiceImplement implements DiscussionService {
         return GetSignInUserResponseDto.success(userEntity);
     }
 
+    @Override
+    public ResponseEntity<? super GetGenDiscListResponseDto> getMainGenDiscList() {
+        List<GetMainGenDiscListResultSet> resultSet = new ArrayList<>();
+        try {
+            resultSet = discussionRoomRepository.getMainGenDiscList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetGenDiscListResponseDto.success(resultSet);
+    }
 }
