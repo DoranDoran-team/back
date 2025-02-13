@@ -1,8 +1,5 @@
 package com.korit.dorandoran.entity;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import com.korit.dorandoran.common.util.TodayCreator;
 import com.korit.dorandoran.dto.request.postDiscussion.PostDiscussionWriteRequestDto;
 

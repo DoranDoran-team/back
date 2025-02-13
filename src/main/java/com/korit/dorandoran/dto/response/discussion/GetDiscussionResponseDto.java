@@ -9,17 +9,17 @@ import com.korit.dorandoran.common.object.Comment;
 import com.korit.dorandoran.dto.response.ResponseCode;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.ResponseMessage;
-import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
+import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 
 import lombok.Getter;
 
 @Getter
 public class GetDiscussionResponseDto extends ResponseDto {
     
-    private GetDiscussionResultSet discussionResultSet;
+    private GetDetailDiscussionResultSet discussionResultSet;
     private List<Comment> comments;
 
-    public GetDiscussionResponseDto(GetDiscussionResultSet discussionResultSet, List<Comment> comments){
+    public GetDiscussionResponseDto(GetDetailDiscussionResultSet discussionResultSet, List<Comment> comments){
         super(ResponseCode.SUCCESS,ResponseMessage.SUCCESS);
 
         this.discussionResultSet = discussionResultSet;
@@ -28,7 +28,7 @@ public class GetDiscussionResponseDto extends ResponseDto {
     }
 
     public static ResponseEntity<GetDiscussionResponseDto> success(
-        GetDiscussionResultSet discussionResultSet, 
+        GetDetailDiscussionResultSet discussionResultSet, 
         List<Comment> comments
     ){
         GetDiscussionResponseDto responseBody = new GetDiscussionResponseDto(discussionResultSet, comments);

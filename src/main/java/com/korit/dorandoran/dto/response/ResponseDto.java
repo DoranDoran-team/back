@@ -32,6 +32,25 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistComment() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_COMMENT, ResponseMessage.NO_EXIST_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
+    public static ResponseEntity<ResponseDto> noExistReply() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_REPLY, ResponseMessage.NO_EXIST_REPLY);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+    public static ResponseEntity<ResponseDto> noExistParentComment() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_REPLY, ResponseMessage.NO_EXIST_REPLY);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
+    public static ResponseEntity<ResponseDto> existReply() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.EXIST_REPLY, ResponseMessage.EXIST_REPLY);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
     public static ResponseEntity<ResponseDto> validationFail() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.VALIDATION_FAIL, ResponseMessage.VALIDATION_FAIL);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);

@@ -1,11 +1,16 @@
 package com.korit.dorandoran.repository.resultset;
 
 public interface GetReplyResultSet {
-    Integer getRoomId();
-    Integer getReplyId();
     Integer getCommentId();
+    Integer getRoomId();
+    Integer getParentId();
+    String getUserId();
     String getNickName();
+    String getProfileImage();
     String getReplyContents();
     String getReplyTime();
     String getDiscussionType();
+    Integer getUpdateStatus();
+    Integer getDepth();
+    
 }

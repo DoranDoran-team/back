@@ -23,9 +23,12 @@ public class ReplyEntity {
     private Integer replyId;
     private Integer commentId;
     private String userId;
+    private Integer replyParentId;
     private String replyContents;
     private String replyTime;
     private String discussionType;
     private Integer roomId;
+    private Integer depth;
+    private boolean updateStatus;
 }
 

@@ -1,13 +1,16 @@
 package com.korit.dorandoran.service.implement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.korit.dorandoran.common.object.Comment;
+import com.korit.dorandoran.common.object.Reply;
 import com.korit.dorandoran.dto.request.postDiscussion.PostDiscussionWriteRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionListResponseDto;
@@ -22,6 +25,7 @@ import com.korit.dorandoran.repository.PostDiscussionRepository;
 import com.korit.dorandoran.repository.ReplyRepository;
 import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.repository.resultset.GetCommentResultSet;
+import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetReplyResultSet;
 import com.korit.dorandoran.service.DiscussionService;
@@ -77,7 +81,7 @@ public class DiscussionServiceImplement implements DiscussionService {
 
     @Override
     public ResponseEntity<? super GetDiscussionResponseDto> getDiscussion(Integer roomId) {
-        GetDiscussionResultSet discussionResultSet;
+        GetDetailDiscussionResultSet discussionResultSet;
         List<Comment> comments = new ArrayList<>();
         try {
 
@@ -103,7 +107,7 @@ public class DiscussionServiceImplement implements DiscussionService {
             return ResponseDto.databaseError();
         }
         return GetDiscussionResponseDto.success(discussionResultSet, comments);
-    }
+}
 
     @Override
     public ResponseEntity<? super GetSignInUserResponseDto> getSignIn(String userId) {

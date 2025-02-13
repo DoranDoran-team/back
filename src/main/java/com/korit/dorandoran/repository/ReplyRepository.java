@@ -13,11 +13,14 @@ import com.korit.dorandoran.repository.resultset.GetReplyResultSet;
 @Repository
 public interface ReplyRepository extends JpaRepository<ReplyEntity, Integer>{
 
+    boolean existsByCommentId(Integer commentId);
+
     @Query(value = 
         "SELECT "+
         "D.room_id AS roomId,"+
         "R.reply_id AS replyId,"+
         "C.comment_id AS commentId," +
+        "U.user_id AS userId,"+
         "U.nick_name AS nickName,"+
         "U.profile_image AS profileImage,"+
         "R.reply_contents AS replyContents,"+
@@ -30,5 +33,4 @@ public interface ReplyRepository extends JpaRepository<ReplyEntity, Integer>{
         "WHERE R.comment_id = :roomId ",
         nativeQuery = true)
     List<GetReplyResultSet> getReplies(@Param("roomId") Integer roomId);
-    
 }

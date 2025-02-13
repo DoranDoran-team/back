@@ -13,10 +13,13 @@ import com.korit.dorandoran.repository.resultset.GetCommentResultSet;
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity ,Integer> {
 
+    CommentEntity findByCommentIdAndRoomId(Integer commentId, Integer roomId);
+
     @Query(value = 
         "SELECT "+ 
         "C.comment_id AS commentId,"+ 
         "D.room_id AS roomId,"+
+        "U.user_id AS userId,"+ 
         "U.nick_name AS nickName,"+
         "U.profile_image AS profileImage,"+
         "C.comment_contents AS commentContents,"+
