@@ -22,11 +22,13 @@ import com.korit.dorandoran.repository.PostDiscussionRepository;
 import com.korit.dorandoran.repository.ReplyRepository;
 import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.repository.resultset.GetCommentResultSet;
+import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetReplyResultSet;
 import com.korit.dorandoran.service.DiscussionService;
 
 import lombok.RequiredArgsConstructor;
+
 @RequiredArgsConstructor
 @Service
 public class DiscussionServiceImplement implements DiscussionService {
@@ -40,7 +42,7 @@ public class DiscussionServiceImplement implements DiscussionService {
     @Transactional
     @Override
     public ResponseEntity<ResponseDto> postDiscussionWite(PostDiscussionWriteRequestDto dto) {
-        
+
         try {
             DiscussionRoomEntity discussionRoomEntity = new DiscussionRoomEntity(dto);
             discussionRoomRepository.save(discussionRoomEntity);
@@ -50,23 +52,23 @@ public class DiscussionServiceImplement implements DiscussionService {
             if (roomId == null) {
                 throw new RuntimeException("roomId가 NULL입니다.");
             }
-            
+
             PostDiscussionEntity postDiscussionEntity = new PostDiscussionEntity(dto, roomId);
             postDiscussionRepository.save(postDiscussionEntity);
-            
+
         } catch (Exception e) {
             throw new RuntimeException("트랜잭션 롤백 문제 발생", e);
         }
         return ResponseDto.success();
-    
-}
+
+    }
 
     @Override
     public ResponseEntity<? super GetDiscussionListResponseDto> getDiscussionList() {
         List<GetDiscussionResultSet> resultSet = new ArrayList<>();
-        
+
         try {
-            
+
             resultSet = discussionRoomRepository.getList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,26 +79,27 @@ public class DiscussionServiceImplement implements DiscussionService {
 
     @Override
     public ResponseEntity<? super GetDiscussionResponseDto> getDiscussion(Integer roomId) {
-        GetDiscussionResultSet discussionResultSet;
+        GetDetailDiscussionResultSet discussionResultSet;
         List<Comment> comments = new ArrayList<>();
         try {
 
             boolean isExisted = discussionRoomRepository.existsByRoomId(roomId);
-            if (!isExisted) return ResponseDto.noExistRoom();
+            if (!isExisted)
+                return ResponseDto.noExistRoom();
 
             discussionResultSet = discussionRoomRepository.getDiscussion(roomId);
-            if (discussionResultSet == null) return ResponseDto.noExistRoom();
-            
-            
-        List<GetCommentResultSet> commentResultSets = commentRepository.getComments(roomId);
-        if (commentResultSets == null || commentResultSets.isEmpty()) {
-            return GetDiscussionResponseDto.success(discussionResultSet, new ArrayList<>()); 
-        }
+            if (discussionResultSet == null)
+                return ResponseDto.noExistRoom();
 
-        for (GetCommentResultSet commentResultSet : commentResultSets) {
-            List<GetReplyResultSet> replyResultSets = replyRepository.getReplies(commentResultSet.getCommentId());
-            comments.add(new Comment(commentResultSet, replyResultSets));
-        }
+            List<GetCommentResultSet> commentResultSets = commentRepository.getComments(roomId);
+            if (commentResultSets == null || commentResultSets.isEmpty()) {
+                return GetDiscussionResponseDto.success(discussionResultSet, new ArrayList<>());
+            }
+
+            for (GetCommentResultSet commentResultSet : commentResultSets) {
+                List<GetReplyResultSet> replyResultSets = replyRepository.getReplies(commentResultSet.getCommentId());
+                comments.add(new Comment(commentResultSet, replyResultSets));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -110,7 +113,8 @@ public class DiscussionServiceImplement implements DiscussionService {
         UserEntity userEntity = null;
         try {
             userEntity = userRepository.findByUserId(userId);
-            if (userEntity == null) return ResponseDto.noExistUserId();
+            if (userEntity == null)
+                return ResponseDto.noExistUserId();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -119,5 +123,4 @@ public class DiscussionServiceImplement implements DiscussionService {
         return GetSignInUserResponseDto.success(userEntity);
     }
 
-    
 }
