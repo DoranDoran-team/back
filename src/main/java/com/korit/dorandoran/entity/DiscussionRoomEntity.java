@@ -1,8 +1,5 @@
 package com.korit.dorandoran.entity;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-
 import com.korit.dorandoran.common.util.TodayCreator;
 import com.korit.dorandoran.dto.request.postDiscussion.PostDiscussionWriteRequestDto;
 
@@ -20,12 +17,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="discussionRoom")
-@Table(name="discussion_room")
+@Entity(name = "discussionRoom")
+@Table(name = "discussion_room")
 
 public class DiscussionRoomEntity {
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roomId;
 
     private String userId;
@@ -35,7 +32,7 @@ public class DiscussionRoomEntity {
     private String roomDescription;
     private String discussionImage;
 
-    public DiscussionRoomEntity (PostDiscussionWriteRequestDto dto){
+    public DiscussionRoomEntity(PostDiscussionWriteRequestDto dto) {
         String createdRoom = TodayCreator.todayCreator();
 
         this.userId = dto.getUserId();
@@ -46,4 +43,3 @@ public class DiscussionRoomEntity {
         this.discussionImage = dto.getDiscussionImage();
     }
 }
-

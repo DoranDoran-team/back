@@ -1,7 +1,6 @@
 package com.korit.dorandoran.controller.mileage;
 
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.korit.dorandoran.dto.request.mileage.PostMileageRequestDto;
@@ -14,8 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -29,8 +26,7 @@ public class MileageController {
     @PostMapping("/request")
     public ResponseEntity<ResponseDto> requestRefund(
             @RequestBody @Valid PostMileageRequestDto requestBody,
-            @AuthenticationPrincipal String userId
-    ) {
+            @AuthenticationPrincipal String userId) {
         ResponseEntity<ResponseDto> response = mileageService.requestRefund(requestBody, userId);
         return response;
     }
