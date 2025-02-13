@@ -33,7 +33,12 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
-    public static ResponseEntity<ResponseDto> noExistComment() {
+    public static ResponseEntity<ResponseDto> noExistNoticeId() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_NOTICE_ID, ResponseMessage.NO_EXIST_NOTICE_ID);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }    
+
+        public static ResponseEntity<ResponseDto> noExistComment() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_COMMENT, ResponseMessage.NO_EXIST_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }

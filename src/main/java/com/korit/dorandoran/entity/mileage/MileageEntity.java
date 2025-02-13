@@ -26,22 +26,22 @@ public class MileageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "mileage_id")
-    private Integer mileagaeId;
+    private Integer mileageId;
     private String userId;
     private String accountNumber;
     private String bankName;
     private Integer amount;
     private String status;
     private LocalDateTime transactionDate;
-    private Integer usedMileage; // 사용한 마일리지
-    private Integer totalMileage; // 지니고 있는 총 마일리지
+    private Integer usedMileage; 
+    private Integer totalMileage;
 
     public MileageEntity(PostMileageRequestDto dto, String userId) {
         this.userId = userId;
         this.accountNumber = dto.getAccountNumber();
         this.bankName = dto.getBankName();
         this.amount = dto.getAmount();
-        this.status = "승인 대기"; // 기본 상태
+        this.status = "승인 대기";
         this.transactionDate = LocalDateTime.now();
         this.usedMileage = 0;
         this.totalMileage = 0;

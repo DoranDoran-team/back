@@ -21,7 +21,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import com.korit.dorandoran.dto.response.ResponseCode;
 import com.korit.dorandoran.dto.response.ResponseMessage;
 import com.korit.dorandoran.filter.JwtAuthenticationFilter;
-
+import com.korit.dorandoran.handler.OAuth2SuccessHandler;
+import com.korit.dorandoran.service.implement.OAuth2UserServiceImplement;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -37,8 +38,8 @@ import lombok.RequiredArgsConstructor;
 public class WebSecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
-    // private final OAuth2UserServiceImplement oAuth2UserService;
-    // private final OAuth2SuccessHandler oAuth2SuccessHandler;
+    private final OAuth2UserServiceImplement oAuth2UserService;
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
 
     @Bean
     protected SecurityFilterChain configure(HttpSecurity security) throws  Exception{
@@ -63,12 +64,12 @@ public class WebSecurityConfig {
                 .authenticationEntryPoint(new AuthenticationFailEntryPoint())
             )
             // oAuth2 login 적용
-            // .oauth2Login(oauth2 -> oauth2
-            //     .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
-            //     .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/sns-sign-in"))
-            //     .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
-            //     .successHandler(oAuth2SuccessHandler)
-            // )
+            .oauth2Login(oauth2 -> oauth2
+                .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
+                .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/sns-sign-in"))
+                .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+                .successHandler(oAuth2SuccessHandler)
+            )
 
             // 필터 등록
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

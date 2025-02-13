@@ -1,6 +1,7 @@
 package com.korit.dorandoran.dto.request.postDiscussion;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -9,21 +10,25 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class PostDiscussionWriteRequestDto {
+
     @NotBlank
     private String userId;
     
-    @NotBlank
+    @NotNull
     private String discussionType;
-    @NotBlank
+
+    @NotNull
     private String roomTitle;
-    @NotBlank
+
+    @NotNull
     private String roomDescription;
+
     private String discussionImage;
 
-    @NotBlank
     private String agreeOpinion;
-    @NotBlank 
-    String oppositeOpinion;
+    
+    private String oppositeOpinion;
+    
     @NotBlank
     private String discussionEnd;
 
