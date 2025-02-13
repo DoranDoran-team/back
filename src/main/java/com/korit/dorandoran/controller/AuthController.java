@@ -1,6 +1,8 @@
 package com.korit.dorandoran.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +19,7 @@ import com.korit.dorandoran.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
+import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
 import com.korit.dorandoran.service.AuthService;
 
@@ -98,6 +101,15 @@ public class AuthController {
         @RequestBody @Valid ChangePwRequestDto responseBody
     ) {
         ResponseEntity<ResponseDto> response = authService.changePw(responseBody);
+        return response;
+    }
+
+    // 로그인 한 유저 정보 얻기
+    @GetMapping("/sign-in")
+    public ResponseEntity<? super GetSignInResponseDto> getSignIn(
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<? super GetSignInResponseDto> response = authService.getSignIn(userId);
         return response;
     }
 }

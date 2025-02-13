@@ -17,6 +17,7 @@ import com.korit.dorandoran.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
+import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
 import com.korit.dorandoran.entity.TelAuthEntity;
 import com.korit.dorandoran.entity.UserEntity;
@@ -125,7 +126,7 @@ public class AuthServiceImplement implements AuthService{
             if(!isMatched) return ResponseDto.telAuthFail();
 
             boolean isAdmin = adminRepository.existsByNameAndTelNumberAndBirth(name, telNumber, birth);
-            if(isAdmin) dto.setRole(true); 
+            if(isAdmin) dto.setRole(true); else dto.setRole(false);
 
             String encodedPassword = passwordEncoder.encode(password);
             dto.setPassword(encodedPassword);
@@ -265,4 +266,18 @@ public class AuthServiceImplement implements AuthService{
         return ResponseDto.success();
     }
 
+    @Override
+    public ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId) {
+
+        UserEntity userEntity = null;
+        try {
+            userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetSignInResponseDto.success(userEntity);
+    }
 }
