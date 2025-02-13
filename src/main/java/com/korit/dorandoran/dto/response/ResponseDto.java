@@ -23,7 +23,8 @@ public class ResponseDto {
     }
 
     public static ResponseEntity<ResponseDto> duplicatedTelNumber() {
-        ResponseDto responsdBody = new ResponseDto(ResponseCode.DUPLICATE_TEL_NUMBER, ResponseMessage.DUPLICATE_TEL_NUMBER);
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.DUPLICATE_TEL_NUMBER,
+                ResponseMessage.DUPLICATE_TEL_NUMBER);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
@@ -38,17 +39,19 @@ public class ResponseDto {
     }
 
     public static ResponseEntity<ResponseDto> duplicatedRoomTitle() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,ResponseMessage.DUPLICATED_ROOM_TITLE);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,
+                ResponseMessage.DUPLICATED_ROOM_TITLE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
-    
+
     public static ResponseEntity<ResponseDto> roomCreatedFail() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,ResponseMessage.DUPLICATED_ROOM_TITLE);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,
+                ResponseMessage.DUPLICATED_ROOM_TITLE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
     public static ResponseEntity<ResponseDto> noExistRoom() {
-        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ROOM,ResponseMessage.NO_EXIST_ROOM);
+        ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ROOM, ResponseMessage.NO_EXIST_ROOM);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
@@ -58,16 +61,14 @@ public class ResponseDto {
     }
 
     public static ResponseEntity<ResponseDto> noPermission() {
-		ResponseDto responsBody = new ResponseDto(ResponseCode.NO_PERMISSION, ResponseMessage.NO_PERMISSION);
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responsBody);
-	}
+        ResponseDto responsBody = new ResponseDto(ResponseCode.NO_PERMISSION, ResponseMessage.NO_PERMISSION);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(responsBody);
+    }
 
     public static ResponseEntity<ResponseDto> telAuthFail() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.TEL_AUTH_FAIL, ResponseMessage.TEL_AUTH_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsdBody);
     }
-
-    
 
     public static ResponseEntity<ResponseDto> databaseError() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.DATABASE_ERROR, ResponseMessage.DATABASE_ERROR);
@@ -82,5 +83,23 @@ public class ResponseDto {
     public static ResponseEntity<ResponseDto> tokenCreateFail() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.TOKEN_CREATE_FAIL, ResponseMessage.TOKEN_CREATE_FAIL);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseBody);
+    }
+
+    // function: 중복된 신고 //
+    public static ResponseEntity<ResponseDto> duplicatedAccuse() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.DUPLICATED_ACCUSE, ResponseMessage.DUPLICATED_ACCUSE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
+    // function: 존재하지 않는 신고 //
+    public static ResponseEntity<ResponseDto> noExistedTarget() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_TARGET, ResponseMessage.NO_EXIST_TARGET);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
+    // function: 자기가 쓴 게시글 신고 //
+    public static ResponseEntity<ResponseDto> noSelfAccuse() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_SELF_REPORT, ResponseMessage.NO_SELF_REPORT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 }

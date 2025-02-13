@@ -19,8 +19,8 @@ import com.korit.dorandoran.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
-import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
+import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.service.AuthService;
 
 import jakarta.validation.Valid;
@@ -34,72 +34,63 @@ public class AuthController {
 
     @PostMapping("/id-check")
     public ResponseEntity<ResponseDto> idCheck(
-        @RequestBody @Valid IdCheckRequestDto requestBody
-    ) {
+            @RequestBody @Valid IdCheckRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.idCheck(requestBody);
         return response;
     }
 
     @PostMapping("/tel-auth")
     public ResponseEntity<ResponseDto> telAuth(
-        @RequestBody @Valid TelAuthRequestDto requestBody 
-    ) {
+            @RequestBody @Valid TelAuthRequestDto requestBody) {
         ResponseEntity<ResponseDto> response = authService.telAuth(requestBody);
         return response;
     }
 
     @PostMapping("/tel-auth-check")
     public ResponseEntity<ResponseDto> telAuthCheck(
-        @RequestBody @Valid TelAuthCheckRequestDto responseBody
-    ) {
+            @RequestBody @Valid TelAuthCheckRequestDto responseBody) {
         ResponseEntity<ResponseDto> response = authService.telAuthCheck(responseBody);
         return response;
     }
 
     @PostMapping("/sign-up")
     public ResponseEntity<ResponseDto> signUp(
-        @RequestBody @Valid SignUpRequestDto responseBody
-    ) {
+            @RequestBody @Valid SignUpRequestDto responseBody) {
         ResponseEntity<ResponseDto> response = authService.signUp(responseBody);
         return response;
     }
 
     @PostMapping("/sign-in")
     public ResponseEntity<? super SignInResponseDto> signIn(
-        @RequestBody @Valid SignInRequestDto responseBody
-    ) {
+            @RequestBody @Valid SignInRequestDto responseBody) {
         ResponseEntity<? super SignInResponseDto> response = authService.signIn(responseBody);
         return response;
     }
 
     @PostMapping("/find-id")
     public ResponseEntity<ResponseDto> findId(
-        @RequestBody @Valid FindIdRequestDto responseBody
-    ) {
+            @RequestBody @Valid FindIdRequestDto responseBody) {
         ResponseEntity<ResponseDto> response = authService.findId(responseBody);
         return response;
     }
 
     @PostMapping("/find-id-check")
     public ResponseEntity<? super FindIdResultResponseDto> findIdCheck(
-        @RequestBody @Valid TelAuthCheckRequestDto responseBody
-    ) {
+            @RequestBody @Valid TelAuthCheckRequestDto responseBody) {
         ResponseEntity<? super FindIdResultResponseDto> response = authService.findIdResult(responseBody);
         return response;
     }
 
     @PostMapping("/find-pw")
     public ResponseEntity<ResponseDto> findPw(
-        @RequestBody @Valid FindPwRequestDto responseBody
-    ) {
+            @RequestBody @Valid FindPwRequestDto responseBody) {
         ResponseEntity<ResponseDto> response = authService.findPw(responseBody);
         return response;
     }
 
     @PatchMapping("/change-pw")
     public ResponseEntity<ResponseDto> changePw(
-        @RequestBody @Valid ChangePwRequestDto responseBody
-    ) {
+            @RequestBody @Valid ChangePwRequestDto responseBody) {
         ResponseEntity<ResponseDto> response = authService.changePw(responseBody);
         return response;
     }
@@ -107,8 +98,7 @@ public class AuthController {
     // 로그인 한 유저 정보 얻기
     @GetMapping("/sign-in")
     public ResponseEntity<? super GetSignInResponseDto> getSignIn(
-        @AuthenticationPrincipal String userId
-    ) {
+            @AuthenticationPrincipal String userId) {
         ResponseEntity<? super GetSignInResponseDto> response = authService.getSignIn(userId);
         return response;
     }
