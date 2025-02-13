@@ -25,4 +25,9 @@ public interface ResponseMessage {
     String MESSAGE_SEND_FAIL = "Auth Number Send Failed";
     String DATABASE_ERROR = "Database Error";
     String TOKEN_CREATE_FAIL = "Token Create Failed";
+
+    // 신고 관련 response message
+    String DUPLICATED_ACCUSE = "Duplicated Accuse";
+    String NO_EXIST_TARGET = "No Exist Target";
+    String NO_SELF_REPORT = "No Self Report";
 }

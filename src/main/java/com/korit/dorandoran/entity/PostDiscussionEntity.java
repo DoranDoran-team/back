@@ -3,8 +3,6 @@ package com.korit.dorandoran.entity;
 import com.korit.dorandoran.dto.request.postDiscussion.PostDiscussionWriteRequestDto;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -16,8 +14,8 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name="postDiscussion")
-@Table(name="post_discussion")
+@Entity(name = "postDiscussion")
+@Table(name = "post_discussion")
 
 public class PostDiscussionEntity {
 
@@ -27,7 +25,7 @@ public class PostDiscussionEntity {
     private String oppositeOpinion;
     private String agreeOpinion;
 
-    public PostDiscussionEntity (PostDiscussionWriteRequestDto dto, Integer roomId){
+    public PostDiscussionEntity(PostDiscussionWriteRequestDto dto, Integer roomId) {
         this.roomId = roomId;
         this.discussionEnd = dto.getDiscussionEnd();
         this.oppositeOpinion = dto.getOppositeOpinion();
