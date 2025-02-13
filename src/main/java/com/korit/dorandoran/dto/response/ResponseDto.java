@@ -32,6 +32,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistNoticeId() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_NOTICE_ID, ResponseMessage.NO_EXIST_NOTICE_ID);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
     public static ResponseEntity<ResponseDto> validationFail() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.VALIDATION_FAIL, ResponseMessage.VALIDATION_FAIL);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);

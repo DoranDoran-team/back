@@ -21,7 +21,6 @@ public class GetDiscussionListResponseDto extends ResponseDto {
 
     public GetDiscussionListResponseDto(List<GetDiscussionResultSet> resultSet) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
-
         this.discussionList = DiscussionList.getList(resultSet);
     }
 

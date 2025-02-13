@@ -35,8 +35,6 @@ public class DiscussionRoomEntity {
     private String roomDescription;
     private String discussionImage;
 
-
-
     public DiscussionRoomEntity (PostDiscussionWriteRequestDto dto){
         String createdRoom = TodayCreator.todayCreator();
 

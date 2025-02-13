@@ -13,6 +13,7 @@ import com.korit.dorandoran.dto.request.postDiscussion.PostDiscussionWriteReques
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionListResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetSignInUserResponseDto;
+import com.korit.dorandoran.dto.response.main.GetGenDiscListResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionResponseDto;
 import com.korit.dorandoran.service.DiscussionService;
 
@@ -56,5 +57,11 @@ public class DiscussionController {
     ){
         ResponseEntity<? super GetDiscussionResponseDto> repsonseBody = discussionService.getDiscussion(roomId);
         return repsonseBody;
+    }
+
+    @GetMapping("/main")
+    public ResponseEntity<? super GetGenDiscListResponseDto> getMainGenDiscList(){
+        ResponseEntity<? super GetGenDiscListResponseDto> responseBody = discussionService.getMainGenDiscList();
+        return responseBody;
     }
 }
