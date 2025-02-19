@@ -25,7 +25,7 @@ public interface ReplyRepository extends JpaRepository<ReplyEntity, Integer>{
         "R.discussion_type AS discussionType "+
         "FROM reply R " +
         "LEFT JOIN discussion_room D ON R.room_id = D.room_id " +
-        "LEFT JOIN comment C ON R.comment_id = C.comment_id " +
+        "LEFT JOIN comments C ON R.comment_id = C.comment_id " +
         "LEFT JOIN user U ON R.user_id = U.user_id " +
         "WHERE R.comment_id = :roomId ",
         nativeQuery = true)
