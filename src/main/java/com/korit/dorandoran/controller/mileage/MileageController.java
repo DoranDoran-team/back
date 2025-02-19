@@ -27,7 +27,10 @@ public class MileageController {
     public ResponseEntity<ResponseDto> requestRefund(
             @RequestBody @Valid PostMileageRequestDto requestBody,
             @AuthenticationPrincipal String userId) {
+                requestBody.setUserId(userId);
         ResponseEntity<ResponseDto> response = mileageService.requestRefund(requestBody, userId);
+
+
         return response;
     }
 

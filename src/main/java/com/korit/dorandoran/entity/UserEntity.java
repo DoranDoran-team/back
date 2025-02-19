@@ -32,7 +32,7 @@ public class UserEntity {
 	private String snsId;
 	private String nickName;
 	private Boolean role;
-	private String mileage;
+	private Integer mileage;
     private String statusMessage;
 
 	public UserEntity(SignUpRequestDto dto) {
