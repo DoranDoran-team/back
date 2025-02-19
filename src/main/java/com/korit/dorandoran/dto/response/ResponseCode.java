@@ -35,4 +35,5 @@ public interface ResponseCode {
     String DUPLICATED_ACCUSE = "DA";
     String NO_EXIST_TARGET = "NT";
     String NO_SELF_REPORT = "NS";
+    String NO_HAVE_ACCUSE = "NA";
 }

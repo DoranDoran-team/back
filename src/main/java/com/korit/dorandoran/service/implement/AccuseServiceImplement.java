@@ -9,12 +9,14 @@ import org.springframework.stereotype.Service;
 import com.korit.dorandoran.common.object.Accuse;
 import com.korit.dorandoran.dto.request.accuse.PostAccuseRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.accuse.GetAccuseDetailResponseDto;
 import com.korit.dorandoran.dto.response.accuse.GetAccuseListResponseDto;
 import com.korit.dorandoran.entity.AccuseEntity;
 import com.korit.dorandoran.entity.UserEntity;
 import com.korit.dorandoran.repository.AccuseRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
 import com.korit.dorandoran.repository.UserRepository;
+import com.korit.dorandoran.repository.resultset.GetAccuseResultSet;
 import com.korit.dorandoran.service.AccuseService;
 
 import lombok.RequiredArgsConstructor;
@@ -97,4 +99,25 @@ public class AccuseServiceImplement implements AccuseService {
 
     return GetAccuseListResponseDto.success(accuses);
   }
+
+  @Override
+  public ResponseEntity<? super GetAccuseDetailResponseDto> getAccuseDetail(Integer accuseId) {
+    GetAccuseResultSet getAccuseResultSet;
+
+    try {
+
+      getAccuseResultSet = accuseRepository.findAccuseDetail(accuseId);
+
+      if (getAccuseResultSet == null) {
+        return ResponseDto.noHaveAccuse();
+      }
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      return ResponseDto.databaseError();
+    }
+
+    return GetAccuseDetailResponseDto.success(getAccuseResultSet);
+  }
+
 }

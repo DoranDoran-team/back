@@ -39,7 +39,6 @@ public class DiscussionServiceImplement implements DiscussionService {
     private final UserRepository userRepository;
     private final CommentsRepository commentsRepository;
 
-
     @Transactional
     @Override
     public ResponseEntity<ResponseDto> postDiscussionWite(PostDiscussionWriteRequestDto dto) {
@@ -81,21 +80,19 @@ public class DiscussionServiceImplement implements DiscussionService {
     public ResponseEntity<? super GetDiscussionResponseDto> getDiscussion(Integer roomId) {
         GetDetailDiscussionResultSet discussionResultSet;
         List<GetCommentsResultSet> commentResultSets;
-        
+
         try {
-            
+
             boolean isExisted = discussionRoomRepository.existsByRoomId(roomId);
             if (!isExisted) {
-                return ResponseDto.noExistRoom(); 
+                return ResponseDto.noExistRoom();
             }
 
-            
             discussionResultSet = discussionRoomRepository.getDiscussion(roomId);
             if (discussionResultSet == null) {
-                return ResponseDto.noExistRoom(); 
+                return ResponseDto.noExistRoom();
             }
 
-            
             commentResultSets = commentsRepository.getComments(roomId);
             if (commentResultSets == null || commentResultSets.isEmpty()) {
                 return GetDiscussionResponseDto.success(discussionResultSet, new ArrayList<>());
@@ -103,10 +100,10 @@ public class DiscussionServiceImplement implements DiscussionService {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseDto.databaseError(); 
+            return ResponseDto.databaseError();
         }
         return GetDiscussionResponseDto.success(discussionResultSet, commentResultSets);
-}
+    }
 
     @Override
     public ResponseEntity<? super GetSignInUserResponseDto> getSignIn(String userId) {
@@ -141,8 +138,9 @@ public class DiscussionServiceImplement implements DiscussionService {
         UserEntity userEntity = null;
         try {
             userEntity = userRepository.findByUserId(userId);
-            if(userEntity == null) return ResponseDto.noExistUserId();
-            
+            if (userEntity == null)
+                return ResponseDto.noExistUserId();
+
             resultSet = discussionRoomRepository.getMyDiscussionList();
         } catch (Exception e) {
             e.printStackTrace();
@@ -157,10 +155,12 @@ public class DiscussionServiceImplement implements DiscussionService {
         PostDiscussionEntity postDiscussionEntity = null;
         try {
             discussionRoomEntity = discussionRoomRepository.findByRoomId(roomId);
-            if(discussionRoomEntity == null) return ResponseDto.noExistRoom();
+            if (discussionRoomEntity == null)
+                return ResponseDto.noExistRoom();
 
             postDiscussionEntity = postDiscussionRepository.findByRoomId(roomId);
-            if(postDiscussionEntity == null) return ResponseDto.noExistRoom();
+            if (postDiscussionEntity == null)
+                return ResponseDto.noExistRoom();
 
             postDiscussionRepository.delete(postDiscussionEntity);
             discussionRoomRepository.delete(discussionRoomEntity);

@@ -36,9 +36,9 @@ public class ResponseDto {
     public static ResponseEntity<ResponseDto> noExistNoticeId() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_NOTICE_ID, ResponseMessage.NO_EXIST_NOTICE_ID);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
-    }    
+    }
 
-        public static ResponseEntity<ResponseDto> noExistComment() {
+    public static ResponseEntity<ResponseDto> noExistComment() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_COMMENT, ResponseMessage.NO_EXIST_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
@@ -115,6 +115,12 @@ public class ResponseDto {
     // function: 자기가 쓴 게시글 신고 //
     public static ResponseEntity<ResponseDto> noSelfAccuse() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_SELF_REPORT, ResponseMessage.NO_SELF_REPORT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
+    // function: 존재하지 않는 신고 //
+    public static ResponseEntity<ResponseDto> noHaveAccuse() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_HAVE_ACCUSE, ResponseMessage.NO_HAVE_ACCUSE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 }

@@ -34,4 +34,5 @@ public interface ResponseMessage {
     String DUPLICATED_ACCUSE = "Duplicated Accuse";
     String NO_EXIST_TARGET = "No Exist Target";
     String NO_SELF_REPORT = "No Self Report";
+    String NO_HAVE_ACCUSE = "No Have Accuse";
 }

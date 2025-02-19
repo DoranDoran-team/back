@@ -18,10 +18,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name="comments")
-@Entity(name="comments")
+@Table(name = "comments")
+@Entity(name = "comments")
 public class CommentsEntity {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
@@ -35,8 +35,7 @@ public class CommentsEntity {
     private boolean updateStatus;
     private boolean deleteStatus;
 
-
-    public CommentsEntity(PostCommentRequestDto dto, Integer roomId,Integer depth) {
+    public CommentsEntity(PostCommentRequestDto dto, Integer roomId, Integer depth) {
 
         String commentTime = TodayCreator.todayCreator();
 
