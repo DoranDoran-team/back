@@ -7,6 +7,7 @@ import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionListResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetSignInUserResponseDto;
 import com.korit.dorandoran.dto.response.main.GetGenDiscListResponseDto;
+import com.korit.dorandoran.dto.response.mypage.myInfo.GetMyDiscussionListResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionResponseDto;
 
 
@@ -21,5 +22,7 @@ public interface DiscussionService {
 
     ResponseEntity<? super GetGenDiscListResponseDto> getMainGenDiscList();
 
-    
+    ResponseEntity<? super GetMyDiscussionListResponseDto> getMyDiscussionList(String userId);
+
+    ResponseEntity<ResponseDto> deleteDiscusstion(Integer roomId);
 }

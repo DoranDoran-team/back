@@ -12,6 +12,8 @@ public interface MileageRepository extends JpaRepository<MileageEntity, Integer>
 
     List<MileageEntity> findAllByUserId(String userId);
 
+    List<MileageEntity> findAllByOrderByTransactionDateAsc();
+
     @Query("SELECT SUM(m.amount) FROM MileageEntity m WHERE m.userId = :userId AND (m.status = '승인' OR m.status = '승인 대기')")
     Integer getTotalRequestedMileageByUserId(@Param("userId") String userId);
 
