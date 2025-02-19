@@ -9,7 +9,6 @@ import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.entity.CommentEntity;
 import com.korit.dorandoran.repository.CommentRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
-import com.korit.dorandoran.repository.ReplyRepository;
 
 import com.korit.dorandoran.service.CommentService;
 
@@ -21,7 +20,6 @@ public class CommentServiceImplement implements CommentService {
 
   private final CommentRepository commentRepository;
   private final DiscussionRoomRepository discussionRoomRepository;
-  private final ReplyRepository replyRepository;
 
   @Override
   public ResponseEntity<ResponseDto> postComment(PostCommentRequestDto dto, Integer roomId) {

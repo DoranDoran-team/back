@@ -20,10 +20,10 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Integer>
             "D.room_id AS roomId," +
             "U.nick_name AS nickName," +
             "U.profile_image AS profileImage," +
-            "C.comment_contents AS commentContents," +
-            "C.comment_time AS commentTime," +
+            "C.contents AS commentContents," +
+            "C.created_at AS commentTime," +
             "C.discussion_type AS discussionType " +
-            "FROM comment C " +
+            "FROM comments C " +
             "LEFT JOIN discussion_room D ON C.room_id = D.room_id " +
             "LEFT JOIN user U ON C.user_id = U.user_id " +
             "WHERE C.room_id = :roomId", nativeQuery = true)

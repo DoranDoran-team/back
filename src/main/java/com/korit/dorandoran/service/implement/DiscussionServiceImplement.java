@@ -20,13 +20,11 @@ import com.korit.dorandoran.entity.UserEntity;
 import com.korit.dorandoran.repository.CommentRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
 import com.korit.dorandoran.repository.PostDiscussionRepository;
-import com.korit.dorandoran.repository.ReplyRepository;
 import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.repository.resultset.GetCommentResultSet;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetMainGenDiscListResultSet;
-import com.korit.dorandoran.repository.resultset.GetReplyResultSet;
 import com.korit.dorandoran.service.DiscussionService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +37,6 @@ public class DiscussionServiceImplement implements DiscussionService {
     private final PostDiscussionRepository postDiscussionRepository;
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
-    private final ReplyRepository replyRepository;
 
     @Transactional
     @Override
@@ -95,11 +92,6 @@ public class DiscussionServiceImplement implements DiscussionService {
             List<GetCommentResultSet> commentResultSets = commentRepository.getComments(roomId);
             if (commentResultSets == null || commentResultSets.isEmpty()) {
                 return GetDiscussionResponseDto.success(discussionResultSet, new ArrayList<>());
-            }
-
-            for (GetCommentResultSet commentResultSet : commentResultSets) {
-                List<GetReplyResultSet> replyResultSets = replyRepository.getReplies(commentResultSet.getCommentId());
-                comments.add(new Comment(commentResultSet, replyResultSets));
             }
 
         } catch (Exception e) {
