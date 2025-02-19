@@ -39,7 +39,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "FROM discussion_room D " +
                         "LEFT JOIN user U ON D.user_id = U.user_id " +
                         "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
-                        "LEFT JOIN comment C ON D.room_id = C.room_id " +
+                        "LEFT JOIN comments C ON D.room_id = C.room_id " +
                         "LEFT JOIN dorandoran.like L ON D.room_id = L.room_id " +
                         "GROUP BY D.room_id ", nativeQuery = true)
         List<GetDiscussionResultSet> getList();

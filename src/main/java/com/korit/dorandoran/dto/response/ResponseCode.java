@@ -23,8 +23,6 @@ public interface ResponseCode {
 
     // 댓글 및 대댓글 관련 response code
     String NO_EXIST_COMMENT = "NM";
-    String NO_EXIST_REPLY = "NR";
-    String EXIST_REPLY = "ER";
     String NO_EXIST_PARENT_COMMENT = "NPC";
 
     String NO_PERMISSION = "NP";

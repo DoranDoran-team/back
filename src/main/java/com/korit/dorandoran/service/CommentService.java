@@ -15,4 +15,6 @@ public interface CommentService {
 
   ResponseEntity<ResponseDto> deleteComment(String userId, Integer roomId, Integer commentId);
 
+  
+
 }

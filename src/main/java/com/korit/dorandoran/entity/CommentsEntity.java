@@ -18,33 +18,40 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "Comemnt")
-@Table(name = "comment")
-public class CommentEntity {
-
+@Table(name="comments")
+@Entity(name="comments")
+public class CommentsEntity {
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer commentId;
     private Integer roomId;
     private String userId;
-    private String commentContents;
-    private String commentTime;
+    private Integer parentId;
+    private String contents;
     private String discussionType;
+    private String createdAt;
+    private Integer depth;
     private boolean updateStatus;
+    private boolean deleteStatus;
 
-    public CommentEntity(PostCommentRequestDto dto, Integer roomId) {
+
+    public CommentsEntity(PostCommentRequestDto dto, Integer roomId,Integer depth) {
 
         String commentTime = TodayCreator.todayCreator();
 
         this.roomId = roomId;
         this.userId = dto.getUserId();
-        this.commentContents = dto.getCommentContents();
-        this.commentTime = commentTime;
+        this.contents = dto.getContents();
+        this.parentId = dto.getParentId();
+        this.createdAt = commentTime;
         this.discussionType = dto.getDiscussionType();
         this.updateStatus = false;
+        this.depth = depth;
     }
 
     public void patch(PatchCommentRequestDto dto) {
-        this.commentContents = dto.getCommentContents();
+        this.contents = dto.getContents();
+        this.updateStatus = true;
     }
 }

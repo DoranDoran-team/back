@@ -13,8 +13,10 @@ public class PostCommentRequestDto {
     @NotBlank
     private String userId;
     @NotBlank
-    private String commentContents;
+    private String contents;
     @NotBlank
     private String discussionType;
 
+    private Integer parentId;
+    
 }

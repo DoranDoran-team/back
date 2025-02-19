@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.korit.dorandoran.common.object.Comment;
 import com.korit.dorandoran.dto.request.postDiscussion.PostDiscussionWriteRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionListResponseDto;
@@ -18,17 +17,15 @@ import com.korit.dorandoran.dto.response.mypage.myInfo.GetMyDiscussionListRespon
 import com.korit.dorandoran.entity.DiscussionRoomEntity;
 import com.korit.dorandoran.entity.PostDiscussionEntity;
 import com.korit.dorandoran.entity.UserEntity;
-import com.korit.dorandoran.repository.CommentRepository;
+import com.korit.dorandoran.repository.CommentsRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
 import com.korit.dorandoran.repository.PostDiscussionRepository;
-import com.korit.dorandoran.repository.ReplyRepository;
 import com.korit.dorandoran.repository.UserRepository;
-import com.korit.dorandoran.repository.resultset.GetCommentResultSet;
+import com.korit.dorandoran.repository.resultset.GetCommentsResultSet;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetMainGenDiscListResultSet;
 import com.korit.dorandoran.repository.resultset.GetMyDiscussionResultSet;
-import com.korit.dorandoran.repository.resultset.GetReplyResultSet;
 import com.korit.dorandoran.service.DiscussionService;
 
 import lombok.RequiredArgsConstructor;
@@ -40,8 +37,8 @@ public class DiscussionServiceImplement implements DiscussionService {
     private final DiscussionRoomRepository discussionRoomRepository;
     private final PostDiscussionRepository postDiscussionRepository;
     private final UserRepository userRepository;
-    private final CommentRepository commentRepository;
-    private final ReplyRepository replyRepository;
+    private final CommentsRepository commentsRepository;
+
 
     @Transactional
     @Override
@@ -83,33 +80,33 @@ public class DiscussionServiceImplement implements DiscussionService {
     @Override
     public ResponseEntity<? super GetDiscussionResponseDto> getDiscussion(Integer roomId) {
         GetDetailDiscussionResultSet discussionResultSet;
-        List<Comment> comments = new ArrayList<>();
+        List<GetCommentsResultSet> commentResultSets;
+        
         try {
-
+            
             boolean isExisted = discussionRoomRepository.existsByRoomId(roomId);
-            if (!isExisted)
-                return ResponseDto.noExistRoom();
+            if (!isExisted) {
+                return ResponseDto.noExistRoom(); 
+            }
 
+            
             discussionResultSet = discussionRoomRepository.getDiscussion(roomId);
-            if (discussionResultSet == null)
-                return ResponseDto.noExistRoom();
+            if (discussionResultSet == null) {
+                return ResponseDto.noExistRoom(); 
+            }
 
-            List<GetCommentResultSet> commentResultSets = commentRepository.getComments(roomId);
+            
+            commentResultSets = commentsRepository.getComments(roomId);
             if (commentResultSets == null || commentResultSets.isEmpty()) {
                 return GetDiscussionResponseDto.success(discussionResultSet, new ArrayList<>());
             }
 
-            for (GetCommentResultSet commentResultSet : commentResultSets) {
-                List<GetReplyResultSet> replyResultSets = replyRepository.getReplies(commentResultSet.getCommentId());
-                comments.add(new Comment(commentResultSet, replyResultSets));
-            }
-
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseDto.databaseError();
+            return ResponseDto.databaseError(); 
         }
-        return GetDiscussionResponseDto.success(discussionResultSet, comments);
-    }
+        return GetDiscussionResponseDto.success(discussionResultSet, commentResultSets);
+}
 
     @Override
     public ResponseEntity<? super GetSignInUserResponseDto> getSignIn(String userId) {
