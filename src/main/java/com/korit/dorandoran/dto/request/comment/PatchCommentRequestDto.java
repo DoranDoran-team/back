@@ -11,5 +11,5 @@ import lombok.Setter;
 public class PatchCommentRequestDto {
     
     @NotBlank
-    private String commentContents;
+    private String contents;
 }

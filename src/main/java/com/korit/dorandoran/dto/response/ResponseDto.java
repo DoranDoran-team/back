@@ -43,18 +43,8 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
-    public static ResponseEntity<ResponseDto> noExistReply() {
-        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_REPLY, ResponseMessage.NO_EXIST_REPLY);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
-    }
-
     public static ResponseEntity<ResponseDto> noExistParentComment() {
-        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_REPLY, ResponseMessage.NO_EXIST_REPLY);
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
-    }
-
-    public static ResponseEntity<ResponseDto> existReply() {
-        ResponseDto responsdBody = new ResponseDto(ResponseCode.EXIST_REPLY, ResponseMessage.EXIST_REPLY);
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_PARENT_COMMENT, ResponseMessage.NO_EXIST_PARENT_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
