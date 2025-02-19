@@ -24,6 +24,6 @@ public class PostMileageRequestDto {
     @NotBlank
     private String bankName;
 
-    @NotBlank
+    // @NotBlank
     private String userId;
 }

@@ -19,7 +19,7 @@ public class GetSignInResponseDto extends ResponseDto{
     private String telNumber;
     private String nickName;
     private Boolean role;
-    private String mileage;
+    private Integer mileage;
     private String statusMessage;
 
     public GetSignInResponseDto(UserEntity userEntity) {
