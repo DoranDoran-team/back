@@ -29,7 +29,7 @@ public class BankController {
     @DeleteMapping("/delete")
     public ResponseEntity<ResponseDto> deleteAccount(
             @AuthenticationPrincipal String userId,
-            @RequestParam String accountNumber) {
+            @RequestParam("accountNumber") String accountNumber) {
         return bankService.deleteAccount(userId, accountNumber);
     }
 

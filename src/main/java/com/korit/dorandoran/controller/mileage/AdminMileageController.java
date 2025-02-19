@@ -40,8 +40,8 @@ public class AdminMileageController {
     @PostMapping("/refund/{mileageId}/status")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ResponseDto> updateRefundStatus(
-            @PathVariable Integer mileageId,
-            @RequestParam String status) {
+            @PathVariable("mileageId") Integer mileageId,
+            @RequestParam("status") String status) {
 
         // "승인" 또는 "거절"만 허용
         if (!status.equals("승인") && !status.equals("반려")) {
