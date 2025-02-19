@@ -23,8 +23,6 @@ public interface ResponseMessage {
 
     // 댓글 및 대댓글 관련 resposne message
     String NO_EXIST_COMMENT = "No exist comment. ";
-    String NO_EXIST_REPLY = "No exist reply. ";
-    String EXIST_REPLY = "Exist reply. ";
     String NO_EXIST_PARENT_COMMENT = "No exist parent comment. ";
     String NO_PERMISSION = "No Permission";
 

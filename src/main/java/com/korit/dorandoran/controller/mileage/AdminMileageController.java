@@ -2,14 +2,12 @@ package com.korit.dorandoran.controller.mileage;
 
 import com.korit.dorandoran.dto.request.mileage.PostAdminMileageRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
-import com.korit.dorandoran.dto.response.mileage.MileageRequestDto;
 import com.korit.dorandoran.service.mileage.AdminMileageService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 
 
 @RestController

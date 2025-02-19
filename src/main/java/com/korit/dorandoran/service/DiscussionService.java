@@ -20,4 +20,6 @@ public interface DiscussionService {
     ResponseEntity<? super GetDiscussionResponseDto> getDiscussion(Integer roomId);
 
     ResponseEntity<? super GetGenDiscListResponseDto> getMainGenDiscList();
+
+    
 }
