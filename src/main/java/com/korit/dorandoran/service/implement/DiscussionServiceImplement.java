@@ -14,6 +14,7 @@ import com.korit.dorandoran.dto.response.discussion.GetDiscussionListResponseDto
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetSignInUserResponseDto;
 import com.korit.dorandoran.dto.response.main.GetGenDiscListResponseDto;
+import com.korit.dorandoran.dto.response.mypage.myInfo.GetMyDiscussionListResponseDto;
 import com.korit.dorandoran.entity.DiscussionRoomEntity;
 import com.korit.dorandoran.entity.PostDiscussionEntity;
 import com.korit.dorandoran.entity.UserEntity;
@@ -26,6 +27,7 @@ import com.korit.dorandoran.repository.resultset.GetCommentResultSet;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetMainGenDiscListResultSet;
+import com.korit.dorandoran.repository.resultset.GetMyDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetReplyResultSet;
 import com.korit.dorandoran.service.DiscussionService;
 
@@ -134,5 +136,41 @@ public class DiscussionServiceImplement implements DiscussionService {
             return ResponseDto.databaseError();
         }
         return GetGenDiscListResponseDto.success(resultSet);
+    }
+
+    @Override
+    public ResponseEntity<? super GetMyDiscussionListResponseDto> getMyDiscussionList(String userId) {
+        List<GetMyDiscussionResultSet> resultSet = new ArrayList<>();
+        UserEntity userEntity = null;
+        try {
+            userEntity = userRepository.findByUserId(userId);
+            if(userEntity == null) return ResponseDto.noExistUserId();
+            
+            resultSet = discussionRoomRepository.getMyDiscussionList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetMyDiscussionListResponseDto.success(resultSet);
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteDiscusstion(Integer roomId) {
+        DiscussionRoomEntity discussionRoomEntity = null;
+        PostDiscussionEntity postDiscussionEntity = null;
+        try {
+            discussionRoomEntity = discussionRoomRepository.findByRoomId(roomId);
+            if(discussionRoomEntity == null) return ResponseDto.noExistRoom();
+
+            postDiscussionEntity = postDiscussionRepository.findByRoomId(roomId);
+            if(postDiscussionEntity == null) return ResponseDto.noExistRoom();
+
+            postDiscussionRepository.delete(postDiscussionEntity);
+            discussionRoomRepository.delete(discussionRoomEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return ResponseDto.success();
     }
 }

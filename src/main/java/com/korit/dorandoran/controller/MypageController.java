@@ -16,7 +16,9 @@ import com.korit.dorandoran.dto.request.mypage.myInfo.PatchProfileRequestDto;
 import com.korit.dorandoran.dto.request.mypage.myInfo.PatchUserInfoRequestDto;
 import com.korit.dorandoran.dto.request.mypage.myInfo.PwCheckRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.mypage.myInfo.GetMyDiscussionListResponseDto;
 import com.korit.dorandoran.dto.response.mypage.myInfo.GetUserInfoResponseDto;
+import com.korit.dorandoran.service.DiscussionService;
 import com.korit.dorandoran.service.MypageService;
 
 import jakarta.validation.Valid;
@@ -28,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 public class MypageController {
 
     private final MypageService mypageService;
+	private final DiscussionService discussionService;
     
     // 개인정보 수정 시 비밀번호 확인 후 개인정보 불러오기
 	@PostMapping("/password-check")
@@ -83,6 +86,24 @@ public class MypageController {
 		@AuthenticationPrincipal String userId
 	) {
 		ResponseEntity<ResponseDto> response = mypageService.deleteUser(userId);
+		return response;
+	};
+
+	// 본인이 작성한 일반 토론 리스트 불러오기
+	@GetMapping("get-my-discussion")
+	public ResponseEntity<? super GetMyDiscussionListResponseDto> getMyDiscussion (
+		@AuthenticationPrincipal String userId
+	) {
+		ResponseEntity<? super GetMyDiscussionListResponseDto> response = discussionService.getMyDiscussionList(userId);
+		return response;
+	}
+
+	// 본인이 작성한 일반 토론 게시글 삭제하기
+	@DeleteMapping("/delete/{roomId}")
+	public ResponseEntity<ResponseDto> deleteRoom(
+		@PathVariable("roomId") Integer roomId
+	) {
+		ResponseEntity<ResponseDto> response = discussionService.deleteDiscusstion(roomId);
 		return response;
 	};
 }

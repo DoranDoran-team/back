@@ -11,6 +11,7 @@ import com.korit.dorandoran.entity.DiscussionRoomEntity;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetMainGenDiscListResultSet;
+import com.korit.dorandoran.repository.resultset.GetMyDiscussionResultSet;
 
 @Repository
 public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEntity, Integer> {
@@ -54,6 +55,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "D.created_room," +
                         "D.room_title," +
                         "D.update_status," +
+                        
                         "P.agree_opinion," +
                         "P.opposite_opinion," +
                         "P.discussion_end," +
@@ -62,7 +64,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "FROM discussion_room D " +
                         "LEFT JOIN user U ON D.user_id = U.user_id " +
                         "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
-                        "LEFT JOIN comment C ON D.room_id = C.room_id " +
+                        "LEFT JOIN comments C ON D.room_id = C.room_id " +
                         "LEFT JOIN dorandoran.like L ON D.room_id = L.room_id " +
                         "WHERE D.room_id = :roomId " +
                         "GROUP BY D.room_id ", nativeQuery = true)
@@ -86,4 +88,31 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
         nativeQuery = true
     )
     List<GetMainGenDiscListResultSet> getMainGenDiscList();
+
+    @Query(value = 
+        "SELECT " + 
+            "dr.room_id, " + 
+            "dr.created_room, " + 
+            "dr.room_title, " + 
+            "dr.room_description, " +
+            "dr.discussion_image, " + 
+            "dr.update_status, " +
+            "COALESCE(like_count, 0) AS like_count, " + 
+            "COALESCE(comment_count, 0) AS comment_count " +
+        "FROM discussion_room dr " +
+        "LEFT JOIN ( " +
+            "SELECT room_id, COUNT(user_id) AS like_count " +
+            "FROM `like` " +
+            "GROUP BY room_id " +
+        ") l ON dr.room_id = l.room_id " +
+        "LEFT JOIN ( " +
+            "SELECT room_id, COUNT(*) AS comment_count " +
+            "FROM comments " +
+            "GROUP BY room_id " +
+        ") c ON dr.room_id = c.room_id; ",
+        nativeQuery=true
+    )
+    List<GetMyDiscussionResultSet> getMyDiscussionList();
+
+    DiscussionRoomEntity findByRoomId(Integer roomId);
 }
