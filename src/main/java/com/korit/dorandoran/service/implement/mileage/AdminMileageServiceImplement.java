@@ -1,19 +1,23 @@
 package com.korit.dorandoran.service.implement.mileage;
 
 import com.korit.dorandoran.dto.request.mileage.PostAdminMileageRequestDto;
+import com.korit.dorandoran.dto.request.notification.PostNotificationRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.mileage.MileageRequestDto;
 import com.korit.dorandoran.entity.mileage.AdminMileageEntity;
 import com.korit.dorandoran.entity.mileage.MileageEntity;
+import com.korit.dorandoran.entity.NotificationEntity;
 import com.korit.dorandoran.entity.UserEntity;
+import com.korit.dorandoran.entity.NotificationEntity.NotificationType;
 import com.korit.dorandoran.repository.mileage.AdminMileageRepository;
 import com.korit.dorandoran.repository.mileage.MileageRepository;
 import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.service.mileage.AdminMileageService;
+import com.korit.dorandoran.service.NotificationService;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,11 +25,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminMileageServiceImplement implements AdminMileageService {
 
-    private final AdminMileageRepository adminMileageRepository; // ✅ 마일리지 지급 관리
-    private final MileageRepository mileageRepository; // ✅ 환급 신청 내역 조회
+    private final AdminMileageRepository adminMileageRepository;
+    private final MileageRepository mileageRepository;
     private final UserRepository userRepository;
+    private final NotificationService notificationService; // 알림 서비스 추가
 
-    // ✅ 관리자 마일리지 지급 (AdminMileageRepository 유지)
+    // 관리자 마일리지 지급 (알림 추가)
     @Override
     public ResponseEntity<ResponseDto> giveMileage(PostAdminMileageRequestDto requestDto) {
         try {
@@ -41,6 +46,11 @@ public class AdminMileageServiceImplement implements AdminMileageService {
             // 지급 내역 저장 (admin_mileage 테이블)
             adminMileageRepository.save(new AdminMileageEntity(requestDto));
 
+            // 마일리지 지급 알림 전송
+            String message = requestDto.getReason() + "으로 " + requestDto.getAmount() + "p가 지급되었습니다.";
+            notificationService.createNotification(user.getUserId(), message, NotificationType.MILEAGE_EARNED);
+        
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
@@ -48,7 +58,7 @@ public class AdminMileageServiceImplement implements AdminMileageService {
         return ResponseDto.success();
     }
 
-    // ✅ 모든 환급 요청 조회 (승인 대기, 승인, 반려 포함)
+    // 모든 환급 요청 조회
     @Override
     public ResponseEntity<List<MileageRequestDto>> getRefundRequests() {
         List<MileageEntity> refundRequests = mileageRepository.findAllByOrderByTransactionDateAsc();
@@ -60,7 +70,7 @@ public class AdminMileageServiceImplement implements AdminMileageService {
         return ResponseEntity.ok(responseList);
     }
 
-    // ✅ 환급 요청 승인/반려 처리
+    // 환급 요청 승인/반려 처리 (알림 추가)
     @Override
     public ResponseEntity<ResponseDto> updateRefundStatus(Integer mileageId, String status) {
         MileageEntity mileage = mileageRepository.findById(mileageId)
@@ -73,7 +83,7 @@ public class AdminMileageServiceImplement implements AdminMileageService {
         mileage.setStatus(status);
         mileageRepository.save(mileage);
 
-        // ✅ 승인된 경우, 해당 유저의 마일리지 차감
+        // 승인된 경우, 해당 유저의 마일리지 차감
         if (status.equals("승인")) {
             UserEntity user = userRepository.findByUserId(mileage.getUserId());
             if (user != null) {
@@ -81,6 +91,18 @@ public class AdminMileageServiceImplement implements AdminMileageService {
                 userRepository.save(user);
             }
         }
+
+        // 환급 승인/거절 알림 전송
+        notificationService.createNotification(
+            mileage.getUserId(),
+            status.equals("승인") 
+                ? mileage.getAmount() + "p 환급 요청이 승인되었습니다."
+                : mileage.getAmount() + "p 환급 요청이 거절되었습니다.",
+            status.equals("승인") 
+                ? NotificationEntity.NotificationType.REFUND_APPROVED
+                : NotificationEntity.NotificationType.REFUND_DENIED
+        );
+        
 
         return ResponseDto.success();
     }
