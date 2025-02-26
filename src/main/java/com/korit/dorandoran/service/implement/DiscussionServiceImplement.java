@@ -21,6 +21,7 @@ import com.korit.dorandoran.repository.CommentsRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
 import com.korit.dorandoran.repository.PostDiscussionRepository;
 import com.korit.dorandoran.repository.UserRepository;
+import com.korit.dorandoran.repository.VoteRepository;
 import com.korit.dorandoran.repository.resultset.GetCommentsResultSet;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
@@ -38,6 +39,7 @@ public class DiscussionServiceImplement implements DiscussionService {
     private final PostDiscussionRepository postDiscussionRepository;
     private final UserRepository userRepository;
     private final CommentsRepository commentsRepository;
+    private final VoteRepository voteRepository;
 
     @Transactional
     @Override

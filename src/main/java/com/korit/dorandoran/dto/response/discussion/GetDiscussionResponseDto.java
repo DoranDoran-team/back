@@ -23,9 +23,9 @@ public class GetDiscussionResponseDto extends ResponseDto {
     public GetDiscussionResponseDto(GetDetailDiscussionResultSet discussionResultSet, List<GetCommentsResultSet> resultSets) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 
+
         this.discussionResultSet = discussionResultSet;
         this.comments = Comments.getCommentList(resultSets);
-
     }
 
     public static ResponseEntity<GetDiscussionResponseDto> success(

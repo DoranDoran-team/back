@@ -37,4 +37,6 @@ public interface CommentsRepository extends JpaRepository<CommentsEntity, Intege
     Optional<CommentsEntity> findByCommentId(Integer parentId);
 
     CommentsEntity findByCommentIdAndRoomId(Integer commentId, Integer roomId);
+
+    boolean existsByCommentId(Integer targetId);
 }

@@ -59,6 +59,12 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> duplicatedLike() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_LIKE,
+                ResponseMessage.DUPLICATED_LIKE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
     public static ResponseEntity<ResponseDto> roomCreatedFail() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_ROOM_TITLE,
                 ResponseMessage.DUPLICATED_ROOM_TITLE);
@@ -67,6 +73,11 @@ public class ResponseDto {
 
     public static ResponseEntity<ResponseDto> noExistRoom() {
         ResponseDto responseBody = new ResponseDto(ResponseCode.NO_EXIST_ROOM, ResponseMessage.NO_EXIST_ROOM);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
+    }
+
+    public static ResponseEntity<ResponseDto> duplicatedVote() {
+        ResponseDto responseBody = new ResponseDto(ResponseCode.DUPLICATED_VOTE, ResponseMessage.DUPLICATED_VOTE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 

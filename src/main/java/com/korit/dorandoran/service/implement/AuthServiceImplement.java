@@ -1,5 +1,11 @@
 package com.korit.dorandoran.service.implement;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,13 +25,17 @@ import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
 import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
+import com.korit.dorandoran.entity.DiscussionRoomEntity;
 import com.korit.dorandoran.entity.TelAuthEntity;
 import com.korit.dorandoran.entity.UserEntity;
+import com.korit.dorandoran.entity.VoteEntity;
 import com.korit.dorandoran.provider.JwtProvider;
 import com.korit.dorandoran.provider.SmsProvider;
 import com.korit.dorandoran.repository.AdminRepository;
+import com.korit.dorandoran.repository.DiscussionRoomRepository;
 import com.korit.dorandoran.repository.TelAuthRepository;
 import com.korit.dorandoran.repository.UserRepository;
+import com.korit.dorandoran.repository.VoteRepository;
 import com.korit.dorandoran.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
@@ -37,6 +47,8 @@ public class AuthServiceImplement implements AuthService{
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
     private final AdminRepository adminRepository;
+    private final VoteRepository voteRepository;
+    private final DiscussionRoomRepository discussionRoomRepository;
 
     private final SmsProvider smsProvider;
     private final JwtProvider jwtProvider;
@@ -270,14 +282,26 @@ public class AuthServiceImplement implements AuthService{
     public ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId) {
 
         UserEntity userEntity = null;
+        List<Map<String,Object>> voteList = new ArrayList<>();
         try {
             userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();
             
+            List<Integer> rooms = discussionRoomRepository.getRooms();
+            voteList = rooms.stream()
+                .map(room -> {
+                    Map<String, Object> voteInfo = new HashMap<>();
+                    voteInfo.put("roomId", room);
+                    voteInfo.put("isVoted", voteRepository.existsByRoomIdAndUserId(room, userId));
+                    return voteInfo;
+                })
+                .collect(Collectors.toList());
+            
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
         }
-        return GetSignInResponseDto.success(userEntity);
+        return GetSignInResponseDto.success(userEntity, voteList);
     }
 }
