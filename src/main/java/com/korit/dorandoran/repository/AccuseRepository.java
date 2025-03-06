@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.korit.dorandoran.common.object.AccuseStatus;
 import com.korit.dorandoran.common.object.ReportType;
 import com.korit.dorandoran.entity.AccuseEntity;
 import com.korit.dorandoran.repository.resultset.GetAccuseResultSet;
@@ -18,7 +19,9 @@ public interface AccuseRepository extends JpaRepository<AccuseEntity, Integer> {
   // 게시글 중복신고 확인 메서드
   boolean existsByUserIdAndReportTypeAndPostId(String userId, ReportType reportType, Integer postId);
 
-  List<AccuseEntity> findAllByOrderByAccuseIdAsc();
+  List<AccuseEntity> findAllByAccuseStatusOrderByAccuseIdAsc(AccuseStatus status);
+
+  AccuseEntity findByAccuseId(Integer accuseId);
 
   @Query(value = "SELECT a.accuse_id, a.accuse_user_id AS userId, " +
       "CASE WHEN a.report_type = 'POST' THEN d.room_description ELSE NULL END AS roomDescription, " +

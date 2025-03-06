@@ -15,6 +15,7 @@ public class Accuse {
   private Integer replyId; // 댓글 신고
   private Integer postId; // 일반 게시글 신고
   private String accuseDate; // 신고 당한 날짜
+  private AccuseStatus accuseStatus; // 신고 타입
 
   public Accuse(AccuseEntity accuseEntity) {
     this.accuseId = accuseEntity.getAccuseId();
@@ -25,5 +26,6 @@ public class Accuse {
     this.replyId = accuseEntity.getReplyId();
     this.postId = accuseEntity.getPostId();
     this.accuseDate = accuseEntity.getAccuseDate();
+    this.accuseStatus = accuseEntity.getAccuseStatus();
   }
 }

@@ -1,5 +1,6 @@
 package com.korit.dorandoran.entity;
 
+import com.korit.dorandoran.common.object.AccuseStatus;
 import com.korit.dorandoran.common.object.ReportType;
 import com.korit.dorandoran.dto.request.accuse.PostAccuseRequestDto;
 
@@ -36,6 +37,9 @@ public class AccuseEntity {
   private Integer postId; // 일반 게시글 신고
   private String accuseDate; // 신고 당한 날짜
 
+  @Enumerated(EnumType.STRING)
+  private AccuseStatus accuseStatus; // 신고 타입
+
   public AccuseEntity(PostAccuseRequestDto dto) {
     this.reportType = dto.getReportType();
     this.reportContents = dto.getReportContents();
@@ -44,5 +48,6 @@ public class AccuseEntity {
     this.replyId = dto.getReplyId();
     this.postId = dto.getPostId();
     this.accuseDate = dto.getAccuseDate();
+    this.accuseStatus = dto.getAccuseStatus();
   }
 }

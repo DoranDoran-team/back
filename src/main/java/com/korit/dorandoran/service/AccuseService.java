@@ -14,4 +14,8 @@ public interface AccuseService {
   ResponseEntity<? super GetAccuseListResponseDto> getAccuseList(String userId);
 
   ResponseEntity<? super GetAccuseDetailResponseDto> getAccuseDetail(Integer accuseId);
+
+  ResponseEntity<ResponseDto> approveAccuse(Integer accuseId);
+
+  ResponseEntity<ResponseDto> rejectedAccuse(Integer accuseId);
 }

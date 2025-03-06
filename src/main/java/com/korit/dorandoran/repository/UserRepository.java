@@ -1,11 +1,17 @@
 package com.korit.dorandoran.repository;
 
 import com.korit.dorandoran.entity.UserEntity;
+import com.korit.dorandoran.repository.resultset.GetAccuseUserListResultSet;
+
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, String>{
+public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     // 회원가입 시, 중복 아이디 검사
     boolean existsByUserId(String userId);
@@ -17,7 +23,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
     UserEntity findByUserId(String userId);
 
     // 로그인을 위한 snsId & 가입 경로 찾기
-	UserEntity findBySnsIdAndJoinPath(String snsId, String joinPath);
+    UserEntity findBySnsIdAndJoinPath(String snsId, String joinPath);
 
     // 아이디 찾기 - 이름 & 전화번호
     boolean existsByNameAndTelNumber(String name, String telNumber);
@@ -29,4 +35,15 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
     boolean existsByUserIdAndTelNumber(String userId, String telNumber);
 
     UserEntity findByUserIdAndTelNumber(String userId, String telNumber);
+
+    @Query(value = "SELECT u.user_id AS userId, u.name AS name, u.profile_image AS profileImage, " +
+            "COUNT(a.accuse_id) AS accuseCount " +
+            "FROM user u " +
+            "LEFT JOIN accuse a ON u.user_id = a.user_id " +
+            "WHERE LOWER(u.user_id) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
+            "GROUP BY u.user_id, u.name, u.profile_image", nativeQuery = true)
+    List<GetAccuseUserListResultSet> searchByNameOrUserId(@Param("keyword") String keyword);
+
+    List<GetAccuseUserListResultSet> findByUserIdContaining(String userId);
+
 }

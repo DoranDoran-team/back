@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.korit.dorandoran.common.object.Accuse;
+import com.korit.dorandoran.common.object.AccuseStatus;
 import com.korit.dorandoran.dto.request.accuse.PostAccuseRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.accuse.GetAccuseDetailResponseDto;
@@ -86,7 +87,8 @@ public class AccuseServiceImplement implements AccuseService {
 
     try {
 
-      List<AccuseEntity> accuseEntities = accuseRepository.findAllByOrderByAccuseIdAsc();
+      List<AccuseEntity> accuseEntities = accuseRepository
+          .findAllByAccuseStatusOrderByAccuseIdAsc(AccuseStatus.PENDING);
       for (AccuseEntity accuseEntity : accuseEntities) {
         Accuse accuse = new Accuse(accuseEntity);
         accuses.add(accuse);
@@ -118,6 +120,68 @@ public class AccuseServiceImplement implements AccuseService {
     }
 
     return GetAccuseDetailResponseDto.success(getAccuseResultSet);
+  }
+
+  @Override
+  public ResponseEntity<ResponseDto> approveAccuse(Integer accuseId) {
+
+    try {
+
+      AccuseEntity accuseEntity = accuseRepository.findByAccuseId(accuseId);
+
+      if (accuseEntity == null) {
+        return ResponseDto.noHaveAccuse();
+      }
+
+      if (accuseEntity.getAccuseStatus() == AccuseStatus.APPROVED) {
+        return ResponseDto.alreadyApproved();
+      }
+
+      String userId = accuseEntity.getAccuseUserId();
+      accuseEntity.setAccuseStatus(AccuseStatus.APPROVED);
+      accuseRepository.save(accuseEntity);
+
+      UserEntity userEntity = userRepository.findByUserId(userId);
+
+      if (userId == null) {
+        return ResponseDto.noExistUserId();
+      }
+
+      userEntity.setAccuseCount(userEntity.getAccuseCount() + 1);
+      userRepository.save(userEntity);
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      return ResponseDto.databaseError();
+    }
+
+    return ResponseDto.success();
+  }
+
+  @Override
+  public ResponseEntity<ResponseDto> rejectedAccuse(Integer accuseId) {
+
+    try {
+
+      AccuseEntity accuseEntity = accuseRepository.findByAccuseId(accuseId);
+
+      if (accuseEntity == null) {
+        return ResponseDto.noHaveAccuse();
+      }
+
+      if (accuseEntity.getAccuseStatus() == AccuseStatus.REJECTED) {
+        return ResponseDto.rejectedApproved();
+      }
+
+      accuseEntity.setAccuseStatus(AccuseStatus.REJECTED);
+      accuseRepository.save(accuseEntity);
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      return ResponseDto.databaseError();
+    }
+
+    return ResponseDto.success();
   }
 
 }
