@@ -44,7 +44,8 @@ public class ResponseDto {
     }
 
     public static ResponseEntity<ResponseDto> noExistParentComment() {
-        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_PARENT_COMMENT, ResponseMessage.NO_EXIST_PARENT_COMMENT);
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_EXIST_PARENT_COMMENT,
+                ResponseMessage.NO_EXIST_PARENT_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
 
@@ -123,4 +124,29 @@ public class ResponseDto {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_HAVE_ACCUSE, ResponseMessage.NO_HAVE_ACCUSE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
+
+    // function: 존재하지 않는 검색 결과 //
+    public static ResponseEntity<ResponseDto> noHaveSearch() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_HAVE_SEARCH, ResponseMessage.NO_HAVE_SEARCH);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
+    // function: 이미 처리된 신고 //
+    public static ResponseEntity<ResponseDto> alreadyApproved() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.ALREADY_APPROVED, ResponseMessage.ALREADY_APPROVED);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
+
+    // function: 이미 반려된 신고 //
+    public static ResponseEntity<ResponseDto> rejectedApproved() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.REJECTED_ACCUSE, ResponseMessage.REJECTED_ACCUSE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+      
+    }
+    public static ResponseEntity<ResponseDto> custom(String code, String message) {
+        ResponseDto response = new ResponseDto(code, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
+
+

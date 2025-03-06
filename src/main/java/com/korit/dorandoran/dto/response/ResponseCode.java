@@ -36,4 +36,7 @@ public interface ResponseCode {
     String NO_EXIST_TARGET = "NT";
     String NO_SELF_REPORT = "NS";
     String NO_HAVE_ACCUSE = "NA";
+    String NO_HAVE_SEARCH = "NS";
+    String ALREADY_APPROVED = "AA";
+    String REJECTED_ACCUSE = "RA";
 }

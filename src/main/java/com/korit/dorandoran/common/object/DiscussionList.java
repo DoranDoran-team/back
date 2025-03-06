@@ -44,7 +44,7 @@ public class DiscussionList {
 
     public static List<DiscussionList> getList(List<GetDiscussionResultSet> resultSets) {
         List<DiscussionList> discussionLists = new ArrayList<>();
-        for(GetDiscussionResultSet getDiscussionResultSet : resultSets){
+        for (GetDiscussionResultSet getDiscussionResultSet : resultSets) {
             DiscussionList discussionList = new DiscussionList(getDiscussionResultSet);
             discussionLists.add(discussionList);
         }

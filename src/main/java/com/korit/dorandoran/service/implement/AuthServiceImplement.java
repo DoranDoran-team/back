@@ -20,6 +20,7 @@ import com.korit.dorandoran.dto.request.auth.SignUpRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.accuse.GetAccuseUserListResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
 import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
@@ -32,13 +33,14 @@ import com.korit.dorandoran.repository.AdminRepository;
 import com.korit.dorandoran.repository.SubscribtionRepository;
 import com.korit.dorandoran.repository.TelAuthRepository;
 import com.korit.dorandoran.repository.UserRepository;
+import com.korit.dorandoran.repository.resultset.GetAccuseUserListResultSet;
 import com.korit.dorandoran.service.AuthService;
 
 import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class AuthServiceImplement implements AuthService{
+public class AuthServiceImplement implements AuthService {
 
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
@@ -52,19 +54,20 @@ public class AuthServiceImplement implements AuthService{
 
     @Override
     public ResponseEntity<ResponseDto> idCheck(IdCheckRequestDto dto) {
-        
+
         String userId = dto.getUserId();
 
         try {
             // 찾는 아이디 데이터가 필요하면 findBy, 조회만 하면 existBy 메서드 사용
             boolean isExistedId = userRepository.existsByUserId(userId);
-            if(isExistedId) return ResponseDto.duplicatedUserId(); 
-                
+            if (isExistedId)
+                return ResponseDto.duplicatedUserId();
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
         }
-        
+
         return ResponseDto.success();
     }
 
@@ -76,15 +79,17 @@ public class AuthServiceImplement implements AuthService{
         // 동일 전화번호 조회
         try {
             boolean isExistedTelNumber = userRepository.existsByTelNumber(telNumber);
-            if(isExistedTelNumber) return ResponseDto.duplicatedTelNumber(); 
+            if (isExistedTelNumber)
+                return ResponseDto.duplicatedTelNumber();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
         }
-        
+
         String authNumber = AuthNumberCreator.number4();
         boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
-        if(!isSendSuccess) return ResponseDto.messageSendFail();
+        if (!isSendSuccess)
+            return ResponseDto.messageSendFail();
 
         // 인증번호 6자리 db에 저장
         try {
@@ -105,7 +110,8 @@ public class AuthServiceImplement implements AuthService{
 
         try {
             boolean isMatched = telAuthRepository.existsByTelNumberAndTelAuthNumber(telNumber, authNumber);
-            if(!isMatched) return ResponseDto.telAuthFail();
+            if (!isMatched)
+                return ResponseDto.telAuthFail();
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
@@ -124,16 +130,22 @@ public class AuthServiceImplement implements AuthService{
 
         try {
             boolean isExistedId = userRepository.existsByUserId(userId);
-            if(isExistedId) return ResponseDto.duplicatedUserId();
+            if (isExistedId)
+                return ResponseDto.duplicatedUserId();
 
             boolean isExistedTelNumber = userRepository.existsByTelNumber(telNumber);
-            if(isExistedTelNumber) return ResponseDto.duplicatedTelNumber();
+            if (isExistedTelNumber)
+                return ResponseDto.duplicatedTelNumber();
 
             boolean isMatched = telAuthRepository.existsByTelNumberAndTelAuthNumber(telNumber, authNumber);
-            if(!isMatched) return ResponseDto.telAuthFail();
+            if (!isMatched)
+                return ResponseDto.telAuthFail();
 
             boolean isAdmin = adminRepository.existsByNameAndTelNumberAndBirth(name, telNumber, birth);
-            if(isAdmin) dto.setRole(true); else dto.setRole(false);
+            if (isAdmin)
+                dto.setRole(true);
+            else
+                dto.setRole(false);
 
             String encodedPassword = passwordEncoder.encode(password);
             dto.setPassword(encodedPassword);
@@ -146,7 +158,7 @@ public class AuthServiceImplement implements AuthService{
             e.printStackTrace();
             return ResponseDto.databaseError();
         }
-        
+
         return ResponseDto.success();
     }
 
@@ -158,16 +170,19 @@ public class AuthServiceImplement implements AuthService{
         String accessToken = null;
 
         try {
-            
+
             UserEntity userEntity = userRepository.findByUserId(userId);
-            if(userEntity == null) return ResponseDto.signInFail();
+            if (userEntity == null)
+                return ResponseDto.signInFail();
 
             String encodedPassword = userEntity.getPassword();
             boolean isMatched = passwordEncoder.matches(password, encodedPassword);
-            if(!isMatched) return ResponseDto.signInFail();
+            if (!isMatched)
+                return ResponseDto.signInFail();
 
             accessToken = jwtProvider.create(userId);
-            if(accessToken == null) return ResponseDto.tokenCreateFail();
+            if (accessToken == null)
+                return ResponseDto.tokenCreateFail();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -180,14 +195,16 @@ public class AuthServiceImplement implements AuthService{
     public ResponseEntity<ResponseDto> findId(FindIdRequestDto dto) {
         String name = dto.getName();
         String telNumber = dto.getTelNumber();
-        
+
         try {
             boolean isTrue = userRepository.existsByNameAndTelNumber(name, telNumber);
-            if(!isTrue) return ResponseDto.noExistUserId();
+            if (!isTrue)
+                return ResponseDto.noExistUserId();
 
             String authNumber = AuthNumberCreator.number4();
             boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
-            if(!isSendSuccess) return ResponseDto.messageSendFail();
+            if (!isSendSuccess)
+                return ResponseDto.messageSendFail();
 
             // 인증번호 6자리 db에 저장
             try {
@@ -213,7 +230,8 @@ public class AuthServiceImplement implements AuthService{
 
         try {
             boolean isMatched = telAuthRepository.existsByTelNumberAndTelAuthNumber(telNumber, authNumber);
-            if(!isMatched) return ResponseDto.telAuthFail();
+            if (!isMatched)
+                return ResponseDto.telAuthFail();
 
             UserEntity userEntity = userRepository.findByTelNumber(telNumber);
             userId = userEntity.getUserId();
@@ -228,14 +246,16 @@ public class AuthServiceImplement implements AuthService{
     public ResponseEntity<ResponseDto> findPw(FindPwRequestDto dto) {
         String userId = dto.getUserId();
         String telNumber = dto.getTelNumber();
-        
+
         try {
             boolean isTrue = userRepository.existsByUserIdAndTelNumber(userId, telNumber);
-            if(!isTrue) return ResponseDto.noExistUserId();
+            if (!isTrue)
+                return ResponseDto.noExistUserId();
 
             String authNumber = AuthNumberCreator.number4();
             boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
-            if(!isSendSuccess) return ResponseDto.messageSendFail();
+            if (!isSendSuccess)
+                return ResponseDto.messageSendFail();
 
             // 인증번호 6자리 db에 저장
             try {
@@ -261,7 +281,8 @@ public class AuthServiceImplement implements AuthService{
 
         try {
             UserEntity userEntity = userRepository.findByUserIdAndTelNumber(userId, telNumber);
-            if(userEntity == null) return ResponseDto.noExistUserId();
+            if (userEntity == null)
+                return ResponseDto.noExistUserId();
 
             String encodedPassword = passwordEncoder.encode(password);
             userEntity.setPassword(encodedPassword);
@@ -303,5 +324,22 @@ public class AuthServiceImplement implements AuthService{
             return ResponseDto.databaseError();
         }
         return GetSignInResponseDto.success(userEntity, subscribers);
+    }
+
+    @Override
+    public ResponseEntity<? super GetAccuseUserListResponseDto> searchByNameOrUserId(String keyword) {
+
+        List<GetAccuseUserListResultSet> resultSet = new ArrayList<>();
+
+        try {
+
+            resultSet = userRepository.findByUserIdContaining(keyword);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetAccuseUserListResponseDto.success(resultSet);
     }
 }

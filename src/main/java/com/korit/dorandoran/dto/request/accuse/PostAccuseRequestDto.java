@@ -1,5 +1,6 @@
 package com.korit.dorandoran.dto.request.accuse;
 
+import com.korit.dorandoran.common.object.AccuseStatus;
 import com.korit.dorandoran.common.object.ReportType;
 
 import jakarta.annotation.Nullable;
@@ -35,4 +36,7 @@ public class PostAccuseRequestDto {
 
   @NotNull
   private String accuseDate; // 신고 당한 날짜
+
+  @NotNull
+  private AccuseStatus accuseStatus; // 신고 처리 타입
 }

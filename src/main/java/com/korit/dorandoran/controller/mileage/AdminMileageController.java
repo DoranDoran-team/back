@@ -43,7 +43,7 @@ public class AdminMileageController {
             @PathVariable("mileageId") Integer mileageId,
             @RequestParam("status") String status) {
 
-        // "승인" 또는 "거절"만 허용
+        // "승인" 또는 "반려"만 허용
         if (!status.equals("승인") && !status.equals("반려")) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(new ResponseDto("IV", "잘못된 상태 값입니다."));
