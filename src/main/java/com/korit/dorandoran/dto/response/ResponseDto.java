@@ -141,5 +141,12 @@ public class ResponseDto {
     public static ResponseEntity<ResponseDto> rejectedApproved() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.REJECTED_ACCUSE, ResponseMessage.REJECTED_ACCUSE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+      
+    }
+    public static ResponseEntity<ResponseDto> custom(String code, String message) {
+        ResponseDto response = new ResponseDto(code, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
+
+

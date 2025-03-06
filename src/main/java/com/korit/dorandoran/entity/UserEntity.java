@@ -3,6 +3,7 @@ package com.korit.dorandoran.entity;
 import com.korit.dorandoran.dto.request.auth.ChangePwRequestDto;
 import com.korit.dorandoran.dto.request.auth.SignUpRequestDto;
 import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
+import com.korit.dorandoran.dto.response.user.GetSearchUserListResponseDto;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -64,4 +65,5 @@ public class UserEntity {
 		this.mileage = dto.getMileage();
 		this.statusMessage = dto.getStatusMessage();
 	}
+
 }
