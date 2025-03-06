@@ -7,6 +7,7 @@ import com.korit.dorandoran.dto.request.mypage.myInfo.PatchProfileRequestDto;
 import com.korit.dorandoran.dto.request.mypage.myInfo.PatchUserInfoRequestDto;
 import com.korit.dorandoran.dto.request.mypage.myInfo.PwCheckRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.mypage.another_user.GetUserProfileResponseDto;
 import com.korit.dorandoran.dto.response.mypage.myInfo.GetUserInfoResponseDto;
 
 public interface MypageService {
@@ -22,4 +23,6 @@ public interface MypageService {
     ResponseEntity<ResponseDto> patchUserInfo(PatchUserInfoRequestDto dto, String userId);
 
     ResponseEntity<ResponseDto> deleteUser(String userId);
+
+    ResponseEntity<? super GetUserProfileResponseDto> getUserProfile(String userId);
 }

@@ -1,10 +1,14 @@
 package com.korit.dorandoran.service.implement;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.korit.dorandoran.common.object.Subscriber;
 import com.korit.dorandoran.common.util.AuthNumberCreator;
 import com.korit.dorandoran.common.util.NickNameCreator;
 import com.korit.dorandoran.dto.request.auth.ChangePwRequestDto;
@@ -19,11 +23,13 @@ import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
 import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
+import com.korit.dorandoran.entity.SubscriptionEntity;
 import com.korit.dorandoran.entity.TelAuthEntity;
 import com.korit.dorandoran.entity.UserEntity;
 import com.korit.dorandoran.provider.JwtProvider;
 import com.korit.dorandoran.provider.SmsProvider;
 import com.korit.dorandoran.repository.AdminRepository;
+import com.korit.dorandoran.repository.SubscribtionRepository;
 import com.korit.dorandoran.repository.TelAuthRepository;
 import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.service.AuthService;
@@ -37,6 +43,7 @@ public class AuthServiceImplement implements AuthService{
     private final UserRepository userRepository;
     private final TelAuthRepository telAuthRepository;
     private final AdminRepository adminRepository;
+    private final SubscribtionRepository subscribtionRepository;
 
     private final SmsProvider smsProvider;
     private final JwtProvider jwtProvider;
@@ -270,14 +277,31 @@ public class AuthServiceImplement implements AuthService{
     public ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId) {
 
         UserEntity userEntity = null;
+        List<Subscriber> subscribers = new ArrayList<>();
+
         try {
             userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();
             
+            // 구독 테이블에서 로그인한 유저가 팔로우한 사람 아이디 가져오기
+            List<SubscriptionEntity> subscriptionEntities = null;
+            subscriptionEntities = subscribtionRepository.findByUserId(userId);
+
+            // 구독한 사람에 대한 정보 리스트 생성
+            for(SubscriptionEntity subscriptionEntity : subscriptionEntities) {
+                String follower = subscriptionEntity.getSubscriber();
+
+                UserEntity userEntity2 = null;
+                userEntity2 = userRepository.findByUserId(follower);
+                if(userEntity2 == null) return null;
+
+                subscribers.add(new Subscriber(userEntity2));
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
         }
-        return GetSignInResponseDto.success(userEntity);
+        return GetSignInResponseDto.success(userEntity, subscribers);
     }
 }

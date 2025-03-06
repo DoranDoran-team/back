@@ -16,6 +16,7 @@ public interface DiscussionService {
     ResponseEntity<ResponseDto> postDiscussionWite(PostDiscussionWriteRequestDto dto);
 
     ResponseEntity<? super GetDiscussionListResponseDto> getDiscussionList();
+    
     ResponseEntity<? super GetSignInUserResponseDto> getSignIn(String userId);
 
     ResponseEntity<? super GetDiscussionResponseDto> getDiscussion(Integer roomId);

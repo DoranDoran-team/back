@@ -1,8 +1,11 @@
 package com.korit.dorandoran.dto.response.auth;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import com.korit.dorandoran.common.object.Subscriber;
 import com.korit.dorandoran.dto.response.ResponseCode;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.ResponseMessage;
@@ -21,8 +24,9 @@ public class GetSignInResponseDto extends ResponseDto{
     private Boolean role;
     private Integer mileage;
     private String statusMessage;
+    private List<Subscriber> subscribers;
 
-    public GetSignInResponseDto(UserEntity userEntity) {
+    public GetSignInResponseDto(UserEntity userEntity, List<Subscriber> subscribers) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.userId = userEntity.getUserId();
         this.profileImage = userEntity.getProfileImage();
@@ -32,10 +36,14 @@ public class GetSignInResponseDto extends ResponseDto{
         this.role = userEntity.getRole();
         this.mileage = userEntity.getMileage();
         this.statusMessage = userEntity.getStatusMessage();
+        this.subscribers = subscribers;
     }
 
-    public static ResponseEntity<GetSignInResponseDto> success(UserEntity userEntity) {
-        GetSignInResponseDto responseBody = new GetSignInResponseDto(userEntity);
+    public static ResponseEntity<GetSignInResponseDto> success(
+        UserEntity userEntity,
+        List<Subscriber> subscribers
+    ) {
+        GetSignInResponseDto responseBody = new GetSignInResponseDto(userEntity, subscribers);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 }

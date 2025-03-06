@@ -31,5 +31,4 @@ public interface GetDiscussionResultSet {
     Integer getLikeCount();
 
     String getRoomDescription();
-
 }
