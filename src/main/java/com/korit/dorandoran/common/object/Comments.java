@@ -20,7 +20,8 @@ public class Comments {
     private String profileImage;
     private String contents;
     private String createdAt;
-    private String discussionType;  
+    private String discussionType;
+    private Integer likeCount;  
     private Integer depth;
     private boolean updateStatus;
     private boolean deleteStatus;
@@ -37,6 +38,7 @@ public class Comments {
         this.contents = commentResultSets.getContents();
         this.createdAt = commentResultSets.getCreatedAt();
         this.discussionType = commentResultSets.getDiscussionType();
+        this.likeCount = commentResultSets.getLikeCount() == null ? 0 : commentResultSets.getLikeCount(); 
         this.depth = commentResultSets.getDepth();
         this.updateStatus = commentResultSets.getUpdateStatus() == 0 ? false : true;
         this.deleteStatus = commentResultSets.getDeleteStatus() == 0 ? false : true;

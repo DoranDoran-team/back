@@ -37,9 +37,12 @@ public class GetSignInResponseDto extends ResponseDto{
         this.mileage = userEntity.getMileage();
         this.statusMessage = userEntity.getStatusMessage();
         this.isVoted = isVoted;
+
     }
 
-    public static ResponseEntity<GetSignInResponseDto> success(UserEntity userEntity, List<Map<String, Object>> isVoted) {
+    public static ResponseEntity<GetSignInResponseDto> success(
+        UserEntity userEntity, 
+        List<Map<String, Object>> isVoted) {
         GetSignInResponseDto responseBody = new GetSignInResponseDto(userEntity, isVoted);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }

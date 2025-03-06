@@ -1,7 +1,6 @@
 package com.korit.dorandoran.entity;
 
 import com.korit.dorandoran.common.object.LikeType;
-import com.korit.dorandoran.dto.request.like.PostLikeRequestDto;
 import com.korit.dorandoran.entity.pk.LikesPK;
 
 import jakarta.persistence.Column;
@@ -36,20 +35,5 @@ public class LikesEntity {
     @Column(name="like_type")
     private LikeType likeType;
 
-
-    @Override
-    public String toString() {
-        return "LikesEntity{" +
-                "targetId=" + targetId +
-                ", userId='" + userId + '\'' +
-                ", likeType=" + likeType +
-                '}';
-    }
-
-    // public LikesEntity(PostLikeRequestDto dto){
-    //     this.targetId = dto.getTargetId();
-    //     this.userId = dto.getUserId();
-    //     this.likeType = dto.getLikeType();
-    // }
 }
 

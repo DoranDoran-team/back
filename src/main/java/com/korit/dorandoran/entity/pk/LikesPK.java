@@ -5,6 +5,8 @@ import java.io.Serializable;
 import com.korit.dorandoran.common.object.LikeType;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +22,7 @@ public class LikesPK implements Serializable{
     private Integer targetId;
     @Column(name="user_id")
     private String userId;
+    @Enumerated(EnumType.STRING)
     @Column(name="like_type")
     private LikeType likeType;
     

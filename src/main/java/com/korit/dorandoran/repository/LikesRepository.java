@@ -12,4 +12,5 @@ public interface LikesRepository extends JpaRepository<LikesEntity, LikesPK> {
     
 
     boolean existsByTargetIdAndUserIdAndLikeType(Integer targetId, String userId, LikeType likeType);
+    LikesEntity findByTargetIdAndLikeType(Integer targetId, LikeType likeType);
 }

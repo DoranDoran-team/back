@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.korit.dorandoran.common.object.LikeType;
 import com.korit.dorandoran.common.util.AuthNumberCreator;
 import com.korit.dorandoran.common.util.NickNameCreator;
 import com.korit.dorandoran.dto.request.auth.ChangePwRequestDto;
@@ -25,14 +26,14 @@ import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
 import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
-import com.korit.dorandoran.entity.DiscussionRoomEntity;
 import com.korit.dorandoran.entity.TelAuthEntity;
 import com.korit.dorandoran.entity.UserEntity;
-import com.korit.dorandoran.entity.VoteEntity;
 import com.korit.dorandoran.provider.JwtProvider;
 import com.korit.dorandoran.provider.SmsProvider;
 import com.korit.dorandoran.repository.AdminRepository;
+import com.korit.dorandoran.repository.CommentsRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
+import com.korit.dorandoran.repository.LikesRepository;
 import com.korit.dorandoran.repository.TelAuthRepository;
 import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.repository.VoteRepository;
@@ -49,6 +50,8 @@ public class AuthServiceImplement implements AuthService{
     private final AdminRepository adminRepository;
     private final VoteRepository voteRepository;
     private final DiscussionRoomRepository discussionRoomRepository;
+    private final LikesRepository likesRepository;
+    private final CommentsRepository commentsRepository;
 
     private final SmsProvider smsProvider;
     private final JwtProvider jwtProvider;
@@ -283,6 +286,10 @@ public class AuthServiceImplement implements AuthService{
 
         UserEntity userEntity = null;
         List<Map<String,Object>> voteList = new ArrayList<>();
+        List<Map<String,Object>> postLikeList = new ArrayList<>();
+        List<Map<String,Object>> commentLikeList = new ArrayList<>();
+
+        
         try {
             userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();

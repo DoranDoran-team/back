@@ -20,6 +20,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
 
         boolean existsByRoomId(Integer roomId);
 
+
         @Query(value = "SELECT " +
                         "U.user_id," +
                         "U.nick_name," +
@@ -35,7 +36,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "P.opposite_opinion," +
                         "P.discussion_end," +
                         "COUNT(C.room_id) as commentCount," +
-                        "COUNT(distinct L.target_id) as likeCount " +
+                        "COUNT(distinct L.user_id) as likeCount " +
                         "FROM discussion_room D " +
                         "LEFT JOIN user U ON D.user_id = U.user_id " +
                         "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
@@ -59,7 +60,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "P.opposite_opinion," +
                         "P.discussion_end," +
                         "COUNT(C.room_id) as commentCount," +
-                        "COUNT(L.target_id=:roomId) as likeCount " +
+                        "COUNT(distinct L.user_id) as likeCount " +
                         "FROM discussion_room D " +
                         "LEFT JOIN user U ON D.user_id = U.user_id " +
                         "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
@@ -110,4 +111,6 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
         
         @Query(value="SELECT room_id FROM discussion_room ORDER BY room_id ASC", nativeQuery = true)
         List<Integer> getRooms();
+
+        // 
 }

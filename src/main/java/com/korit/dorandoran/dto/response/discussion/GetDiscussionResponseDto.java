@@ -19,7 +19,7 @@ public class GetDiscussionResponseDto extends ResponseDto {
 
     private GetDetailDiscussionResultSet discussionResultSet;
     private List<Comments> comments;
-
+    
     public GetDiscussionResponseDto(GetDetailDiscussionResultSet discussionResultSet, List<GetCommentsResultSet> resultSets) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
 

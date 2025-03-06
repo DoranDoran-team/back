@@ -2,19 +2,17 @@ package com.korit.dorandoran.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.korit.dorandoran.common.object.LikeType;
-import com.korit.dorandoran.dto.request.like.PostLikeRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.like.GetLikeListResponseDto;
 import com.korit.dorandoran.service.LikesService;
 
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -31,7 +29,25 @@ public class LikeController {
         @AuthenticationPrincipal String userId
     ){
         ResponseEntity<ResponseDto> responseBody = likeService.postLike(targetId, userId, likeTypeStr);
-        System.out.println("Received likeType: " + likeTypeStr);
+        return responseBody;
+    }
+
+    @DeleteMapping("{targetId}/{likeTypeStr}")
+    public ResponseEntity<ResponseDto> deleteLike(
+        @PathVariable("targetId") Integer targetId,
+        @PathVariable("likeTypeStr") String likeTypeStr,
+        @AuthenticationPrincipal String userId
+    ){
+        ResponseEntity<ResponseDto> responseBody = likeService.deleteLike(targetId, userId, likeTypeStr);
+        return responseBody;
+    }
+
+    @GetMapping("{roomId}")
+    public ResponseEntity<? super GetLikeListResponseDto> getLike(
+        @PathVariable("roomId") Integer roomId,
+        @AuthenticationPrincipal String userId
+    ){
+        ResponseEntity<? super GetLikeListResponseDto> responseBody = likeService.getLikeList(roomId, userId);
         return responseBody;
     }
 }
