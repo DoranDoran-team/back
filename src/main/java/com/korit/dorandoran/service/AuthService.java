@@ -11,6 +11,7 @@ import com.korit.dorandoran.dto.request.auth.SignUpRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.dorandoran.dto.request.auth.TelAuthRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.accuse.GetAccuseUserListResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
 import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
@@ -40,4 +41,6 @@ public interface AuthService {
     ResponseEntity<ResponseDto> changePw(ChangePwRequestDto dto);
 
     ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId);
+
+    ResponseEntity<? super GetAccuseUserListResponseDto> searchByNameOrUserId(String keyword);
 }

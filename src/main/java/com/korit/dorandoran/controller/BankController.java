@@ -17,7 +17,7 @@ public class BankController {
 
     private final BankService bankService;
 
-    // ✅ 계좌 등록 (userId를 @AuthenticationPrincipal에서 가져옴)
+    // 계좌 등록 (userId를 @AuthenticationPrincipal에서 가져옴)
     @PostMapping("/post")
     public ResponseEntity<ResponseDto> postAccount(
             @AuthenticationPrincipal String userId,

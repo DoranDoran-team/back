@@ -44,4 +44,7 @@ public interface ResponseMessage {
     String NO_EXIST_TARGET = "No Exist Target";
     String NO_SELF_REPORT = "No Self Report";
     String NO_HAVE_ACCUSE = "No Have Accuse";
+    String NO_HAVE_SEARCH = "No Have Search";
+    String ALREADY_APPROVED = "Already Approved";
+    String REJECTED_ACCUSE = "Rejected Accuse";
 }
