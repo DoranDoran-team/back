@@ -1,5 +1,8 @@
 package com.korit.dorandoran.dto.response.auth;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -21,8 +24,9 @@ public class GetSignInResponseDto extends ResponseDto{
     private Boolean role;
     private Integer mileage;
     private String statusMessage;
+    private List<Map<String, Object>> isVoted;
 
-    public GetSignInResponseDto(UserEntity userEntity) {
+    public GetSignInResponseDto(UserEntity userEntity, List<Map<String, Object>> isVoted) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.userId = userEntity.getUserId();
         this.profileImage = userEntity.getProfileImage();
@@ -32,10 +36,14 @@ public class GetSignInResponseDto extends ResponseDto{
         this.role = userEntity.getRole();
         this.mileage = userEntity.getMileage();
         this.statusMessage = userEntity.getStatusMessage();
+        this.isVoted = isVoted;
+
     }
 
-    public static ResponseEntity<GetSignInResponseDto> success(UserEntity userEntity) {
-        GetSignInResponseDto responseBody = new GetSignInResponseDto(userEntity);
+    public static ResponseEntity<GetSignInResponseDto> success(
+        UserEntity userEntity, 
+        List<Map<String, Object>> isVoted) {
+        GetSignInResponseDto responseBody = new GetSignInResponseDto(userEntity, isVoted);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 }
