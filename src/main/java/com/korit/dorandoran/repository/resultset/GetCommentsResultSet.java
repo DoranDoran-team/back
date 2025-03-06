@@ -11,6 +11,7 @@ public interface GetCommentsResultSet {
     String getContents();
     String getCreatedAt();
     String getDiscussionType();
+    Integer getLikeCount();
     Integer getDepth();
     Integer getUpdateStatus();
     Integer getDeleteStatus();

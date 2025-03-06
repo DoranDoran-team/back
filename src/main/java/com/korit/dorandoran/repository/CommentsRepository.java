@@ -26,10 +26,15 @@ public interface CommentsRepository extends JpaRepository<CommentsEntity, Intege
             "C.depth AS depth," +
             "C.update_status AS updateStatus,"+
             "C.delete_status AS deleteStatus,"+
-            "C.discussion_type AS discussionType " +
+            "C.discussion_type AS discussionType,"+
+            "COUNT(L.target_id) AS likeCount "+
             "FROM comments C " +
             "LEFT JOIN user U ON C.user_id = U.user_id " +
+            "LEFT JOIN likes L ON C.comment_id = L.target_id AND L.like_type = 'COMMENT' "+
             "WHERE C.room_id = :roomId "+
+            "GROUP BY C.comment_id, C.room_id, C.parent_id, U.user_id, U.nick_name, " +
+            "U.profile_image, C.contents, C.created_at, C.depth, " +
+            "C.update_status, C.delete_status, C.discussion_type " +
             "ORDER BY c.parent_id ASC, c.created_at ASC "
             , nativeQuery = true)
     List<GetCommentsResultSet> getComments(@Param("roomId") Integer roomId);
@@ -37,4 +42,10 @@ public interface CommentsRepository extends JpaRepository<CommentsEntity, Intege
     Optional<CommentsEntity> findByCommentId(Integer parentId);
 
     CommentsEntity findByCommentIdAndRoomId(Integer commentId, Integer roomId);
+    
+
+    boolean existsByCommentId(Integer targetId);
+
+    @Query(value="SELECT comment_id FROM comments where room_id = :roomId ORDER BY comment_id ASC", nativeQuery = true)
+        List<Integer> getComment(@Param("roomId") Integer roomId);
 }

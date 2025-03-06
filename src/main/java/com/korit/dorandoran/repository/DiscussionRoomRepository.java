@@ -35,12 +35,12 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "P.opposite_opinion," +
                         "P.discussion_end," +
                         "COUNT(C.room_id) as commentCount," +
-                        "COUNT(distinct L.room_id) as likeCount " +
+                        "COUNT(distinct L.user_id) as likeCount " +
                         "FROM discussion_room D " +
                         "LEFT JOIN user U ON D.user_id = U.user_id " +
                         "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
                         "LEFT JOIN comments C ON D.room_id = C.room_id " +
-                        "LEFT JOIN dorandoran.like L ON D.room_id = L.room_id " +
+                        "LEFT JOIN likes L ON D.room_id = L.target_id AND L.like_type = 'POST' " +
                         "GROUP BY D.room_id ", nativeQuery = true)
         List<GetDiscussionResultSet> getList();
 
@@ -59,14 +59,13 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "P.opposite_opinion," +
                         "P.discussion_end," +
                         "COUNT(C.room_id) as commentCount," +
-                        "COUNT(distinct L.room_id) as likeCount " +
+                        "COUNT(distinct L.user_id) as likeCount " +
                         "FROM discussion_room D " +
                         "LEFT JOIN user U ON D.user_id = U.user_id " +
                         "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
                         "LEFT JOIN comments C ON D.room_id = C.room_id " +
-                        "LEFT JOIN dorandoran.like L ON D.room_id = L.room_id " +
-                        "WHERE D.room_id = :roomId " +
-                        "GROUP BY D.room_id ", nativeQuery = true)
+                        "LEFT JOIN likes L ON D.room_id = L.target_id AND L.like_type = 'POST' " +
+                        "WHERE D.room_id = :roomId", nativeQuery = true)
         GetDetailDiscussionResultSet getDiscussion(@Param("roomId") Integer roomId);
 
         @Query(value = "SELECT " +
@@ -95,19 +94,24 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "dr.update_status, " +
                         "COALESCE(like_count, 0) AS like_count, " +
                         "COALESCE(comment_count, 0) AS comment_count " +
-                "FROM discussion_room dr " +
-                "LEFT JOIN ( " +
-                "    SELECT room_id, COUNT(user_id) AS like_count " +
-                "    FROM `like` " +
-                "    GROUP BY room_id " +
-                ") l ON dr.room_id = l.room_id " +
-                "LEFT JOIN ( " +
-                "    SELECT room_id, COUNT(*) AS comment_count " +
-                "    FROM comments " +
-                "    GROUP BY room_id " +
-                ") c ON dr.room_id = c.room_id " +
-                "WHERE dr.user_id = :userId", nativeQuery = true)
-        List<GetMyDiscussionResultSet> getMyDiscussionList(@Param("userId") String userId);
+                        "FROM discussion_room dr " +
+                        "LEFT JOIN ( " +
+                        "SELECT target_id, COUNT(user_id) AS like_count " +
+                        "FROM `likes` " +
+                        "WHERE like_type = 'POST' " +
+                        "GROUP BY target_id " +
+                        ") l ON dr.room_id = l.target_id " +
+                        "LEFT JOIN ( " +
+                        "SELECT room_id, COUNT(*) AS comment_count " +
+                        "FROM comments " +
+                        "GROUP BY room_id " +
+                        ") c ON dr.room_id = c.room_id; ", nativeQuery = true)
+        List<GetMyDiscussionResultSet> getMyDiscussionList();
 
         DiscussionRoomEntity findByRoomId(Integer roomId);
+
+        @Query(value = "SELECT room_id FROM discussion_room ORDER BY room_id ASC", nativeQuery = true)
+        List<Integer> getRooms();
+
+        //
 }

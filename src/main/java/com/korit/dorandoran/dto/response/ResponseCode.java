@@ -25,6 +25,12 @@ public interface ResponseCode {
     String NO_EXIST_COMMENT = "NM";
     String NO_EXIST_PARENT_COMMENT = "NPC";
 
+    // 투표 관련 response code 
+    String DUPLICATED_VOTE = "DV";
+
+    // 좋아요 관련 response code
+    String DUPLICATED_LIKE = "DL";
+
     String NO_PERMISSION = "NP";
 
     String DATABASE_ERROR = "DBE";
