@@ -19,7 +19,7 @@ public class BankServiceImplement implements BankService {
 
     private final BankRepository bankRepository;
 
-    // ✅ 계좌 등록
+    // 계좌 등록
     @Override
     public ResponseEntity<ResponseDto> postAccount(PostBankRequestDto requestDto) {
         BankEntity bankEntity = BankEntity.builder()
@@ -33,7 +33,7 @@ public class BankServiceImplement implements BankService {
         return ResponseDto.success();
     }
 
-    // ✅ 계좌 삭제
+    // 계좌 삭제
     @Override
     @Transactional
     public ResponseEntity<ResponseDto> deleteAccount(String userId, String accountNumber) {
@@ -41,7 +41,7 @@ public class BankServiceImplement implements BankService {
         return ResponseDto.success();
     }
 
-    // ✅ 사용자의 계좌 목록 조회
+    // 사용자의 계좌 목록 조회
     @Override
     public ResponseEntity<List<BankEntity>> getUserAccounts(String userId) {
         List<BankEntity> accounts = bankRepository.findByUserId(userId);
