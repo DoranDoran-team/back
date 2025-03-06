@@ -14,7 +14,7 @@ public class MyDiscussion {
     private String roomTitle;
     private Boolean updateStatus;
     private Integer commentCount;
-    private Integer likeCount;
+    private Integer likesCount;
     private String createdRoom;
     private String roomDescription;
 
@@ -25,13 +25,13 @@ public class MyDiscussion {
         this.roomTitle = resultSet.getRoomTitle();
         this.updateStatus = resultSet.getUpdateStatus() != null && resultSet.getUpdateStatus() == 0 ? false : true;
         this.commentCount = resultSet.getCommentCount() == null ? 0 : resultSet.getCommentCount();
-        this.likeCount = resultSet.getLikeCount() == null ? 0 : resultSet.getLikeCount();
+        this.likesCount = resultSet.getLikesCount() == null ? 0 : resultSet.getLikesCount();
         this.roomDescription = resultSet.getRoomDescription();
     }
 
     public static List<MyDiscussion> getList(List<GetMyDiscussionResultSet> resultSets) {
         List<MyDiscussion> myDiscussions = new ArrayList<>();
-        for(GetMyDiscussionResultSet getDiscussionResultSet : resultSets){
+        for (GetMyDiscussionResultSet getDiscussionResultSet : resultSets) {
             MyDiscussion discussionList = new MyDiscussion(getDiscussionResultSet);
             myDiscussions.add(discussionList);
         }
