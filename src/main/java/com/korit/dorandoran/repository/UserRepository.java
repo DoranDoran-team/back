@@ -34,4 +34,11 @@ public interface UserRepository extends JpaRepository<UserEntity, String>{
     UserEntity findByUserIdAndTelNumber(String userId, String telNumber);
 
     List<UserEntity> findByRole(Boolean role);
+
+    // List<UserEntity> findByUserIdContainingIgnoreCase(String keyword);
+    
+    List<UserEntity> findByUserIdContainingIgnoreCaseOrNickNameContainingIgnoreCase(String userIdKeyword, String nickNameKeyword);
+
+    // 추가: 닉네임으로 검색 (정확한 매칭)
+    UserEntity findByNickName(String nickName);
 }

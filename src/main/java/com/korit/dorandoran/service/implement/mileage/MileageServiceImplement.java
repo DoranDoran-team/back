@@ -41,7 +41,8 @@ public class MileageServiceImplement implements MileageService {
             notificationService.createNotification(
                     userId,
                     "환급 요청이 접수되었습니다. 승인 여부를 확인하세요.",
-                    NotificationEntity.NotificationType.REFUND_REQUESTED);
+                    NotificationEntity.NotificationType.REFUND_REQUESTED,
+                    "");
 
             // 관리자(role == 1)에게 새로운 환급 요청 알림 전송
             List<UserEntity> admins = userRepository.findByRole(true);
@@ -49,7 +50,8 @@ public class MileageServiceImplement implements MileageService {
                 notificationService.createNotification(
                         admin.getUserId(),
                         "새로운 환급 요청이 들어왔습니다.",
-                        NotificationEntity.NotificationType.NEW_REFUND_REQUEST);
+                        NotificationEntity.NotificationType.NEW_REFUND_REQUEST,
+                        "");
             }
 
         } catch (Exception e) {
@@ -111,7 +113,8 @@ public class MileageServiceImplement implements MileageService {
                 status.equals("승인") ? mileageEntity.getAmount() + "p 환급 요청이 승인되었습니다."
                         : mileageEntity.getAmount() + "p 환급 요청이 거절되었습니다.",
                 status.equals("승인") ? NotificationType.REFUND_APPROVED
-                        : NotificationEntity.NotificationType.REFUND_DENIED);
+                        : NotificationEntity.NotificationType.REFUND_DENIED,
+                        "");
     }
 
     // [기능 4] 마일리지 지급 및 알림 전송
@@ -126,6 +129,7 @@ public class MileageServiceImplement implements MileageService {
         notificationService.createNotification(
                 userId,
                 reason + "으로 " + amount + "p가 지급되었습니다.",
-                NotificationType.MILEAGE_EARNED);
+                NotificationType.MILEAGE_EARNED,
+                "");
     }
 }

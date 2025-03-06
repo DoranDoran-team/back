@@ -37,8 +37,18 @@ public class NotificationEntity {
     @Enumerated(EnumType.STRING)
     private NotificationType notificationType;
 
+    private String additionalInfo;
+
     public enum NotificationType {
-        MILEAGE_EARNED, REFUND_APPROVED, REFUND_DENIED, NEW_REFUND_REQUEST, REFUND_REQUESTED
+        MILEAGE_EARNED, 
+        REFUND_APPROVED, 
+        REFUND_DENIED, 
+        NEW_REFUND_REQUEST, 
+        REFUND_REQUESTED,
+        MENTION,
+        COMMENT_ON_POST,
+        REPLY_TO_COMMENT,
+        REPORT_RECEIVED
     }
 
     public NotificationEntity(String userId, String message, NotificationType notificationType, String notificationDate) {

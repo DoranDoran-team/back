@@ -48,7 +48,7 @@ public class AdminMileageServiceImplement implements AdminMileageService {
 
             // 마일리지 지급 알림 전송
             String message = requestDto.getReason() + "으로 " + requestDto.getAmount() + "p가 지급되었습니다.";
-            notificationService.createNotification(user.getUserId(), message, NotificationType.MILEAGE_EARNED);
+            notificationService.createNotification(user.getUserId(), message, NotificationType.MILEAGE_EARNED, "");
         
 
         } catch (Exception e) {
@@ -100,7 +100,8 @@ public class AdminMileageServiceImplement implements AdminMileageService {
                 : mileage.getAmount() + "p 환급 요청이 거절되었습니다.",
             status.equals("승인") 
                 ? NotificationEntity.NotificationType.REFUND_APPROVED
-                : NotificationEntity.NotificationType.REFUND_DENIED
+                : NotificationEntity.NotificationType.REFUND_DENIED,
+                ""
         );
         
 

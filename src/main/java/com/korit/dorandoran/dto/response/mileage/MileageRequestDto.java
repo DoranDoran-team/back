@@ -28,5 +28,3 @@ public class MileageRequestDto {
         );
     }
 }
-
-// 수정 예정 파일입니당..

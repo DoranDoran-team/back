@@ -123,4 +123,11 @@ public class ResponseDto {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_HAVE_ACCUSE, ResponseMessage.NO_HAVE_ACCUSE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
+
+    public static ResponseEntity<ResponseDto> custom(String code, String message) {
+        ResponseDto response = new ResponseDto(code, message);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
 }
+
+

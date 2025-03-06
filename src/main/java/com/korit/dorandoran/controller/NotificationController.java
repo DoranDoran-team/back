@@ -20,7 +20,7 @@ public class NotificationController {
     @GetMapping
     public ResponseEntity<List<NotificationResponseDto>> getUserNotifications(@AuthenticationPrincipal String userId) {
         if (userId == null) {
-            System.out.println("🚨 @AuthenticationPrincipal is NULL! Unauthorized access.");
+            System.out.println("@AuthenticationPrincipal is NULL! Unauthorized access.");
             return ResponseEntity.status(401).body(List.of()); // 401 Unauthorized
         }
         return notificationService.getUserNotifications(userId);
@@ -30,7 +30,7 @@ public class NotificationController {
     @PatchMapping("/{notificationId}/read")
     public ResponseEntity<Void> markAsRead(@PathVariable Integer notificationId, @AuthenticationPrincipal String userId) {
         if (userId == null) {
-            System.out.println("🚨 @AuthenticationPrincipal is NULL! Unauthorized access.");
+            System.out.println("@AuthenticationPrincipal is NULL! Unauthorized access.");
             return ResponseEntity.status(401).build();
         }
         return notificationService.markAsRead(notificationId);

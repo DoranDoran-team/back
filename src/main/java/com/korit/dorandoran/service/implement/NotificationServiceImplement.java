@@ -8,8 +8,8 @@ import com.korit.dorandoran.repository.NotificationRepository;
 import com.korit.dorandoran.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+// import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -20,6 +20,11 @@ import java.util.stream.Collectors;
 public class NotificationServiceImplement implements NotificationService {
 
     private final NotificationRepository notificationRepository;
+    // private final SimpMessagingTemplate messagingTemplate;
+
+    // public void sendNotification(String userId, String message) {
+    // messagingTemplate.convertAndSend("/topic/notifications/" + userId, message);
+    // }
 
     // 로그인된 사용자의 알림 가져오기
     @Override
@@ -33,25 +38,23 @@ public class NotificationServiceImplement implements NotificationService {
 
     // 알림 생성 (날짜 포함)
     @Override
-    public ResponseEntity<ResponseDto> createNotification(String userId, String message, NotificationType notificationType) {
+    public ResponseEntity<ResponseDto> createNotification(String userId, String message,
+            NotificationType notificationType, String additionalInfo) {
         try {
             String notificationDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-
-            System.out.println("📢 알림 생성: " + message); // 디버깅 추가
-
             NotificationEntity notification = new NotificationEntity(userId, message, notificationType, notificationDate);
+            notification.setAdditionalInfo(additionalInfo);
             notificationRepository.save(notification);
 
             return ResponseDto.success();
         } catch (Exception e) {
-            e.printStackTrace(); 
+            e.printStackTrace();
             return ResponseDto.databaseError();
         }
     }
 
     // 알림 읽음 처리 (isRead → true)
     @Override
-    @Transactional
     public ResponseEntity<Void> markAsRead(Integer notificationId) {
         NotificationEntity notification = notificationRepository.findById(notificationId)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림입니다."));
