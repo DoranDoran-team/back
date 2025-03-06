@@ -35,6 +35,7 @@ public class UserEntity {
 	private Boolean role;
 	private Integer mileage;
 	private String statusMessage;
+	private Integer accuseCount;
 
 	public UserEntity(SignUpRequestDto dto) {
 		this.userId = dto.getUserId();
