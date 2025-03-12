@@ -17,6 +17,7 @@ public class MyDiscussion {
     private Integer likesCount;
     private String createdRoom;
     private String roomDescription;
+    private String discussionEnd;
 
     public MyDiscussion(GetMyDiscussionResultSet resultSet) {
         this.roomId = resultSet.getRoomId();
@@ -27,6 +28,7 @@ public class MyDiscussion {
         this.commentCount = resultSet.getCommentCount() == null ? 0 : resultSet.getCommentCount();
         this.likesCount = resultSet.getLikesCount() == null ? 0 : resultSet.getLikesCount();
         this.roomDescription = resultSet.getRoomDescription();
+        this.discussionEnd = resultSet.getDiscussionEnd();
     }
 
     public static List<MyDiscussion> getList(List<GetMyDiscussionResultSet> resultSets) {
