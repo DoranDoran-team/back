@@ -95,7 +95,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
                         "dr.room_title, " +
                         "dr.room_description, " +
                         "dr.discussion_image, " +
-                        "dr.update_status, " +  
+                        "dr.update_status, " +
                         "COALESCE(like_count, 0) AS like_count, " +
                         "COALESCE(comment_count, 0) AS comment_count, " +
                         "pd.discussion_end " + 
