@@ -1,7 +1,6 @@
 package com.korit.dorandoran.service.implement.mileage;
 
 import com.korit.dorandoran.dto.request.mileage.PostAdminMileageRequestDto;
-import com.korit.dorandoran.dto.request.notification.PostNotificationRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.mileage.MileageRequestDto;
 import com.korit.dorandoran.entity.mileage.AdminMileageEntity;
@@ -17,7 +16,11 @@ import com.korit.dorandoran.service.NotificationService;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +52,6 @@ public class AdminMileageServiceImplement implements AdminMileageService {
             // 마일리지 지급 알림 전송
             String message = requestDto.getReason() + "으로 " + requestDto.getAmount() + "p가 지급되었습니다.";
             notificationService.createNotification(user.getUserId(), message, NotificationType.MILEAGE_EARNED, "");
-        
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -94,17 +96,52 @@ public class AdminMileageServiceImplement implements AdminMileageService {
 
         // 환급 승인/거절 알림 전송
         notificationService.createNotification(
-            mileage.getUserId(),
-            status.equals("승인") 
-                ? mileage.getAmount() + "p 환급 요청이 승인되었습니다."
-                : mileage.getAmount() + "p 환급 요청이 거절되었습니다.",
-            status.equals("승인") 
-                ? NotificationEntity.NotificationType.REFUND_APPROVED
-                : NotificationEntity.NotificationType.REFUND_DENIED,
-                ""
-        );
-        
+                mileage.getUserId(),
+                status.equals("승인")
+                        ? mileage.getAmount() + "p 환급 요청이 승인되었습니다."
+                        : mileage.getAmount() + "p 환급 요청이 거절되었습니다.",
+                status.equals("승인")
+                        ? NotificationEntity.NotificationType.REFUND_APPROVED
+                        : NotificationEntity.NotificationType.REFUND_DENIED,
+                "");
 
         return ResponseDto.success();
+    }
+
+    // 생일 마일리지 지급: 모든 사용자를 조회하여 생일인 경우 1000p 지급 및 알림 전송
+    @Override
+    public ResponseEntity<ResponseDto> awardBirthdayBonus() {
+        // 내부 로직 재사용
+        awardBirthdayBonusInternal();
+        return ResponseDto.success();
+    }
+
+    @Scheduled(cron = "0 0 0 * * *", zone = "Asia/Seoul")
+    public void awardBirthdayBonusInternal() {
+        try {
+            LocalDate today = LocalDate.now(ZoneId.of("Asia/Seoul"));
+            String todayMMDD = String.format("%02d%02d", today.getMonthValue(), today.getDayOfMonth());
+
+            List<UserEntity> users = userRepository.findAll();
+            for (UserEntity user : users) {
+                if (user.getBirth() != null && user.getBirth().length() >= 8) {
+                    String userBirthMMDD = user.getBirth().substring(4, 8);
+                    if (userBirthMMDD.equals(todayMMDD)) {
+                        PostAdminMileageRequestDto birthdayDto = new PostAdminMileageRequestDto();
+                        birthdayDto.setUserId(user.getUserId());
+                        birthdayDto.setAmount(1000);
+                        birthdayDto.setReason("생일 축하금 지급");
+                        birthdayDto.setCustomReason("");
+                        adminMileageRepository.save(new AdminMileageEntity(birthdayDto));
+
+                        String message = "생일 축하합니다! 당신의 생일을 맞아 1000p의 생일 마일리지가가 지급되었습니다.";
+                        notificationService.createNotification(user.getUserId(), message, NotificationType.BIRTHDAY,
+                                "/mypage/mileage");
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

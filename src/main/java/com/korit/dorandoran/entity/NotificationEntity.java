@@ -48,7 +48,8 @@ public class NotificationEntity {
         MENTION,
         COMMENT_ON_POST,
         REPLY_TO_COMMENT,
-        REPORT_RECEIVED
+        REPORT_RECEIVED,
+        BIRTHDAY
     }
 
     public NotificationEntity(String userId, String message, NotificationType notificationType, String notificationDate) {

@@ -18,7 +18,6 @@ public class SearchUserData {
     private String profileImage;
     private String statusMessage;
 
-    // UserEntity -> SearchUserData 변환용 생성자
     public SearchUserData(UserEntity entity) {
         this.userId = entity.getUserId();
         this.nickName = entity.getNickName();
