@@ -57,7 +57,6 @@ public class LikesServiceImplement implements LikesService {
                 likesRepository.save(likesEntity);
             }
             
-
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
@@ -73,7 +72,7 @@ public class LikesServiceImplement implements LikesService {
             LikeType likeType = LikeType.valueOf(likeTypeStr.toUpperCase());
 
             if(likeType == LikeType.POST || likeType == LikeType.COMMENT){
-                LikesEntity likesEntity = likesRepository.findByTargetIdAndLikeType(targetId, likeType);
+                LikesEntity likesEntity = likesRepository.findByTargetIdAndUserIdAndLikeType(targetId, userId,likeType);
                 if (likesEntity == null) return ResponseDto.noExistedTarget();
                 boolean isMatched = likesEntity.getUserId().equals(userId);
                 if(!isMatched) return ResponseDto.noPermission();
@@ -93,14 +92,13 @@ public class LikesServiceImplement implements LikesService {
 
         
         List<Map<String,Object>> commentLikeList = new ArrayList<>();
-        boolean isLikePost = false;
+        boolean isLikePost;
         try {
             boolean isDiscussion = discussionRoomRepository.existsByRoomId(roomId);
             if (!isDiscussion) return ResponseDto.noExistRoom();
 
             isLikePost = likesRepository.existsByTargetIdAndUserIdAndLikeType(roomId, userId, LikeType.POST);
-            if (!isLikePost) isLikePost = false;
-            
+    
             List<Integer> comments = commentsRepository.getComment(roomId);
             commentLikeList = comments.stream()
                 .map(comment -> {
