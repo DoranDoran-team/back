@@ -29,9 +29,11 @@ import com.korit.dorandoran.repository.resultset.GetMyDiscussionResultSet;
 import com.korit.dorandoran.service.DiscussionService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class DiscussionServiceImplement implements DiscussionService {
 
     private final DiscussionRoomRepository discussionRoomRepository;
@@ -169,5 +171,20 @@ public class DiscussionServiceImplement implements DiscussionService {
             return ResponseDto.databaseError();
         }
         return ResponseDto.success();
+    }
+
+    @Override
+    public ResponseEntity<? super GetDiscussionListResponseDto> searchByRoomTitle(String roomTitle) {
+        List<GetDiscussionResultSet> resultSets = new ArrayList<>();
+
+        try {
+
+            resultSets = discussionRoomRepository.findByRoomTitleContaining(roomTitle);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        return GetDiscussionListResponseDto.success(resultSets);
     }
 }
