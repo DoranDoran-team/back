@@ -112,5 +112,29 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
         @Query(value = "SELECT room_id FROM discussion_room ORDER BY room_id ASC", nativeQuery = true)
         List<Integer> getRooms();
 
-        //
+        @Query(value = "SELECT " +
+                        "U.user_id, " +
+                        "U.nick_name, " +
+                        "U.profile_image, " +
+                        "D.room_id, " +
+                        "D.room_description, " +
+                        "D.discussion_type, " +
+                        "D.discussion_image, " +
+                        "D.created_room, " +
+                        "D.room_title, " +
+                        "D.update_status, " +
+                        "P.agree_opinion, " +
+                        "P.opposite_opinion, " +
+                        "P.discussion_end, " +
+                        "COUNT(C.room_id) as commentCount, " +
+                        "COUNT(DISTINCT L.user_id) as likeCount " +
+                        "FROM discussion_room D " +
+                        "LEFT JOIN user U ON D.user_id = U.user_id " +
+                        "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
+                        "LEFT JOIN comments C ON D.room_id = C.room_id " +
+                        "LEFT JOIN likes L ON D.room_id = L.target_id AND L.like_type = 'POST' " +
+                        "WHERE D.room_title LIKE CONCAT('%', :roomTitle, '%') " +
+                        "GROUP BY D.room_id", nativeQuery = true)
+        List<GetDiscussionResultSet> findByRoomTitleContaining(@Param("roomTitle") String roomTitle);
+
 }
