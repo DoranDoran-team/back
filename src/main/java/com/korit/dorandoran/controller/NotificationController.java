@@ -29,8 +29,10 @@ public class NotificationController {
 
     // 알림 읽음 처리 API 추가 (프론트에서 읽음 처리 요청할 때 필요)
     @PatchMapping("/{notificationId}/read")
-    public ResponseEntity<Void> markAsRead(@PathVariable Integer notificationId,
-            @AuthenticationPrincipal String userId) {
+    public ResponseEntity<Void> markAsRead(
+        @PathVariable("notificationId") Integer notificationId,
+        @AuthenticationPrincipal String userId
+    ) {
         if (userId == null) {
             System.out.println("@AuthenticationPrincipal is NULL");
             return ResponseEntity.status(401).build();
@@ -39,8 +41,10 @@ public class NotificationController {
     }
 
     @DeleteMapping("/{notificationId}")
-    public ResponseEntity<ResponseDto> deleteNotification(@PathVariable Integer notificationId,
-            @AuthenticationPrincipal String userId) {
+    public ResponseEntity<ResponseDto> deleteNotification(
+        @PathVariable("notificationId") Integer notificationId,
+        @AuthenticationPrincipal String userId
+    ) {
         if (userId == null) {
             System.out.println("@AuthenticationPrincipal is NULL");
             return ResponseEntity.status(401).body(new ResponseDto("ER", "Unauthorized"));
