@@ -23,8 +23,9 @@ public class DiscussionList {
     private Boolean updateStatus;
     private Integer commentCount;
     private Integer likeCount;
-
-    public DiscussionList(GetDiscussionResultSet resultSet) {
+    private String userId;
+    
+    public DiscussionList(GetDiscussionResultSet resultSet){
         this.roomId = resultSet.getRoomId();
         this.nickName = resultSet.getNickName();
         this.profileImage = resultSet.getProfileImage();
@@ -38,6 +39,7 @@ public class DiscussionList {
         this.updateStatus = resultSet.getUpdateStatus() != null && resultSet.getUpdateStatus() == 0 ? false : true;
         this.commentCount = resultSet.getCommentCount() == null ? 0 : resultSet.getCommentCount();
         this.likeCount = resultSet.getLikeCount() == null ? 0 : resultSet.getLikeCount();
+        this.userId = resultSet.getUserId();
     }
 
     public static List<DiscussionList> getList(List<GetDiscussionResultSet> resultSets) {

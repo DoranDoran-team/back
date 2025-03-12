@@ -13,4 +13,6 @@ public interface AdminMileageService {
     ResponseEntity<List<MileageRequestDto>> getRefundRequests();
     
     ResponseEntity<ResponseDto> updateRefundStatus(Integer mileageId, String status);
+
+    ResponseEntity<ResponseDto> awardBirthdayBonus();
 }

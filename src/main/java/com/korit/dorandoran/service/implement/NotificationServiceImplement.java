@@ -62,4 +62,20 @@ public class NotificationServiceImplement implements NotificationService {
         notificationRepository.save(notification);
         return ResponseEntity.ok().build();
     }
+
+    @Override
+    public ResponseEntity<ResponseDto> deleteNotification(Integer notificationId, String userId) {
+        try {
+            NotificationEntity notification = notificationRepository.findById(notificationId)
+                    .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 알림입니다."));
+            if (!notification.getUserId().equals(userId)) {
+                return ResponseEntity.status(401).body(new ResponseDto("ER", "Unauthorized"));
+            }
+            notificationRepository.delete(notification);
+            return ResponseDto.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+    }
 }

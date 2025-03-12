@@ -1,5 +1,6 @@
 package com.korit.dorandoran.controller;
 
+import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.notification.NotificationResponseDto;
 import com.korit.dorandoran.service.NotificationService;
 import lombok.RequiredArgsConstructor;
@@ -20,19 +21,34 @@ public class NotificationController {
     @GetMapping
     public ResponseEntity<List<NotificationResponseDto>> getUserNotifications(@AuthenticationPrincipal String userId) {
         if (userId == null) {
-            System.out.println("@AuthenticationPrincipal is NULL! Unauthorized access.");
-            return ResponseEntity.status(401).body(List.of()); // 401 Unauthorized
+            System.out.println("@AuthenticationPrincipal is NULL");
+            return ResponseEntity.status(401).body(List.of());
         }
         return notificationService.getUserNotifications(userId);
     }
 
     // 알림 읽음 처리 API 추가 (프론트에서 읽음 처리 요청할 때 필요)
     @PatchMapping("/{notificationId}/read")
-    public ResponseEntity<Void> markAsRead(@PathVariable Integer notificationId, @AuthenticationPrincipal String userId) {
+    public ResponseEntity<Void> markAsRead(
+        @PathVariable("notificationId") Integer notificationId,
+        @AuthenticationPrincipal String userId
+    ) {
         if (userId == null) {
-            System.out.println("@AuthenticationPrincipal is NULL! Unauthorized access.");
+            System.out.println("@AuthenticationPrincipal is NULL");
             return ResponseEntity.status(401).build();
         }
         return notificationService.markAsRead(notificationId);
+    }
+
+    @DeleteMapping("/{notificationId}")
+    public ResponseEntity<ResponseDto> deleteNotification(
+        @PathVariable("notificationId") Integer notificationId,
+        @AuthenticationPrincipal String userId
+    ) {
+        if (userId == null) {
+            System.out.println("@AuthenticationPrincipal is NULL");
+            return ResponseEntity.status(401).body(new ResponseDto("ER", "Unauthorized"));
+        }
+        return notificationService.deleteNotification(notificationId, userId);
     }
 }

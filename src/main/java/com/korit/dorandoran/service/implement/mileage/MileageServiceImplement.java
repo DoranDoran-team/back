@@ -44,7 +44,7 @@ public class MileageServiceImplement implements MileageService {
                     NotificationEntity.NotificationType.REFUND_REQUESTED,
                     "");
 
-            // 관리자(role == 1)에게 새로운 환급 요청 알림 전송
+            // 관리자에게 새로운 환급 요청 알림 전송
             List<UserEntity> admins = userRepository.findByRole(true);
             for (UserEntity admin : admins) {
                 notificationService.createNotification(
