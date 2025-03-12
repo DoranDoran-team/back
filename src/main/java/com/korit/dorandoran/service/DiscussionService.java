@@ -10,13 +10,12 @@ import com.korit.dorandoran.dto.response.main.GetGenDiscListResponseDto;
 import com.korit.dorandoran.dto.response.mypage.myInfo.GetMyDiscussionListResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetDiscussionResponseDto;
 
-
 public interface DiscussionService {
-    
+
     ResponseEntity<ResponseDto> postDiscussionWite(PostDiscussionWriteRequestDto dto);
 
     ResponseEntity<? super GetDiscussionListResponseDto> getDiscussionList();
-    
+
     ResponseEntity<? super GetSignInUserResponseDto> getSignIn(String userId);
 
     ResponseEntity<? super GetDiscussionResponseDto> getDiscussion(Integer roomId);
@@ -26,4 +25,6 @@ public interface DiscussionService {
     ResponseEntity<? super GetMyDiscussionListResponseDto> getMyDiscussionList(String userId);
 
     ResponseEntity<ResponseDto> deleteDiscusstion(Integer roomId);
+
+    ResponseEntity<? super GetDiscussionListResponseDto> searchByRoomTitle(String roomTitle);
 }

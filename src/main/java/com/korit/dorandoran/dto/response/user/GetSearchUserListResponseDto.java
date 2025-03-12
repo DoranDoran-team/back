@@ -18,7 +18,6 @@ public class GetSearchUserListResponseDto extends ResponseDto {
 
     private List<SearchUserData> userList;
 
-    // private 생성자: Entity 리스트 -> SearchUserData 리스트로 변환
     private GetSearchUserListResponseDto(List<UserEntity> entities) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.userList = entities.stream()
@@ -26,10 +25,6 @@ public class GetSearchUserListResponseDto extends ResponseDto {
             .collect(Collectors.toList());
     }
 
-    /**
-     * - 성공 시 ResponseEntity 생성 
-     * - 기존처럼 static 메서드로 응답 만들어 반환
-     */
     public static ResponseEntity<GetSearchUserListResponseDto> success(List<UserEntity> entities) {
         GetSearchUserListResponseDto responseBody = new GetSearchUserListResponseDto(entities);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);

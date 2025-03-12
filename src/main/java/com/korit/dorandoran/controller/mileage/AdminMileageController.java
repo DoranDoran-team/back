@@ -15,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
 @RequestMapping("/admin/mileage")
 @RequiredArgsConstructor
@@ -25,11 +24,10 @@ public class AdminMileageController {
 
     @PostMapping("/give")
     public ResponseEntity<ResponseDto> giveMileage(
-            @RequestBody @Valid PostAdminMileageRequestDto requestBody
-    ) {
+            @RequestBody @Valid PostAdminMileageRequestDto requestBody) {
         return adminMileageService.giveMileage(requestBody);
     }
-    
+
     @GetMapping("/refunds")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<MileageRequestDto>> getRefundRequests() {
@@ -49,6 +47,13 @@ public class AdminMileageController {
                     .body(new ResponseDto("IV", "잘못된 상태 값입니다."));
         }
         return adminMileageService.updateRefundStatus(mileageId, status);
+    }
+
+    // 생일 마일리지 지급
+    @PostMapping("/birthday")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<ResponseDto> awardBirthdayBonus() {
+        return adminMileageService.awardBirthdayBonus();
     }
 
 }

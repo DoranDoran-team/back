@@ -31,7 +31,6 @@ public class AttendanceServiceImplement implements AttendanceService {
     @Override
     public ResponseEntity<ResponseDto> checkAttendance(String userId) {
         try {
-            // 오늘 날짜 (로컬 기준 "YYYY-MM-DD")
             String today = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
             // 이미 출석 체크한 경우
@@ -47,18 +46,6 @@ public class AttendanceServiceImplement implements AttendanceService {
             newAttend.setAttendStatus(1);
             attendRepository.save(newAttend);
 
-            // 사용자 마일리지 20p 지급 (User 엔티티 업데이트)
-            // UserEntity user = userRepository.findByUserId(userId);
-            // if (user == null) {
-            // return ResponseDto.custom("USER_NOT_FOUND", "사용자 정보를 찾을 수 없습니다.");
-            // }
-            // user.setMileage(user.getMileage() + 20);
-            // userRepository.save(user);
-
-            // admin_mileage 테이블에도 지급 내역 저장
-            // (출석 체크 지급은 별도의 마일리지 지급으로 기록)
-            // 새로운 AdminMileageEntity 생성 – 필요한 경우 PostAdminMileageRequestDto와 유사한 생성자 사용
-            // 여기서는 간단하게 직접 값을 넣습니다.
             AdminMileageEntity adminMileage = new AdminMileageEntity();
             adminMileage.setUserId(userId);
             adminMileage.setAmount(20);
@@ -66,14 +53,6 @@ public class AttendanceServiceImplement implements AttendanceService {
             adminMileage.setCustomReason(null);
             adminMileageRepository.save(adminMileage);
 
-            // givenDate는 기본값 CURRENT_TIMESTAMP 사용
-            // adminMileageRepository가 필요하므로 주입 받아 호출합니다.
-            // (만약 AttendanceServiceImplement 에서 adminMileageRepository가 주입되어 있다면 호출)
-            // 예:
-            // adminMileageRepository.save(adminMileage);
-            // 만약 별도의 지급 기록 없이 사용자 마일리지 업데이트만 원한다면 이 부분은 생략 가능.
-
-            // 출석 체크 알림 전송
             String message = "출석 체크로 20p가 지급되었습니다.";
             notificationService.createNotification(userId, message, NotificationType.MILEAGE_EARNED, "/mypage");
 

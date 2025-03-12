@@ -10,4 +10,5 @@ public interface NotificationService {
     ResponseEntity<ResponseDto> createNotification(String userId, String message, NotificationType notificationType, String additionalInfo);
     ResponseEntity<List<NotificationResponseDto>> getUserNotifications(String userId);
     ResponseEntity<Void> markAsRead(Integer notificationId);
+    ResponseEntity<ResponseDto> deleteNotification(Integer notificationId, String userId);
 }
