@@ -12,5 +12,7 @@ import java.util.List;
 public interface SubscribtionRepository extends JpaRepository<SubscriptionEntity, SubscriptionPK>{
     List<SubscriptionEntity> findByUserId(String userId);
 
-    SubscriptionEntity findByUserIdAndSubscriber(String userId, String subscriber);
+    SubscriptionEntity findBySubscriberAndUserId(String userId, String subscriber);
+
+    List<SubscriptionEntity> findBySubscriber(String subscriber);
 }

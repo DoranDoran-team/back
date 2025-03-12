@@ -26,9 +26,11 @@ public class GetSignInResponseDto extends ResponseDto{
     private Integer mileage;
     private String statusMessage;
     private List<Map<String, Object>> isVoted;
-    private List<Subscriber> subscribers;
+    private List<Subscriber> subscribers; // 내가 구독한 사람 리스트
+    private Integer subscribersCount;
 
-    public GetSignInResponseDto(UserEntity userEntity, List<Map<String, Object>> isVoted, List<Subscriber> subscribers) {
+    public GetSignInResponseDto(UserEntity userEntity, List<Map<String, Object>> isVoted, 
+    List<Subscriber> subscribers, Integer subscribersCount) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         this.userId = userEntity.getUserId();
         this.profileImage = userEntity.getProfileImage();
@@ -41,15 +43,17 @@ public class GetSignInResponseDto extends ResponseDto{
         this.isVoted = isVoted;
 
         this.subscribers = subscribers;
+        this.subscribersCount = subscribersCount;
     }
 
     public static ResponseEntity<GetSignInResponseDto> success(
-        
         UserEntity userEntity, 
         List<Map<String, Object>> isVoted,
-        List<Subscriber> subscribers
+        List<Subscriber> subscribers,
+        Integer subscribersCount
     ) {
-        GetSignInResponseDto responseBody = new GetSignInResponseDto(userEntity, isVoted, subscribers);
+        GetSignInResponseDto responseBody = new GetSignInResponseDto(userEntity, isVoted, 
+        subscribers, subscribersCount);
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 }

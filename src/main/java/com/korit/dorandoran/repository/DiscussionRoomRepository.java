@@ -87,31 +87,35 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
         @Query(value = 
                 "SELECT " +
                         "dr.room_id, " +
-                        "dr.created_room, " +
+                        "dr.user_id, " + 
                         "dr.room_title, " +
                         "dr.room_description, " +
                         "dr.discussion_image, " +
                         "dr.update_status, " +
                         "COALESCE(like_count, 0) AS like_count, " +
-                        "COALESCE(comment_count, 0) AS comment_count " +
-                        "FROM discussion_room dr " +
-                        "LEFT JOIN ( " +
+                        "COALESCE(comment_count, 0) AS comment_count, " +
+                        "pd.discussion_end " + 
+                "FROM discussion_room dr " +
+                "LEFT JOIN ( " +
                         "SELECT target_id, COUNT(user_id) AS like_count " +
                         "FROM `likes` " +
                         "WHERE like_type = 'POST' " +
                         "GROUP BY target_id " +
-                        ") l ON dr.room_id = l.target_id " +
-                        "LEFT JOIN ( " +
+                ") l ON dr.room_id = l.target_id " +
+                "LEFT JOIN ( " +
                         "SELECT room_id, COUNT(*) AS comment_count " +
                         "FROM comments " +
                         "GROUP BY room_id " +
-                        ") c ON dr.room_id = c.room_id; ", nativeQuery = true)
-        List<GetMyDiscussionResultSet> getMyDiscussionList();
+                ") c ON dr.room_id = c.room_id " +
+                "LEFT JOIN post_discussion pd ON dr.room_id = pd.room_id " + 
+                "WHERE dr.user_id = :userId " + 
+                "ORDER BY dr.room_id DESC;", nativeQuery = true)
+        List<GetMyDiscussionResultSet> getMyDiscussionList(@Param("userId") String userId);
+
 
         DiscussionRoomEntity findByRoomId(Integer roomId);
 
         @Query(value = "SELECT room_id FROM discussion_room ORDER BY room_id ASC", nativeQuery = true)
         List<Integer> getRooms();
 
-        //
 }

@@ -168,6 +168,10 @@ public class AuthServiceImplement implements AuthService {
 
             dto.setNickName(NickNameCreator.generateRandomString(10));
 
+            dto.setAccuseCount(0);
+
+            dto.setMileage(0);
+
             UserEntity userEntity = new UserEntity(dto);
             userRepository.save(userEntity);
         } catch (Exception e) {
@@ -318,8 +322,8 @@ public class AuthServiceImplement implements AuthService {
         List<Map<String,Object>> postLikeList = new ArrayList<>();
         List<Map<String,Object>> commentLikeList = new ArrayList<>();
 
-        
         List<Subscriber> subscribers = new ArrayList<>();
+        Integer count = null;
 
         try {
             userEntity = userRepository.findByUserId(userId);
@@ -333,19 +337,23 @@ public class AuthServiceImplement implements AuthService {
                     voteInfo.put("isVoted", voteRepository.existsByRoomIdAndUserId(room, userId));
                     return voteInfo;
                 })
-                .collect(Collectors.toList());
-            if(userEntity == null) return ResponseDto.noExistUserId();
+            .collect(Collectors.toList());
             
-            // 구독 테이블에서 로그인한 유저가 팔로우한 사람 아이디 가져오기
+            // 구독 테이블에서 로그인한 유저를 팔로우한 유저 카운트 가져오기
             List<SubscriptionEntity> subscriptionEntities = null;
             subscriptionEntities = subscribtionRepository.findByUserId(userId);
+            count = subscriptionEntities.size();
+
+            // 구독 테이블에서 로그인한 유저가 팔로우한 사람 리스트 가져오기
+            List<SubscriptionEntity> subscriptionEntities2 = null;
+            subscriptionEntities2 = subscribtionRepository.findBySubscriber(userId);
 
             // 구독한 사람에 대한 정보 리스트 생성
-            for(SubscriptionEntity subscriptionEntity : subscriptionEntities) {
-                String follower = subscriptionEntity.getSubscriber();
+            for(SubscriptionEntity subscriptionEntity : subscriptionEntities2) {
+                String followee = subscriptionEntity.getUserId();
 
                 UserEntity userEntity2 = null;
-                userEntity2 = userRepository.findByUserId(follower);
+                userEntity2 = userRepository.findByUserId(followee);
                 if(userEntity2 == null) return null;
 
                 subscribers.add(new Subscriber(userEntity2));
@@ -355,7 +363,7 @@ public class AuthServiceImplement implements AuthService {
             e.printStackTrace();
             return ResponseDto.databaseError();
         }
-        return GetSignInResponseDto.success(userEntity, voteList, subscribers);
+        return GetSignInResponseDto.success(userEntity, voteList, subscribers, count);
     }
 
     @Override

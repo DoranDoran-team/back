@@ -55,7 +55,7 @@ public class SubscriptionServiceImplement implements SubscriptionService{
             userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();
 
-            subscriptionEntity = subscribtionRepository.findByUserIdAndSubscriber(userId, subscriber);
+            subscriptionEntity = subscribtionRepository.findBySubscriberAndUserId(userId, subscriber);
             subscribtionRepository.delete(subscriptionEntity);
             
         } catch (Exception e) {
