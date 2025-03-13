@@ -24,7 +24,7 @@ public class GetLikeListResponseDto extends ResponseDto {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
         
         this.roomId = roomId;
-        this.isLikeComment = isLikeComment;
+        this.isLikePost = isLikePost;
         this.isLikeComment = isLikeComment;
     }
 
@@ -38,3 +38,4 @@ public class GetLikeListResponseDto extends ResponseDto {
     }
     
 }
+    

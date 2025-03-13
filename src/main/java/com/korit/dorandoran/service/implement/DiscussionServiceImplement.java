@@ -140,10 +140,9 @@ public class DiscussionServiceImplement implements DiscussionService {
         UserEntity userEntity = null;
         try {
             userEntity = userRepository.findByUserId(userId);
-            if (userEntity == null)
-                return ResponseDto.noExistUserId();
+            if (userEntity == null) return ResponseDto.noExistUserId();
 
-            resultSet = discussionRoomRepository.getMyDiscussionList();
+            resultSet = discussionRoomRepository.getMyDiscussionList(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();

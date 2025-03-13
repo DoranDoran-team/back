@@ -46,4 +46,10 @@ public class SignUpRequestDto {
     private String nickName;
 
     private String profileImage;
+
+    @NotNull
+    private Integer accuseCount;
+
+    @NotNull
+    private Integer mileage;
 }

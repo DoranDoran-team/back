@@ -16,6 +16,7 @@ import com.korit.dorandoran.dto.request.mypage.myInfo.PatchProfileRequestDto;
 import com.korit.dorandoran.dto.request.mypage.myInfo.PatchUserInfoRequestDto;
 import com.korit.dorandoran.dto.request.mypage.myInfo.PwCheckRequestDto;
 import com.korit.dorandoran.dto.response.ResponseDto;
+import com.korit.dorandoran.dto.response.mypage.another_user.GetUserProfileResponseDto;
 import com.korit.dorandoran.dto.response.mypage.myInfo.GetMyDiscussionListResponseDto;
 import com.korit.dorandoran.dto.response.mypage.myInfo.GetUserInfoResponseDto;
 import com.korit.dorandoran.service.DiscussionService;
@@ -90,11 +91,20 @@ public class MypageController {
 	};
 
 	// 본인이 작성한 일반 토론 리스트 불러오기
-	@GetMapping("get-my-discussion")
+	@GetMapping("/get-my-discussion")
 	public ResponseEntity<? super GetMyDiscussionListResponseDto> getMyDiscussion (
 		@AuthenticationPrincipal String userId
 	) {
 		ResponseEntity<? super GetMyDiscussionListResponseDto> response = discussionService.getMyDiscussionList(userId);
+		return response;
+	}
+
+	// 타 유저가 작성한 일반 토론 리스트 및 프로필 불러오기
+	@GetMapping("/get-user-profile/{userId}")
+	public ResponseEntity< ? super GetUserProfileResponseDto> getUserProfile (
+		@PathVariable("userId") String userId
+	) {
+		ResponseEntity< ? super GetUserProfileResponseDto> response = mypageService.getUserProfile(userId);
 		return response;
 	}
 

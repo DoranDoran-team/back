@@ -16,4 +16,6 @@ public interface GetMyDiscussionResultSet {
     Integer getLikesCount();
 
     String getRoomDescription();
+
+    String getDiscussionEnd();
 }

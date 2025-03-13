@@ -47,6 +47,8 @@ public class UserEntity {
 		this.birth = dto.getBirth();
 		this.nickName = dto.getNickName();
 		this.role = dto.getRole();
+		this.accuseCount = dto.getAccuseCount();
+		this.mileage = dto.getMileage();
 	}
 
 	public UserEntity(ChangePwRequestDto dto) {

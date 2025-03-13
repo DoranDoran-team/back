@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.korit.dorandoran.common.object.LikeType;
+import com.korit.dorandoran.common.object.Subscriber;
 import com.korit.dorandoran.common.util.AuthNumberCreator;
 import com.korit.dorandoran.common.util.NickNameCreator;
 import com.korit.dorandoran.dto.request.auth.ChangePwRequestDto;
@@ -29,6 +30,7 @@ import com.korit.dorandoran.dto.response.accuse.GetAccuseUserListResponseDto;
 import com.korit.dorandoran.dto.response.auth.FindIdResultResponseDto;
 import com.korit.dorandoran.dto.response.auth.GetSignInResponseDto;
 import com.korit.dorandoran.dto.response.auth.SignInResponseDto;
+import com.korit.dorandoran.entity.SubscriptionEntity;
 import com.korit.dorandoran.entity.TelAuthEntity;
 import com.korit.dorandoran.entity.UserEntity;
 import com.korit.dorandoran.provider.JwtProvider;
@@ -37,6 +39,7 @@ import com.korit.dorandoran.repository.AdminRepository;
 import com.korit.dorandoran.repository.CommentsRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
 import com.korit.dorandoran.repository.LikesRepository;
+import com.korit.dorandoran.repository.SubscribtionRepository;
 import com.korit.dorandoran.repository.TelAuthRepository;
 import com.korit.dorandoran.repository.UserRepository;
 
@@ -58,6 +61,7 @@ public class AuthServiceImplement implements AuthService {
     private final DiscussionRoomRepository discussionRoomRepository;
     private final LikesRepository likesRepository;
     private final CommentsRepository commentsRepository;
+    private final SubscribtionRepository subscribtionRepository;
 
     private final SmsProvider smsProvider;
     private final JwtProvider jwtProvider;
@@ -163,6 +167,10 @@ public class AuthServiceImplement implements AuthService {
             dto.setPassword(encodedPassword);
 
             dto.setNickName(NickNameCreator.generateRandomString(10));
+
+            dto.setAccuseCount(0);
+
+            dto.setMileage(0);
 
             UserEntity userEntity = new UserEntity(dto);
             userRepository.save(userEntity);
@@ -314,7 +322,9 @@ public class AuthServiceImplement implements AuthService {
         List<Map<String,Object>> postLikeList = new ArrayList<>();
         List<Map<String,Object>> commentLikeList = new ArrayList<>();
 
-        
+        List<Subscriber> subscribers = new ArrayList<>();
+        Integer count = null;
+
         try {
             userEntity = userRepository.findByUserId(userId);
             if(userEntity == null) return ResponseDto.noExistUserId();
@@ -327,13 +337,33 @@ public class AuthServiceImplement implements AuthService {
                     voteInfo.put("isVoted", voteRepository.existsByRoomIdAndUserId(room, userId));
                     return voteInfo;
                 })
-                .collect(Collectors.toList());
+            .collect(Collectors.toList());
+            
+            // 구독 테이블에서 로그인한 유저를 팔로우한 유저 카운트 가져오기
+            List<SubscriptionEntity> subscriptionEntities = null;
+            subscriptionEntities = subscribtionRepository.findByUserId(userId);
+            count = subscriptionEntities.size();
+
+            // 구독 테이블에서 로그인한 유저가 팔로우한 사람 리스트 가져오기
+            List<SubscriptionEntity> subscriptionEntities2 = null;
+            subscriptionEntities2 = subscribtionRepository.findBySubscriber(userId);
+
+            // 구독한 사람에 대한 정보 리스트 생성
+            for(SubscriptionEntity subscriptionEntity : subscriptionEntities2) {
+                String followee = subscriptionEntity.getUserId();
+
+                UserEntity userEntity2 = null;
+                userEntity2 = userRepository.findByUserId(followee);
+                if(userEntity2 == null) return null;
+
+                subscribers.add(new Subscriber(userEntity2));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
         }
-        return GetSignInResponseDto.success(userEntity, voteList);
+        return GetSignInResponseDto.success(userEntity, voteList, subscribers, count);
     }
 
     @Override
