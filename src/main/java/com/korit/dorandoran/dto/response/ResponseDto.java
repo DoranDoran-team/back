@@ -48,6 +48,11 @@ public class ResponseDto {
                 ResponseMessage.NO_EXIST_PARENT_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
+    public static ResponseEntity<ResponseDto> alreadyDeleteComment() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.ALREADY_DELETE_COMMENT,
+                ResponseMessage.ALREADY_DELETE_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
 
     public static ResponseEntity<ResponseDto> validationFail() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.VALIDATION_FAIL, ResponseMessage.VALIDATION_FAIL);

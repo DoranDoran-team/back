@@ -74,9 +74,7 @@ public class LikesServiceImplement implements LikesService {
             if(likeType == LikeType.POST || likeType == LikeType.COMMENT){
                 LikesEntity likesEntity = likesRepository.findByTargetIdAndUserIdAndLikeType(targetId, userId,likeType);
                 if (likesEntity == null) return ResponseDto.noExistedTarget();
-                boolean isMatched = likesEntity.getUserId().equals(userId);
-                if(!isMatched) return ResponseDto.noPermission();
-
+                
                 likesRepository.delete(likesEntity);
             };
 
@@ -95,7 +93,7 @@ public class LikesServiceImplement implements LikesService {
         boolean isLikePost;
         try {
             boolean isDiscussion = discussionRoomRepository.existsByRoomId(roomId);
-            if (!isDiscussion) return ResponseDto.noExistRoom();
+            if (!isDiscussion) return ResponseDto.noExistedTarget();
 
             isLikePost = likesRepository.existsByTargetIdAndUserIdAndLikeType(roomId, userId, LikeType.POST);
     

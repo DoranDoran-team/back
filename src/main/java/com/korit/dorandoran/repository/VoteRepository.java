@@ -18,5 +18,8 @@ public interface VoteRepository extends JpaRepository<VoteEntity, VotePK> {
     @Query(value= "SELECT * FROM vote WHERE room_id=:roomId ORDER BY created_at ASC", nativeQuery = true)
     List<VoteEntity> getResult(@Param("roomId") Integer roomId);
 
+    @Query(value= "SELECT * FROM vote WHERE room_id=:roomId", nativeQuery = true)
+    List<VoteEntity> findVote(Integer roomId);
+
 
 }

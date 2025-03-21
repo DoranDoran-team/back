@@ -21,33 +21,39 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
         boolean existsByRoomId(Integer roomId);
 
         @Query(value = "SELECT " +
-                        "D.room_id AS roomId, " +
-                        "ANY_VALUE(U.user_id) AS userId, " +
-                        "ANY_VALUE(U.nick_name) AS nickName, " +
-                        "ANY_VALUE(U.profile_image) AS profileImage, " +
-                        "D.room_description AS roomDescription, " +
-                        "D.discussion_type AS discussionType, " +
-                        "ANY_VALUE(D.discussion_image) AS discussionImage, " +
-                        "D.created_room AS createdRoom, " +
-                        "D.room_title AS roomTitle, " +
-                        "D.update_status AS updateStatus, " +
-                        "ANY_VALUE(P.agree_opinion) AS agreeOpinion, " +
-                        "ANY_VALUE(P.opposite_opinion) AS oppositeOpinion, " +
-                        "ANY_VALUE(P.discussion_end) AS discussionEnd, " +
-                        "COALESCE(commentCounts.commentCount, 0) AS commentCount, " +
-                        "COALESCE(likeCounts.likeCount, 0) AS likeCount " +
-                        "FROM discussion_room D " +
-                        "LEFT JOIN user U ON D.user_id = U.user_id " +
-                        "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
-                        "LEFT JOIN (SELECT room_id, COUNT(*) AS commentCount FROM comments GROUP BY room_id) AS commentCounts "
-                        +
-                        "ON D.room_id = commentCounts.room_id " +
-                        "LEFT JOIN (SELECT target_id, COUNT(DISTINCT user_id) AS likeCount FROM likes WHERE like_type = 'POST' GROUP BY target_id) AS likeCounts "
-                        +
-                        "ON D.room_id = likeCounts.target_id " +
-                        "GROUP BY D.room_id " +
-                        "ORDER BY D.created_room DESC", nativeQuery = true)
-        List<GetDiscussionResultSet> getList();
+        "D.room_id AS roomId, " +
+        "ANY_VALUE(U.user_id) AS userId, " +
+        "ANY_VALUE(U.nick_name) AS nickName, " +
+        "ANY_VALUE(U.profile_image) AS profileImage, " +
+        "D.room_description AS roomDescription, " +
+        "D.discussion_type AS discussionType, " +
+        "ANY_VALUE(D.discussion_image) AS discussionImage, " +
+        "D.created_room AS createdRoom, " +
+        "D.room_title AS roomTitle, " +
+        "D.update_status AS updateStatus, " +
+        "ANY_VALUE(P.agree_opinion) AS agreeOpinion, " +
+        "ANY_VALUE(P.opposite_opinion) AS oppositeOpinion, " +
+        "ANY_VALUE(P.discussion_end) AS discussionEnd, " +
+        "COALESCE(commentCounts.commentCount, 0) AS commentCount, " +
+        "COALESCE(likeCounts.likeCount, 0) AS likeCount, " +
+        "ANY_VALUE(isLike.isLike) AS isLike "+
+        "FROM discussion_room D " +
+        "LEFT JOIN user U ON D.user_id = U.user_id " +
+        "LEFT JOIN post_discussion P ON D.room_id = P.room_id " +
+        "LEFT JOIN (SELECT room_id, COUNT(*) AS commentCount FROM comments GROUP BY room_id) AS commentCounts " +
+        "ON D.room_id = commentCounts.room_id " +
+        "LEFT JOIN (SELECT target_id, COUNT(DISTINCT user_id) AS likeCount FROM likes WHERE like_type = 'POST' GROUP BY target_id) AS likeCounts " +
+        "ON D.room_id = likeCounts.target_id " +
+        "LEFT JOIN (SELECT target_id, " +
+        "                  CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END AS isLike " +  
+        "           FROM likes " +
+        "           WHERE like_type = 'POST' AND user_id = :userId "  +  
+        "           GROUP BY target_id) AS isLike " +
+        "ON D.room_id = isLike.target_id " +
+        "GROUP BY D.room_id " +
+        "ORDER BY D.created_room DESC",
+        nativeQuery = true)
+        List<GetDiscussionResultSet> getList(@Param("userId") String userId);
 
         @Query(value = "SELECT " +
                         "U.user_id, " +
@@ -116,6 +122,7 @@ public interface DiscussionRoomRepository extends JpaRepository<DiscussionRoomEn
         List<GetMyDiscussionResultSet> getMyDiscussionList(@Param("userId") String userId);
 
         DiscussionRoomEntity findByRoomId(Integer roomId);
+        DiscussionRoomEntity findByRoomIdAndUserId(Integer roomId, String userId);
 
         @Query(value = "SELECT room_id FROM discussion_room ORDER BY room_id ASC", nativeQuery = true)
         List<Integer> getRooms();

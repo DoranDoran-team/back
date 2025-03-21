@@ -24,6 +24,7 @@ public interface ResponseCode {
     // 댓글 및 대댓글 관련 response code
     String NO_EXIST_COMMENT = "NM";
     String NO_EXIST_PARENT_COMMENT = "NPC";
+    String ALREADY_DELETE_COMMENT = "AD";
 
     // 투표 관련 response code
     String DUPLICATED_VOTE = "DV";
