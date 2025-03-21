@@ -14,12 +14,14 @@ public class AccuseUserList {
   private String name;
   private String profileImage;
   private Integer accuseCount;
+  private Boolean role;
 
   public AccuseUserList(GetAccuseUserListResultSet resultSet) {
     this.userId = resultSet.getUserId();
     this.name = resultSet.getName();
     this.profileImage = resultSet.getProfileImage();
     this.accuseCount = resultSet.getAccuseCount();
+    this.role = resultSet.getRole();
   }
 
   public static List<AccuseUserList> getUserList(List<GetAccuseUserListResultSet> resultSets) {
