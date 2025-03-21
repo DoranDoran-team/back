@@ -25,8 +25,9 @@ public class PostDiscussionWriteRequestDto {
 
     private String discussionImage;
 
+    @NotBlank
     private String agreeOpinion;
-    
+    @NotBlank
     private String oppositeOpinion;
     
     @NotBlank

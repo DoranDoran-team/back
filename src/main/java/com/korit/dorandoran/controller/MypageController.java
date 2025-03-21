@@ -111,9 +111,10 @@ public class MypageController {
 	// 본인이 작성한 일반 토론 게시글 삭제하기
 	@DeleteMapping("/delete/{roomId}")
 	public ResponseEntity<ResponseDto> deleteRoom(
-		@PathVariable("roomId") Integer roomId
+		@PathVariable("roomId") Integer roomId,
+		@AuthenticationPrincipal String userId
 	) {
-		ResponseEntity<ResponseDto> response = discussionService.deleteDiscusstion(roomId);
+		ResponseEntity<ResponseDto> response = discussionService.deleteDiscusstion(roomId, userId);
 		return response;
 	};
 }

@@ -11,4 +11,6 @@ public interface ScheduleService {
   ResponseEntity<ResponseDto> postSchedule(PostScheduleDto dto);
 
   ResponseEntity<? super GetScheduleListResponseDto> getScheduleList();
+
+  ResponseEntity<ResponseDto> deleteSchedule(Integer scheduleNumber);
 }

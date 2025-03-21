@@ -48,6 +48,11 @@ public class ResponseDto {
                 ResponseMessage.NO_EXIST_PARENT_COMMENT);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
     }
+    public static ResponseEntity<ResponseDto> alreadyDeleteComment() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.ALREADY_DELETE_COMMENT,
+                ResponseMessage.ALREADY_DELETE_COMMENT);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
 
     public static ResponseEntity<ResponseDto> validationFail() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.VALIDATION_FAIL, ResponseMessage.VALIDATION_FAIL);
@@ -152,12 +157,16 @@ public class ResponseDto {
     public static ResponseEntity<ResponseDto> rejectedApproved() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.REJECTED_ACCUSE, ResponseMessage.REJECTED_ACCUSE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
-      
     }
+
     public static ResponseEntity<ResponseDto> custom(String code, String message) {
         ResponseDto response = new ResponseDto(code, message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    // function: 존재하지 않는 스케줄 //
+    public static ResponseEntity<ResponseDto> noHaveSchedule() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_HAVE_SCHEDULE, ResponseMessage.NO_HAVE_SCHEDULE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
 }
-
-

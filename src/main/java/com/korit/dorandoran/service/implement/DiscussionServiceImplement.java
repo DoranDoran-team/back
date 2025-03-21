@@ -14,13 +14,18 @@ import com.korit.dorandoran.dto.response.discussion.GetDiscussionResponseDto;
 import com.korit.dorandoran.dto.response.discussion.GetSignInUserResponseDto;
 import com.korit.dorandoran.dto.response.main.GetGenDiscListResponseDto;
 import com.korit.dorandoran.dto.response.mypage.myInfo.GetMyDiscussionListResponseDto;
+import com.korit.dorandoran.entity.CommentsEntity;
 import com.korit.dorandoran.entity.DiscussionRoomEntity;
+import com.korit.dorandoran.entity.LikesEntity;
 import com.korit.dorandoran.entity.PostDiscussionEntity;
 import com.korit.dorandoran.entity.UserEntity;
+import com.korit.dorandoran.entity.VoteEntity;
 import com.korit.dorandoran.repository.CommentsRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
+import com.korit.dorandoran.repository.LikesRepository;
 import com.korit.dorandoran.repository.PostDiscussionRepository;
 import com.korit.dorandoran.repository.UserRepository;
+import com.korit.dorandoran.repository.VoteRepository;
 import com.korit.dorandoran.repository.resultset.GetCommentsResultSet;
 import com.korit.dorandoran.repository.resultset.GetDetailDiscussionResultSet;
 import com.korit.dorandoran.repository.resultset.GetDiscussionResultSet;
@@ -40,6 +45,8 @@ public class DiscussionServiceImplement implements DiscussionService {
     private final PostDiscussionRepository postDiscussionRepository;
     private final UserRepository userRepository;
     private final CommentsRepository commentsRepository;
+    private final LikesRepository likesRepository;
+    private final VoteRepository voteRepository;
 
     @Transactional
     @Override
@@ -66,11 +73,14 @@ public class DiscussionServiceImplement implements DiscussionService {
     }
 
     @Override
-    public ResponseEntity<? super GetDiscussionListResponseDto> getDiscussionList() {
+    public ResponseEntity<? super GetDiscussionListResponseDto> getDiscussionList(String userId) {
         List<GetDiscussionResultSet> resultSet = new ArrayList<>();
 
         try {
-            resultSet = discussionRoomRepository.getList();
+            boolean isExisted = userRepository.existsByUserId(userId);
+            if (!isExisted) return ResponseDto.noPermission();
+
+            resultSet = discussionRoomRepository.getList(userId);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();
@@ -151,20 +161,33 @@ public class DiscussionServiceImplement implements DiscussionService {
     }
 
     @Override
-    public ResponseEntity<ResponseDto> deleteDiscusstion(Integer roomId) {
+    public ResponseEntity<ResponseDto> deleteDiscusstion(Integer roomId, String userId) {
         DiscussionRoomEntity discussionRoomEntity = null;
         PostDiscussionEntity postDiscussionEntity = null;
         try {
+
             discussionRoomEntity = discussionRoomRepository.findByRoomId(roomId);
-            if (discussionRoomEntity == null)
-                return ResponseDto.noExistRoom();
+            if (discussionRoomEntity == null) return ResponseDto.noExistRoom();
+
+            boolean isMatched = discussionRoomEntity.getUserId().equals(userId);
+            if (!isMatched) return ResponseDto.noPermission();
 
             postDiscussionEntity = postDiscussionRepository.findByRoomId(roomId);
-            if (postDiscussionEntity == null)
-                return ResponseDto.noExistRoom();
+            if (postDiscussionEntity == null) return ResponseDto.noExistRoom();
 
+            List<LikesEntity> likesEntities = likesRepository.findLikes(roomId);
+            List<VoteEntity> voteEntities = voteRepository.findVote(roomId);
+            List<CommentsEntity> commentsEntities = commentsRepository.findComments(roomId);
+
+
+            likesRepository.deleteAll(likesEntities);
+            voteRepository.deleteAll(voteEntities);
+            commentsRepository.deleteAll(commentsEntities);
             postDiscussionRepository.delete(postDiscussionEntity);
             discussionRoomRepository.delete(discussionRoomEntity);
+
+
+
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseDto.databaseError();

@@ -147,8 +147,9 @@ public class CommentServiceImplement implements CommentService {
 
       String commentUser = commentsEntity.getUserId();
       boolean isMatched = commentUser.equals(userId);
-      if (!isMatched)
-        return ResponseDto.noPermission();
+      if (!isMatched) return ResponseDto.noPermission();
+      
+      if (commentsEntity.isDeleteStatus() == true) return ResponseDto.alreadyDeleteComment();
 
       boolean isDelete = commentsEntity.isDeleteStatus();
       commentsEntity.setDeleteStatus(!isDelete);
