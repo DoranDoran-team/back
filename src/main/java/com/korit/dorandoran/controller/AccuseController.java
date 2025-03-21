@@ -37,7 +37,7 @@ public class AccuseController {
   }
 
   @GetMapping(value = { "/", "" })
-  public ResponseEntity<? super GetAccuseListResponseDto> getAccuseList(@RequestParam String userId) {
+  public ResponseEntity<? super GetAccuseListResponseDto> getAccuseList(@RequestParam("userId") String userId) {
     return accuseService.getAccuseList(userId);
   }
 
