@@ -22,6 +22,7 @@ public class GetUserProfileResponseDto extends ResponseDto{
     private String statusMessage;
     List<MyDiscussion> myDiscussions;
     private Integer subscribers;
+    private Boolean role;
 
     public GetUserProfileResponseDto(
         UserEntity userEntity, 
@@ -34,6 +35,7 @@ public class GetUserProfileResponseDto extends ResponseDto{
         this.statusMessage = userEntity.getStatusMessage();
         this.myDiscussions = MyDiscussion.getList(resultSet);
         this.subscribers = subscribers;
+        this.role = userEntity.getRole();
     }
 
     public static ResponseEntity<GetUserProfileResponseDto> success(
