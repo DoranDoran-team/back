@@ -152,12 +152,16 @@ public class ResponseDto {
     public static ResponseEntity<ResponseDto> rejectedApproved() {
         ResponseDto responsdBody = new ResponseDto(ResponseCode.REJECTED_ACCUSE, ResponseMessage.REJECTED_ACCUSE);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
-      
     }
+
     public static ResponseEntity<ResponseDto> custom(String code, String message) {
         ResponseDto response = new ResponseDto(code, message);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
+
+    // function: 존재하지 않는 스케줄 //
+    public static ResponseEntity<ResponseDto> noHaveSchedule() {
+        ResponseDto responsdBody = new ResponseDto(ResponseCode.NO_HAVE_SCHEDULE, ResponseMessage.NO_HAVE_SCHEDULE);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsdBody);
+    }
 }
-
-

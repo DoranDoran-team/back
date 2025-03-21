@@ -30,10 +30,10 @@ public interface ResponseMessage {
 
     // 좋아요 관련 response message
     String DUPLICATED_LIKE = "Duplicated like. ";
-    
+
     String NO_PERMISSION = "No Permission. ";
 
-    
+    String NO_HAVE_SCHEDULE = "No Have Schedule";
 
     String MESSAGE_SEND_FAIL = "Auth Number Send Failed";
     String DATABASE_ERROR = "Database Error";
