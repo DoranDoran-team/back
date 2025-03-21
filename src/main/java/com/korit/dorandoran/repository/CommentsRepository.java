@@ -47,4 +47,7 @@ public interface CommentsRepository extends JpaRepository<CommentsEntity, Intege
 
         @Query(value="SELECT comment_id FROM comments where room_id = :roomId ORDER BY comment_id ASC", nativeQuery = true)
         List<Integer> getComment(@Param("roomId") Integer roomId);
+
+        @Query(value= "SELECT * FROM comments WHERE room_id=:roomId", nativeQuery = true)
+        List<CommentsEntity> findComments(@Param("roomId")Integer roomId);
 }

@@ -22,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class VoteServiceImplement implements VoteService{
     
-    private final UserRepository userRepository;
     private final DiscussionRoomRepository discussionRoomRepository;
     private final VoteRepository voteRepository;
 
@@ -32,8 +31,6 @@ public class VoteServiceImplement implements VoteService{
         
         try {
 
-            boolean isUser = userRepository.existsByUserId(userId);
-            if (!isUser) return ResponseDto.noPermission();
             boolean isRoom = discussionRoomRepository.existsByRoomId(roomId);
             if (!isRoom) return ResponseDto.noExistRoom();
 

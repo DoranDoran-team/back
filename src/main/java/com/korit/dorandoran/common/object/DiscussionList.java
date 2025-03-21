@@ -24,8 +24,10 @@ public class DiscussionList {
     private Integer commentCount;
     private Integer likeCount;
     private String userId;
+    private Boolean isLike;
     
     public DiscussionList(GetDiscussionResultSet resultSet){
+        
         this.roomId = resultSet.getRoomId();
         this.nickName = resultSet.getNickName();
         this.profileImage = resultSet.getProfileImage();
@@ -40,6 +42,8 @@ public class DiscussionList {
         this.commentCount = resultSet.getCommentCount() == null ? 0 : resultSet.getCommentCount();
         this.likeCount = resultSet.getLikeCount() == null ? 0 : resultSet.getLikeCount();
         this.userId = resultSet.getUserId();
+        this.isLike = resultSet.getIsLike() != null && resultSet.getIsLike() == 1;
+
     }
 
     public static List<DiscussionList> getList(List<GetDiscussionResultSet> resultSets) {
