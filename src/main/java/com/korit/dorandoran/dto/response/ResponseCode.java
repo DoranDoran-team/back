@@ -26,7 +26,7 @@ public interface ResponseCode {
     String NO_EXIST_PARENT_COMMENT = "NPC";
     String ALREADY_DELETE_COMMENT = "AD";
 
-    // 투표 관련 response code 
+    // 투표 관련 response code
     String DUPLICATED_VOTE = "DV";
 
     // 좋아요 관련 response code
@@ -38,6 +38,7 @@ public interface ResponseCode {
     String MESSAGE_SEND_FAIL = "TF";
     String TOKEN_CREATE_FAIL = "TCF";
 
+    String NO_HAVE_SCHEDULE = "NHS";
     // 신고 관련 rseponse Code
     String DUPLICATED_ACCUSE = "DA";
     String NO_EXIST_TARGET = "NT";
