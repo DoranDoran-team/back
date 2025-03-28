@@ -1,7 +1,5 @@
 package com.korit.dorandoran.entity;
 
-import com.korit.dorandoran.common.object.NotificationType;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;

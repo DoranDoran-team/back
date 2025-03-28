@@ -11,7 +11,6 @@ import com.korit.dorandoran.dto.response.ResponseDto;
 import com.korit.dorandoran.dto.response.vote.GetVoteResultResponseDto;
 import com.korit.dorandoran.entity.VoteEntity;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
-import com.korit.dorandoran.repository.UserRepository;
 import com.korit.dorandoran.repository.VoteRepository;
 import com.korit.dorandoran.service.VoteService;
 
