@@ -3,7 +3,7 @@ package com.korit.dorandoran.repository.resultset;
 public interface GetCommentsResultSet {
     
     Integer getCommentId();
-    Integer getRoomId();
+    String getRoomId();
     Integer getParentId();
     String getUserId();
     String getNickName();

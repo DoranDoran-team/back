@@ -14,7 +14,7 @@ import lombok.Setter;
 public class PostLikeRequestDto {
     
     @NotNull
-    private Integer targetId;
+    private String targetId;
     @NotBlank 
     private String userId;
     @NotNull

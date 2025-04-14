@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class MyDiscussion {
-    private Integer roomId;
+    private String roomId;
     private String discussionImage;
     private String roomTitle;
     private Boolean updateStatus;

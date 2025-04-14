@@ -13,7 +13,7 @@ import lombok.Getter;
 public class Comments {
     
     private Integer commentId;
-    private Integer roomId;
+    private String roomId;
     private Integer parentId;
     private String userId;
     private String nickName;

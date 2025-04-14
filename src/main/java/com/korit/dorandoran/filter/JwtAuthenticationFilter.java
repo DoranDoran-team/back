@@ -25,26 +25,32 @@ import lombok.RequiredArgsConstructor;
 // - security context에 접근 제어자 정보 등록
 @Component
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter{
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final JwtProvider jwtProvider; 
+    private final JwtProvider jwtProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        String path = request.getRequestURI();
+        // WebSocket 핸드쉐이크 요청은 인증 필터에서 제외 (예: /chat-websocket/info)
+        if (path.startsWith("/chat-websocket")) {
+            filterChain.doFilter(request, response);
+            return;
+        }
         try {
             // request 객체에서 bearer 토큰 추출
             String token = parseBearerToken(request);
-            if(token == null) {
+            if (token == null) {
                 filterChain.doFilter(request, response);
-                return ;
+                return;
             }
 
             // 토큰 검증
             String userId = jwtProvider.validate(token);
-            if(userId == null) {
+            if (userId == null) {
                 filterChain.doFilter(request, response);
-                return ;
+                return;
             }
 
             // security context에 등록
@@ -55,7 +61,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
         }
         filterChain.doFilter(request, response);
     }
-    
+
     // request로부터 토큰 추출
     private String parseBearerToken(HttpServletRequest request) {
 
@@ -64,15 +70,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
 
         // 추출한 authorization 값이 실제로 존재하는 문자열인지 확인
         boolean hasAuthorization = StringUtils.hasText(authorization);
-        if (!hasAuthorization) return null;
+        if (!hasAuthorization)
+            return null;
 
         // Bearer 인증 방식인지 확인
         boolean isBearer = authorization.startsWith("Bearer ");
-        if (!isBearer) return null;
+        if (!isBearer)
+            return null;
 
         // Authorization field에서 토큰 추출
         String token = authorization.substring(7);
-        
+
         return token;
     }
 
@@ -80,8 +88,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter{
     private void setContext(HttpServletRequest request, String userId) {
 
         // 접근 주체에 대한 인증 토큰 생성
-        AbstractAuthenticationToken authenticationToken 
-            = new UsernamePasswordAuthenticationToken(userId, null, AuthorityUtils.NO_AUTHORITIES);
+        AbstractAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, null,
+                AuthorityUtils.NO_AUTHORITIES);
 
         // 생성한 인증 토큰이 어떤 요청에 대한 내용인지 상세 정보 추가
         authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));

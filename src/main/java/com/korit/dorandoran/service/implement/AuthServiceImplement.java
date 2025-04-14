@@ -334,7 +334,7 @@ public class AuthServiceImplement implements AuthService {
                 .map(room -> {
                     Map<String, Object> voteInfo = new HashMap<>();
                     voteInfo.put("roomId", room);
-                    voteInfo.put("isVoted", voteRepository.existsByRoomIdAndUserId(room, userId));
+                    voteInfo.put("isVoted", voteRepository.existsByRoomIdAndUserId(String.valueOf(room), userId));
                     return voteInfo;
                 })
             .collect(Collectors.toList());

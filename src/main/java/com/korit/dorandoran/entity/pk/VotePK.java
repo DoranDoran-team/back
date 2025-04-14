@@ -15,7 +15,7 @@ import lombok.Setter;
 public class VotePK implements Serializable{
     
     @Column(name="room_id")
-    private Integer roomId;
+    private String roomId;
     @Column(name="user_id")
     private String userId;
     @Column(name="vote_choice")

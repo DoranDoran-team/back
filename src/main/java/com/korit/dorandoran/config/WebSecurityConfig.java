@@ -56,7 +56,7 @@ public class WebSecurityConfig {
             .cors(cors -> cors.configurationSource(configurationSource()))
             // URL 패턴 및 http 메서드에 따라 인증 및 인가 여부 지정
             .authorizeHttpRequests(request -> request
-                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*", "/file/*", "/").permitAll()
+                .requestMatchers("/api/v1/auth/**", "/oauth2/callback/*", "/file/*", "/", "/chat-websocket/**").permitAll()  // 웹 소켓 추가 후 에러 해결 위해 작성
                 .anyRequest().authenticated()
             )
             // 인증 및 인가 작업 중 발생하는 예외 처리
@@ -81,9 +81,12 @@ public class WebSecurityConfig {
     protected CorsConfigurationSource configurationSource() {
 
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.addAllowedOrigin("*");
+        configuration.addAllowedOrigin("http://localhost:3000"); // 웹 소켓 추가 후 에러 해결 위해 작성
+        // configuration.addAllowedOrigin("*");
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
+        // 자격 증명 허용
+        configuration.setAllowCredentials(true);  // 웹 소켓 추가 후 에러 해결 위해 작성
         
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

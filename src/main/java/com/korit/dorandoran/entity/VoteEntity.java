@@ -23,7 +23,7 @@ import lombok.Setter;
 public class VoteEntity {
     
     @Id
-    private Integer roomId;
+    private String roomId;
     
     @Id
     private String userId;
@@ -33,14 +33,21 @@ public class VoteEntity {
 
     private String createdAt;
 
-    public VoteEntity(PostVoteRequestDto dto, Integer roomId, String userId ){
-        
-        String createdAt = TodayCreator.todayCreator();
-        
-        this.roomId = roomId;
+    // DiscussionRoom의 정수형 room_id를 사용하는 경우: toString()으로 변환해서 저장
+    public VoteEntity(PostVoteRequestDto dto, Integer intRoomId, String userId) {
+        this.roomId = String.valueOf(intRoomId);
         this.userId = userId;
         this.voteChoice = dto.getVoteChoice();
-        this.createdAt = createdAt;
+        this.createdAt = TodayCreator.todayCreator();
+    }
+
+    // 실시간 채팅방에서 생성된 문자열 id를 바로 사용하는 경우
+    public VoteEntity(PostVoteRequestDto dto, String chatRoomId, String userId, boolean isChatRoom) {
+        // isChatRoom이 true이면 chatRoomId(문자열)를 그대로 사용
+        this.roomId = chatRoomId;
+        this.userId = userId;
+        this.voteChoice = dto.getVoteChoice();
+        this.createdAt = TodayCreator.todayCreator();
     }
 
 }

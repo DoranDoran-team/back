@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 public class DiscussionList {
 
-    private Integer roomId;
+    private String roomId;
     private String nickName;
     private String profileImage;
     private String discussionType;

@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 public class MainGenDisc {
-    private Integer roomId;
+    private String roomId;
     private String tag;
     private String title;
     private String content;

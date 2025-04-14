@@ -134,7 +134,7 @@ public class AdminMileageServiceImplement implements AdminMileageService {
                         birthdayDto.setCustomReason("");
                         adminMileageRepository.save(new AdminMileageEntity(birthdayDto));
 
-                        String message = "생일 축하합니다! 당신의 생일을 맞아 1000p의 생일 마일리지가가 지급되었습니다.";
+                        String message = "생일 축하합니다! 당신의 생일을 맞아 1000p의 생일 마일리지가 지급되었습니다.";
                         notificationService.createNotification(user.getUserId(), message, NotificationType.BIRTHDAY,
                                 "/mypage/mileage");
                     }

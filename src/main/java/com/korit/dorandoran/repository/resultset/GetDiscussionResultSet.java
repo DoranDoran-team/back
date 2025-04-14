@@ -2,7 +2,7 @@ package com.korit.dorandoran.repository.resultset;
 
 public interface GetDiscussionResultSet {
 
-    Integer getRoomId();
+    String getRoomId();
 
     String getUserId();
 
