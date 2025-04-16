@@ -60,4 +60,23 @@ public class ScheduleServiceImplement implements ScheduleService {
     return GetScheduleListResponseDto.success(schedules);
   }
 
+  @Override
+  public ResponseEntity<ResponseDto> deleteSchedule(Integer scheduleNumber) {
+
+    try {
+
+      ScheduleEntity scheduleEntity = scheduleRepository.findByScheduleNumber(scheduleNumber);
+      if (scheduleEntity == null)
+        return ResponseDto.duplicatedLike();
+
+      scheduleRepository.delete(scheduleEntity);
+
+    } catch (Exception exception) {
+      exception.printStackTrace();
+      return ResponseDto.databaseError();
+    }
+    return ResponseDto.success();
+
+  }
+
 }

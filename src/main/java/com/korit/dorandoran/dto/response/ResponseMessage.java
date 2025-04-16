@@ -24,16 +24,16 @@ public interface ResponseMessage {
     // 댓글 및 대댓글 관련 resposne message
     String NO_EXIST_COMMENT = "No exist comment. ";
     String NO_EXIST_PARENT_COMMENT = "No exist parent comment. ";
-
+    String ALREADY_DELETE_COMMENT = "Already delete Comment";
     // 투표 관련 response message
     String DUPLICATED_VOTE = "Duplicated vote. ";
 
     // 좋아요 관련 response message
     String DUPLICATED_LIKE = "Duplicated like. ";
-    
+
     String NO_PERMISSION = "No Permission. ";
 
-    
+    String NO_HAVE_SCHEDULE = "No Have Schedule";
 
     String MESSAGE_SEND_FAIL = "Auth Number Send Failed";
     String DATABASE_ERROR = "Database Error";

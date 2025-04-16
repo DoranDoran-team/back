@@ -54,4 +54,7 @@ public interface UserRepository extends JpaRepository<UserEntity, String> {
 
     // 추가: 닉네임으로 검색 (정확한 매칭)
     UserEntity findByNickName(String nickName);
+
+    // accuse_state로 활동 중지인 유저 리스트 찾기
+    List<UserEntity> findByAccuseState(Boolean accuseState);
 }

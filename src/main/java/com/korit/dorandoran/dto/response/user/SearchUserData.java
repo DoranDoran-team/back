@@ -17,11 +17,13 @@ public class SearchUserData {
     private String nickName;
     private String profileImage;
     private String statusMessage;
+    private Boolean role;
 
     public SearchUserData(UserEntity entity) {
         this.userId = entity.getUserId();
         this.nickName = entity.getNickName();
         this.profileImage = entity.getProfileImage();
         this.statusMessage = entity.getStatusMessage();
+        this.role = entity.getRole();
     }
 }

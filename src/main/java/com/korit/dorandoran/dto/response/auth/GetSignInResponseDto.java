@@ -29,6 +29,10 @@ public class GetSignInResponseDto extends ResponseDto{
     private List<Subscriber> subscribers; // 내가 구독한 사람 리스트
     private Integer subscribersCount;
 
+    private Integer accuseCount;
+    private Boolean accuseState;
+    private String accuseTime;
+
     public GetSignInResponseDto(UserEntity userEntity, List<Map<String, Object>> isVoted, 
     List<Subscriber> subscribers, Integer subscribersCount) {
         super(ResponseCode.SUCCESS, ResponseMessage.SUCCESS);
@@ -41,6 +45,9 @@ public class GetSignInResponseDto extends ResponseDto{
         this.mileage = userEntity.getMileage();
         this.statusMessage = userEntity.getStatusMessage();
         this.isVoted = isVoted;
+        this.accuseCount = userEntity.getAccuseCount();
+        this.accuseState = userEntity.getAccuseState();
+        this.accuseTime = userEntity.getAccuseTime();
 
         this.subscribers = subscribers;
         this.subscribersCount = subscribersCount;

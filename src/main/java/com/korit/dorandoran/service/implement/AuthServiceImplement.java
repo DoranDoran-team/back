@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.korit.dorandoran.common.object.LikeType;
 import com.korit.dorandoran.common.object.Subscriber;
 import com.korit.dorandoran.common.util.AuthNumberCreator;
 import com.korit.dorandoran.common.util.NickNameCreator;
@@ -36,9 +35,7 @@ import com.korit.dorandoran.entity.UserEntity;
 import com.korit.dorandoran.provider.JwtProvider;
 import com.korit.dorandoran.provider.SmsProvider;
 import com.korit.dorandoran.repository.AdminRepository;
-import com.korit.dorandoran.repository.CommentsRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
-import com.korit.dorandoran.repository.LikesRepository;
 import com.korit.dorandoran.repository.SubscribtionRepository;
 import com.korit.dorandoran.repository.TelAuthRepository;
 import com.korit.dorandoran.repository.UserRepository;
@@ -59,8 +56,6 @@ public class AuthServiceImplement implements AuthService {
     private final AdminRepository adminRepository;
     private final VoteRepository voteRepository;
     private final DiscussionRoomRepository discussionRoomRepository;
-    private final LikesRepository likesRepository;
-    private final CommentsRepository commentsRepository;
     private final SubscribtionRepository subscribtionRepository;
 
     private final SmsProvider smsProvider;
@@ -319,8 +314,8 @@ public class AuthServiceImplement implements AuthService {
 
         UserEntity userEntity = null;
         List<Map<String,Object>> voteList = new ArrayList<>();
-        List<Map<String,Object>> postLikeList = new ArrayList<>();
-        List<Map<String,Object>> commentLikeList = new ArrayList<>();
+        //List<Map<String,Object>> postLikeList = new ArrayList<>();
+        //List<Map<String,Object>> commentLikeList = new ArrayList<>();
 
         List<Subscriber> subscribers = new ArrayList<>();
         Integer count = null;

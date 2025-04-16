@@ -14,7 +14,7 @@ public interface DiscussionService {
 
     ResponseEntity<ResponseDto> postDiscussionWite(PostDiscussionWriteRequestDto dto);
 
-    ResponseEntity<? super GetDiscussionListResponseDto> getDiscussionList();
+    ResponseEntity<? super GetDiscussionListResponseDto> getDiscussionList(String userId);
 
     ResponseEntity<? super GetSignInUserResponseDto> getSignIn(String userId);
 
@@ -24,7 +24,8 @@ public interface DiscussionService {
 
     ResponseEntity<? super GetMyDiscussionListResponseDto> getMyDiscussionList(String userId);
 
-    ResponseEntity<ResponseDto> deleteDiscusstion(Integer roomId);
+    ResponseEntity<ResponseDto> deleteDiscusstion(Integer roomId, String userId);
 
     ResponseEntity<? super GetDiscussionListResponseDto> searchByRoomTitle(String roomTitle);
+
 }

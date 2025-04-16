@@ -9,4 +9,6 @@ public interface GetAccuseUserListResultSet {
   String getProfileImage();
 
   Integer getAccuseCount();
+
+  Boolean getRole();
 }

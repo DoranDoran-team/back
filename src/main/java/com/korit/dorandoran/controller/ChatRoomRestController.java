@@ -10,6 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -120,11 +121,11 @@ public class ChatRoomRestController {
         return ResponseEntity.ok(messages);
     }
 
-    // 토론 종료료
+    // 토론 종료
     @PostMapping("/rooms/{roomId}/control")
     public ResponseEntity<Void> controlChatRoom(@PathVariable("roomId") String roomId,
-            @RequestParam("action") String action) {
-        if ("END".equalsIgnoreCase(action)) {
+            @RequestBody String status) {
+        if ("ENDED".equalsIgnoreCase(status)) {
             chatRoomService.endChatRoom(roomId);
         }
         return ResponseEntity.ok().build();

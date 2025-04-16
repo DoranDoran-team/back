@@ -38,8 +38,10 @@ public class DiscussionController {
     }
 
     @GetMapping(value = { "", "/" })
-    public ResponseEntity<? super GetDiscussionListResponseDto> getDiscussion() {
-        ResponseEntity<? super GetDiscussionListResponseDto> responseBody = discussionService.getDiscussionList();
+    public ResponseEntity<? super GetDiscussionListResponseDto> getDiscussion(
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<? super GetDiscussionListResponseDto> responseBody = discussionService.getDiscussionList(userId);
         return responseBody;
     }
 

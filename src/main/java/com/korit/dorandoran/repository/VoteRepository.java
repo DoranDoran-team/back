@@ -12,6 +12,9 @@ import com.korit.dorandoran.entity.pk.VotePK;
 public interface VoteRepository extends JpaRepository<VoteEntity, VotePK> {
 
     boolean existsByRoomIdAndUserId(String roomId, String userId);
+    @Query(value= "SELECT * FROM vote WHERE room_id=:roomId", nativeQuery = true)
+    List<VoteEntity> findVote(Integer roomId);
+
 
     @Query(value = "SELECT * FROM vote WHERE room_id = :roomId ORDER BY created_at ASC", nativeQuery = true)
     List<VoteEntity> getResult(@Param("roomId") String roomId);
