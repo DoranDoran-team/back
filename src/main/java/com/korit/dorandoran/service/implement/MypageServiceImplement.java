@@ -3,6 +3,9 @@ package com.korit.dorandoran.service.implement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,6 +36,7 @@ public class MypageServiceImplement implements MypageService{
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
     private final DiscussionRoomRepository discussionRoomRepository;
     private final SubscribtionRepository subscribtionRepository;
+    private static final Logger log = LoggerFactory.getLogger(MypageServiceImplement.class);
     
     @Override
     public ResponseEntity<ResponseDto> pwCheck(PwCheckRequestDto dto) {
@@ -92,20 +96,32 @@ public class MypageServiceImplement implements MypageService{
         return GetUserInfoResponseDto.success(userEntity);
     }
 
-    @Override
-    public ResponseEntity<ResponseDto> deleteUser(String userId) {
-        UserEntity userEntity = null;
-        try {
-            userEntity = userRepository.findByUserId(userId);
-            if(userEntity == null) return ResponseDto.noExistUserId();
+    // @Override
+    // public ResponseEntity<ResponseDto> deleteUser(String userId) {
+    //     UserEntity userEntity = null;
 
-            userRepository.delete(userEntity);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseDto.databaseError();
-        }
-        return ResponseDto.success();
-    }
+    //     try {
+    //         userEntity = userRepository.findByUserId(userId);
+    //         log.info("삭제 전 유저 정보: {}", userEntity);
+    //         if(userEntity == null) return ResponseDto.noExistUserId();
+
+    //         userEntity.setName("탈퇴유저");
+    //         userEntity.setBirth("19000101");
+    //         userEntity.setNickName("탈퇴유저");
+    //         userEntity.setProfileImage(null);
+    //         userEntity.setMileage(0);
+    //         userEntity.setAccuseCount(0);
+    //         userEntity.setAccuseState(false);
+    //         userEntity.setAccuseTime(null);
+    //         userEntity.setCeaseCount(0);
+
+    //         userRepository.save(userEntity);
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //         return ResponseDto.databaseError();
+    //     }
+    //     return ResponseDto.success();
+    // }
 
     @Override
     public ResponseEntity<ResponseDto> patchUserInfo(PatchUserInfoRequestDto dto, String userId) {

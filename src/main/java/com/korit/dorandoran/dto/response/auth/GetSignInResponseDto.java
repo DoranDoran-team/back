@@ -32,6 +32,7 @@ public class GetSignInResponseDto extends ResponseDto{
     private Integer accuseCount;
     private Boolean accuseState;
     private String accuseTime;
+    //private String ceaseCount;
 
     public GetSignInResponseDto(UserEntity userEntity, List<Map<String, Object>> isVoted, 
     List<Subscriber> subscribers, Integer subscribersCount) {
@@ -48,6 +49,7 @@ public class GetSignInResponseDto extends ResponseDto{
         this.accuseCount = userEntity.getAccuseCount();
         this.accuseState = userEntity.getAccuseState();
         this.accuseTime = userEntity.getAccuseTime();
+        //this.ceaseCount = userEntity.getCeaseCount();
 
         this.subscribers = subscribers;
         this.subscribersCount = subscribersCount;

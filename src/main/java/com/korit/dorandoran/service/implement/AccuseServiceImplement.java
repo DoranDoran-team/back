@@ -21,6 +21,7 @@ import com.korit.dorandoran.dto.response.accuse.GetAccuseListResponseDto;
 import com.korit.dorandoran.dto.response.accuse.GetBlackListResponseDto;
 import com.korit.dorandoran.entity.AccuseEntity;
 import com.korit.dorandoran.entity.UserEntity;
+import com.korit.dorandoran.provider.SmsProvider;
 import com.korit.dorandoran.repository.AccuseRepository;
 import com.korit.dorandoran.repository.DiscussionRoomRepository;
 import com.korit.dorandoran.repository.UserRepository;
@@ -36,6 +37,8 @@ public class AccuseServiceImplement implements AccuseService {
   private final AccuseRepository accuseRepository;
   private final DiscussionRoomRepository discussionRoomRepository;
   private final UserRepository userRepository;
+
+  private final SmsProvider smsProvider;
 
   @Override
   public ResponseEntity<ResponseDto> postAccuse(PostAccuseRequestDto dto) {
@@ -129,6 +132,7 @@ public class AccuseServiceImplement implements AccuseService {
     return GetAccuseDetailResponseDto.success(getAccuseResultSet);
   }
 
+  @Transactional
   @Override
   public ResponseEntity<ResponseDto> approveAccuse(Integer accuseId) {
 
@@ -162,10 +166,25 @@ public class AccuseServiceImplement implements AccuseService {
        * 2. accuse_state true로 상태 전환 및 활동 중지 처리
        * 3. accuse_time 을 해당 로직 실행 시간으로 설정 후, 일주일 뒤에 자동으로
        * 활동 중지 해제
+       * 4. cease_count가 누적되어 5번이 되면 자동 회원 탈퇴 처리 예정
        */
+
+      Integer ceaseCount = userEntity.getCeaseCount();
+      if (ceaseCount == null) {
+        ceaseCount = 0; // null이면 0으로 초기화
+      }
+      
       if (userEntity.getAccuseCount() >= 5) {
         userEntity.setAccuseCount(0);
         userEntity.setAccuseState(true);
+        userEntity.setCeaseCount(ceaseCount + 1);
+
+        if(userEntity.getCeaseCount() == 5) {
+          String telNumber = userEntity.getTelNumber();
+          //userRepository.delete(userEntity);
+          boolean isSendSuccess = smsProvider.sendSecessionMsg(telNumber);
+          if (!isSendSuccess) return ResponseDto.messageSendFail();
+        }
 
             // 현재 시간을 yyyy.MM.dd HH:mm:ss 형식으로
             LocalDateTime now = LocalDateTime.now();
@@ -271,13 +290,22 @@ public class AccuseServiceImplement implements AccuseService {
   @Override
   public ResponseEntity<ResponseDto> setBlackList(PatchBlackListRequestDto dto) {
     String userId = dto.getUserId();
+
     try {
       UserEntity userEntity = userRepository.findByUserId(userId);
       if (userEntity == null) return ResponseDto.noExistUserId();
 
       userEntity.setAccuseCount(0);
       userEntity.setAccuseState(true);
-      
+      userEntity.setCeaseCount(userEntity.getCeaseCount() + 1);
+
+      if(userEntity.getCeaseCount() == 5) {
+        String telNumber = userEntity.getTelNumber();
+        //userRepository.delete(userEntity);
+        boolean isSendSuccess = smsProvider.sendSecessionMsg(telNumber);
+        if (!isSendSuccess) return ResponseDto.messageSendFail();
+      }
+
       // 현재 시간을 yyyy.MM.dd HH:mm:ss 형식으로
       LocalDateTime now = LocalDateTime.now();
       DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm:ss");

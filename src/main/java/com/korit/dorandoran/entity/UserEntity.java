@@ -11,7 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor
@@ -39,6 +41,10 @@ public class UserEntity {
 	private Integer accuseCount;
 	private Boolean accuseState;
 	private String accuseTime;
+	private Integer ceaseCount;
+
+	// @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	// private List<CommentsEntity> comments;	
 
 	public UserEntity(SignUpRequestDto dto) {
 		this.userId = dto.getUserId();

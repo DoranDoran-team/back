@@ -35,6 +35,10 @@ public class CommentsEntity {
     private boolean updateStatus;
     private boolean deleteStatus;
 
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "user_id", referencedColumnName = "userId")
+    // private UserEntity user;
+
     public CommentsEntity(PostCommentRequestDto dto, Integer roomId, Integer depth) {
 
         String commentTime = TodayCreator.todayCreator();

@@ -32,4 +32,6 @@ public interface AccuseRepository extends JpaRepository<AccuseEntity, Integer> {
       "LEFT JOIN user u ON a.accuse_user_id = u.user_id " +
       "WHERE a.accuse_id = :accuseId", nativeQuery = true)
   GetAccuseResultSet findAccuseDetail(@Param("accuseId") Integer accuseId);
+
+  //AccuseEntity findByUserIdAndAccuseUserId(String userId, String accuseUserId);
 }

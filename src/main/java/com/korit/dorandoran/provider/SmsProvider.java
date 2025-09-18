@@ -38,4 +38,18 @@ public class SmsProvider {
         boolean resultStatus = response.getStatusCode().equals("2000");
         return resultStatus;
     }
+
+    public boolean sendSecessionMsg(String to) {
+        Message message = new Message();
+
+        message.setFrom(from);
+        message.setTo(to);
+        message.setText("도란도란 서비스 내 신고 누적 5회로 자동 탈퇴처리 되었습니다.");
+
+        SingleMessageSendingRequest request = new SingleMessageSendingRequest(message);
+        SingleMessageSentResponse response = messageService.sendOne(request);
+
+        boolean resultStatus = response.getStatusCode().equals("2000");
+        return resultStatus;
+    }
 }

@@ -82,13 +82,13 @@ public class MypageController {
 	}
 
 	// 회원 탈퇴
-	@DeleteMapping("/delete-user")
-	public ResponseEntity<ResponseDto> deleteUser(
-		@AuthenticationPrincipal String userId
-	) {
-		ResponseEntity<ResponseDto> response = mypageService.deleteUser(userId);
-		return response;
-	};
+	// @GetMapping("/delete-user/{userId}")
+	// public ResponseEntity<ResponseDto> deleteUser(
+	// 	@PathVariable("userId") String userId
+	// ) {
+	// 	ResponseEntity<ResponseDto> response = mypageService.deleteUser(userId);
+	// 	return response;
+	// };
 
 	// 본인이 작성한 일반 토론 리스트 불러오기
 	@GetMapping("/get-my-discussion")

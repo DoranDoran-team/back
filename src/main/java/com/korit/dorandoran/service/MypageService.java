@@ -22,7 +22,7 @@ public interface MypageService {
 
     ResponseEntity<ResponseDto> patchUserInfo(PatchUserInfoRequestDto dto, String userId);
 
-    ResponseEntity<ResponseDto> deleteUser(String userId);
+    //ResponseEntity<ResponseDto> deleteUser(String userId);
 
     ResponseEntity<? super GetUserProfileResponseDto> getUserProfile(String userId);
 }

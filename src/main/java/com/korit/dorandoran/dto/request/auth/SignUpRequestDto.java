@@ -52,4 +52,7 @@ public class SignUpRequestDto {
 
     @NotNull
     private Integer mileage;
+
+    @NotNull
+    private Integer ceaseCount;
 }

@@ -99,8 +99,7 @@ public class AuthServiceImplement implements AuthService {
 
         String authNumber = AuthNumberCreator.number4();
         boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
-        if (!isSendSuccess)
-            return ResponseDto.messageSendFail();
+        if (!isSendSuccess) return ResponseDto.messageSendFail();
 
         // 인증번호 6자리 db에 저장
         try {
@@ -166,6 +165,8 @@ public class AuthServiceImplement implements AuthService {
             dto.setAccuseCount(0);
 
             dto.setMileage(0);
+
+            dto.setCeaseCount(0);
 
             UserEntity userEntity = new UserEntity(dto);
             userRepository.save(userEntity);
