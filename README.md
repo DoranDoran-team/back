@@ -207,17 +207,14 @@ DoranDoran이 제공하는 주요 기능입니다.
  2. 일반 유저의 마일리지 관리
  3. 신고 누적으로 인한 활동 중지 처리
 
-DoranDoran 서비스 중 실시간 채팅 시연 영상입니다. 아래 이미지를 클릭하면 유튜브로 이동합니다.
-
-[![The Memorial Day 서비스 시연 영상](/img/main.JPG)]
-()
-
+#### 메인화면
+![시스템 아키택처](main.JPG)
 ---
 
 ## 시스템 아키텍처
 본 프로젝트의 총 시스템 아키텍처입니다. 
 
-![시스템 아키택처](/img/sys-archi.png)
+![시스템 아키택처](sys-archi.png)
 
 ---
 
@@ -225,11 +222,12 @@ DoranDoran 서비스 중 실시간 채팅 시연 영상입니다. 아래 이미�
 본 프로젝트의 Entity Relationship Diagram입니다.   
 1. mySQL
 
-![Entity Relationship Diagram](/img/newErd.png)
+![Entity Relationship Diagram](newErd.png)
 
 2. mongoDB
 
 ![Entity Relationship Diagram]()
+<br/>
 
 ### 테이블 설명
 
@@ -449,7 +447,7 @@ DoranDoran 서비스 중 실시간 채팅 시연 영상입니다. 아래 이미�
 
 ## 제작 기간
 ### Timeline
-![진행 일정](/img/scedule.png)
+![진행 일정](scedule.png)
 
 ### Team Roles
 
@@ -511,3 +509,4 @@ DoranDoran 서비스 중 실시간 채팅 시연 영상입니다. 아래 이미�
 ## 라이선스
     GPL License
     Copyright (c) 2025 [DoranDoran]
+
